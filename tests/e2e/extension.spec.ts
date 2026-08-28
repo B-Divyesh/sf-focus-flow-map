@@ -4,6 +4,13 @@ import { join, resolve } from 'node:path';
 import { chromium, expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+declare const chrome: {
+  tabs: {
+    query(query: { active: boolean; currentWindow: boolean }): Promise<Array<{ id?: number }>>;
+    sendMessage(tabId: number, message: { type: string }): Promise<{ ok: boolean; steps: number }>;
+  };
+};
+
 test('extension records a real Tab route and opens the local map', async ({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the extension smoke test once.');
   const profile = await mkdtemp(join(tmpdir(), 'focus-flow-map-'));
@@ -21,7 +28,8 @@ test('extension records a real Tab route and opens the local map', async ({}, te
     await page.waitForTimeout(250);
     const started = await worker.evaluate(async () => {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      return chrome.tabs.sendMessage(tab.id!, { type: 'START_RECORDING' });
+      if (!tab?.id) throw new Error('No active tab');
+      return chrome.tabs.sendMessage(tab.id, { type: 'START_RECORDING' });
     });
     expect(started.ok).toBe(true);
     await page.keyboard.press('Tab');
@@ -29,7 +37,8 @@ test('extension records a real Tab route and opens the local map', async ({}, te
     await page.keyboard.press('Tab');
     const stopped = await worker.evaluate(async () => {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      return chrome.tabs.sendMessage(tab.id!, { type: 'STOP_RECORDING' });
+      if (!tab?.id) throw new Error('No active tab');
+      return chrome.tabs.sendMessage(tab.id, { type: 'STOP_RECORDING' });
     });
     expect(stopped.ok).toBe(true);
     expect(stopped.steps).toBeGreaterThanOrEqual(2);
