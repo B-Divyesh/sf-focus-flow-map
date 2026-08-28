@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://focus-flow-map.sociobot.in/sitemap.xml
