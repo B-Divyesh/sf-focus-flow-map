@@ -1,0 +1,10 @@
+body{width:380px;min-height:390px}
+main{padding:24px}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:28px}.brand svg{color:var(--signal-400);overflow:visible}.brand circle{fill:var(--ink-950);stroke:currentColor;stroke-width:2}
+h1{margin:2px 0 0;font-size:22px;line-height:1.1;font-weight:400}
+.status{position:relative;padding:20px;border:1px solid var(--blue-700);background:var(--ink-900)}
+.status::after{content:"";position:absolute;right:-5px;top:-5px;width:9px;height:9px;border-top:1px solid var(--blue-500);border-right:1px solid var(--blue-500)}
+.state{display:flex;align-items:center;gap:10px;margin:0 0 8px;font-size:18px}.state-dot{width:12px;height:12px;border:2px solid var(--blue-500);border-radius:50%;background:transparent}.is-recording .state-dot{border-color:var(--signal-400);background:var(--signal-400);box-shadow:0 0 0 4px #ff806633}.status .muted{min-height:48px;margin:0}
+.actions{display:grid;gap:10px;margin-top:16px}.feedback{min-height:44px;margin:14px 0 0;color:var(--warn-300);font-size:14px}
+footer{display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--blue-700);color:var(--paper-300);font:500 12px "Plex Mono",monospace;text-transform:uppercase;letter-spacing:.05em}
+@media(max-width:390px){body{width:100vw;min-width:320px}main{padding:20px}}
