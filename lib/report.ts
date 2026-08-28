@@ -1,8 +1,45 @@
 import type { Finding, FocusSession, FocusStep } from './types';
 
 const EMAIL = /[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g;
+const EMAIL_SEGMENT = /^[^\s/@]+@[^\s/@]+\.[^\s/@]+$/;
 const URL_PATTERN = /https?:\/\/[^\s]+/gi;
 const SECRET = /\b(?:bearer\s+)?[A-Za-z0-9_-]{24,}\b/gi;
+const IDENTIFIER_ROUTES = new Set([
+  'account', 'accounts', 'client', 'clients', 'customer', 'customers', 'member', 'members',
+  'order', 'orders', 'patient', 'patients', 'person', 'people', 'profile', 'profiles',
+  'session', 'sessions', 'ticket', 'tickets', 'user', 'users',
+]);
+const SECRET_ROUTES = new Set(['auth', 'authorize', 'invite', 'invites', 'login', 'password', 'private', 'reset', 'secret', 'token', 'tokens']);
+
+function decodePathSegment(segment: string): string {
+  let decoded = segment;
+  // A value can be encoded more than once by a router. Decode a bounded number
+  // of times so `%2540` cannot hide an email address, while never throwing on
+  // malformed percent escapes.
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const next = decodeURIComponent(decoded);
+      if (next === decoded) break;
+      decoded = next;
+    } catch {
+      break;
+    }
+  }
+  return decoded;
+}
+
+function isOpaqueIdentifier(segment: string): boolean {
+  return (
+    /^\d{5,}$/.test(segment)
+    || /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(segment)
+    || /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(segment)
+    // Opaque IDs and API tokens normally combine letters with digits or a
+    // URL-safe separator. Keeping ordinary route words avoids losing useful
+    // route shape such as `/settings/notifications`.
+    || (segment.length >= 16 && /[A-Za-z]/.test(segment) && /[0-9_-]/.test(segment))
+    || segment.length > 48
+  );
+}
 
 export function sanitizeText(value: string | null | undefined, fallback = 'Unlabelled control'): string {
   const clean = (value ?? '')
@@ -18,19 +55,30 @@ export function sanitizeText(value: string | null | undefined, fallback = 'Unlab
 export function redactUrl(input: string): string {
   try {
     const url = new URL(input);
-    const path = url.pathname
-      .split('/')
-      .map((segment) => {
-        if (/^\d{5,}$/.test(segment) || /^[0-9a-f-]{16,}$/i.test(segment) || segment.length > 48) {
-          return ':redacted';
-        }
-        return segment;
-      })
-      .join('/');
+    const segments = url.pathname.split('/');
+    const path = segments.map((segment, index) => {
+      if (!segment) return segment;
+      const decoded = decodePathSegment(segment);
+      const previous = decodePathSegment(segments[index - 1] ?? '').toLowerCase();
+      const identifierValue = IDENTIFIER_ROUTES.has(previous);
+      const secretValue = SECRET_ROUTES.has(previous);
+      if (EMAIL_SEGMENT.test(decoded) || identifierValue || secretValue || isOpaqueIdentifier(decoded)) return ':redacted';
+      return segment;
+    }).join('/');
     return `${url.origin}${path}`;
   } catch {
     return '[URL unavailable]';
   }
+}
+
+/** Apply the same privacy boundary to saved data and every export path. */
+export function sanitizeSession(session: FocusSession): FocusSession {
+  return {
+    ...session,
+    url: redactUrl(session.url),
+    title: sanitizeText(session.title, 'Untitled page'),
+    steps: session.steps.map((step) => ({ ...step, label: sanitizeText(step.label) })),
+  };
 }
 
 export function elementLabel(element: HTMLElement): string {
@@ -91,13 +139,14 @@ function directionLabel(step: FocusStep): string {
 }
 
 export function buildMarkdown(session: FocusSession): string {
-  const findings = analyseSession(session);
+  const safeSession = sanitizeSession(session);
+  const findings = analyseSession(safeSession);
   const lines = [
     '# Focus Flow Map issue packet',
     '',
-    `- Page: ${session.url}`,
-    `- Recorded: ${new Date(session.startedAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`,
-    `- Steps: ${session.steps.length}`,
+    `- Page: ${safeSession.url}`,
+    `- Recorded: ${new Date(safeSession.startedAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`,
+    `- Steps: ${safeSession.steps.length}`,
     '- Privacy: query strings, hashes, input values, email-like strings, and token-like strings were not included.',
     '',
     '## Reproduce',
@@ -110,7 +159,7 @@ export function buildMarkdown(session: FocusSession): string {
     '',
     '| Step | Key | Control | Element | Viewport / scroll |',
     '| ---: | --- | --- | --- | --- |',
-    ...session.steps.map((step) => `| ${step.index} | ${directionLabel(step)} | ${step.label.replace(/\|/g, '\\|')} | \`${step.selector}\` | ${step.viewport.width}×${step.viewport.height}; y ${Math.round(step.viewport.scrollY)} (${step.scrollDelta >= 0 ? '+' : ''}${Math.round(step.scrollDelta)}) |`),
+    ...safeSession.steps.map((step) => `| ${step.index} | ${directionLabel(step)} | ${step.label.replace(/\|/g, '\\|')} | \`${step.selector}\` | ${step.viewport.width}×${step.viewport.height}; y ${Math.round(step.viewport.scrollY)} (${step.scrollDelta >= 0 ? '+' : ''}${Math.round(step.scrollDelta)}) |`),
     '',
     '## Observations',
     '',
@@ -121,4 +170,9 @@ export function buildMarkdown(session: FocusSession): string {
     '_Recorded locally with Focus Flow Map. Review automated observations before filing._',
   ];
   return lines.join('\n');
+}
+
+export function buildJson(session: FocusSession): string {
+  const safeSession = sanitizeSession(session);
+  return JSON.stringify({ ...safeSession, findings: analyseSession(safeSession) }, null, 2);
 }

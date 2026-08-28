@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { analyseSession, buildMarkdown, redactUrl, sanitizeText } from '../../lib/report';
+import { analyseSession, buildJson, buildMarkdown, redactUrl, sanitizeSession, sanitizeText } from '../../lib/report';
 import type { FocusSession, FocusStep } from '../../lib/types';
 
 function step(overrides: Partial<FocusStep> = {}): FocusStep {
@@ -29,6 +29,14 @@ describe('privacy helpers', () => {
     expect(redactUrl('https://example.com/users/68b1ad0c-a10a-4714-bca7-f64b06b34ee9/edit?token=secret#billing')).toBe('https://example.com/users/:redacted/edit');
   });
 
+  it('redacts encoded sensitive path values, opaque tokens, and identifier routes', () => {
+    expect(redactUrl('https://example.com/private/focus-flow-map.qa%2Bprivate%40example.com/record?query=drop-me#fragment'))
+      .toBe('https://example.com/private/:redacted/record');
+    expect(redactUrl('https://example.com/patients/jane-doe/reset/eyJhbGciOiJIUzI1NiJ9.payload.signature'))
+      .toBe('https://example.com/patients/:redacted/reset/:redacted');
+    expect(redactUrl('https://example.com/projects/route-map/settings')).toBe('https://example.com/projects/route-map/settings');
+  });
+
   it('redacts email, URL, and token-like labels', () => {
     expect(sanitizeText('Send person@example.com to https://example.com/abcdefghijklmnopqrstuv')).toBe('Send [email redacted] to [URL redacted]');
   });
@@ -50,5 +58,17 @@ describe('issue packet', () => {
     expect(markdown).toContain('# Focus Flow Map issue packet');
     expect(markdown).toContain('| 1 | Tab | Continue |');
     expect(markdown).toContain('query strings, hashes, input values');
+  });
+
+  it('applies URL redaction again at every export boundary', () => {
+    const unsafe = { ...session([step()]), url: 'https://example.com/customers/alice%40example.com/token/super-secret-token-123456' };
+    const markdown = buildMarkdown(unsafe);
+    const json = buildJson(unsafe);
+    const safe = sanitizeSession(unsafe);
+    for (const packet of [markdown, json, JSON.stringify(safe)]) {
+      expect(packet).not.toContain('alice');
+      expect(packet).not.toContain('super-secret-token-123456');
+      expect(packet).toContain('https://example.com/customers/:redacted/token/:redacted');
+    }
   });
 });

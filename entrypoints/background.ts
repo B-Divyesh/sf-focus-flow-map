@@ -1,5 +1,6 @@
 import { browser } from 'wxt/browser';
 import { defineBackground } from 'wxt/utils/define-background';
+import { sanitizeSession } from '../lib/report';
 import { STORAGE, type FocusSession, type LicenseRecord } from '../lib/types';
 
 export default defineBackground(() => {
@@ -9,8 +10,9 @@ export default defineBackground(() => {
       const sessions = (stored[STORAGE.sessions] as FocusSession[] | undefined) ?? [];
       const license = stored[STORAGE.license] as LicenseRecord | undefined;
       const keep = license?.valid ? 30 : 1;
+      const safeSession = sanitizeSession(message.session);
       await browser.storage.local.set({
-        [STORAGE.sessions]: [message.session, ...sessions.filter((item) => item.id !== message.session?.id)].slice(0, keep),
+        [STORAGE.sessions]: [safeSession, ...sessions.filter((item) => item.id !== safeSession.id)].slice(0, keep),
         [STORAGE.recording]: false,
       });
       return { ok: true };

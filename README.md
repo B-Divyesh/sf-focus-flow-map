@@ -9,7 +9,7 @@ Live site: <https://focus-flow-map.sociobot.in>
 - Records only after the user chooses **Start recording**.
 - Captures focus order, direction, safe structural selector, accessible label, viewport position, scroll delta, visibility, and the presence of a computed focus indicator.
 - Flags large viewport jumps, off-screen targets, recent repeats, stalled Tab movement, and missing computed focus indicators for human review.
-- Redacts query strings, hashes, long identifier-like path segments, emails, URLs in labels, and token-like text. It never reads or records input values.
+- Redacts query strings, hashes, sensitive URL path values (including encoded emails, tokens, IDs, and account/person routes), URLs in labels, and token-like text. It never reads or records input values.
 - Stores sessions in browser extension storage and sends no audit content to a server.
 - Exports a complete Markdown or JSON issue packet in the free tier.
 - Offers an optional $24 one-time Pro license for a 30-session local history and private audit notes. Core accessibility and export features remain free.

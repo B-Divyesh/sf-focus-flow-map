@@ -1,4 +1,4 @@
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { chromium, expect, test } from '@playwright/test';
@@ -11,7 +11,7 @@ declare const chrome: {
   };
 };
 
-test('extension records a real Tab route and opens the local map', async ({}, testInfo) => {
+test('extension records a real Tab route and exports a redacted local map', async ({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the extension smoke test once.');
   const profile = await mkdtemp(join(tmpdir(), 'focus-flow-map-'));
   const extensionPath = resolve('.output/chrome-mv3');
@@ -24,7 +24,8 @@ test('extension records a real Tab route and opens the local map', async ({}, te
     let [worker] = context.serviceWorkers();
     worker ??= await context.waitForEvent('serviceworker');
     const page = await context.newPage();
-    await page.goto('http://127.0.0.1:4173/');
+    const sensitivePath = '/private/focus-flow-map.qa%2Bprivate%40example.com/record';
+    await page.goto(`http://127.0.0.1:4173${sensitivePath}?query=drop-me#fragment`);
     await page.waitForTimeout(250);
     const started = await worker.evaluate(async () => {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -48,6 +49,26 @@ test('extension records a real Tab route and opens the local map', async ({}, te
     await expect(dashboard.getByRole('heading', { level: 1, name: 'Your focus route' })).toBeVisible();
     await expect(dashboard.locator('#report')).toBeVisible();
     await expect(dashboard.locator('.station')).toHaveCount(stopped.steps);
+    await expect(dashboard.locator('#page-meta')).toContainText('http://127.0.0.1:4173/private/:redacted/record');
+    await expect(dashboard.locator('#page-meta')).not.toContainText('focus-flow-map.qa');
+    const [markdownDownload] = await Promise.all([
+      dashboard.waitForEvent('download'),
+      dashboard.getByRole('button', { name: 'Export Markdown' }).click(),
+    ]);
+    const [jsonDownload] = await Promise.all([
+      dashboard.waitForEvent('download'),
+      dashboard.getByRole('button', { name: 'Export JSON' }).click(),
+    ]);
+    const markdownPath = join(profile, 'focus-map.md');
+    const jsonPath = join(profile, 'focus-map.json');
+    await markdownDownload.saveAs(markdownPath);
+    await jsonDownload.saveAs(jsonPath);
+    for (const packet of [await readFile(markdownPath, 'utf8'), await readFile(jsonPath, 'utf8')]) {
+      expect(packet).toContain('http://127.0.0.1:4173/private/:redacted/record');
+      expect(packet).not.toContain('focus-flow-map.qa');
+      expect(packet).not.toContain('drop-me');
+      expect(packet).not.toContain('fragment');
+    }
     const dashboardAxe = await new AxeBuilder({ page: dashboard }).analyze();
     expect(dashboardAxe.violations.filter((item) => item.impact === 'serious' || item.impact === 'critical')).toEqual([]);
     const popup = await context.newPage();

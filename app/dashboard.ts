@@ -1,5 +1,5 @@
 import { browser } from 'wxt/browser';
-import { analyseSession, buildMarkdown } from '../lib/report';
+import { analyseSession, buildJson, buildMarkdown, sanitizeSession } from '../lib/report';
 import { CHECKOUT_URL, isFresh, verifyLicense } from '../lib/license';
 import { STORAGE, type Finding, type FocusSession, type LicenseRecord } from '../lib/types';
 import '../styles/shared.css';
@@ -135,7 +135,7 @@ document.querySelector('#export-markdown')?.addEventListener('click', () => {
 });
 document.querySelector('#export-json')?.addEventListener('click', () => {
   if (!current) return;
-  download(`focus-map-${current.id}.json`, JSON.stringify({ ...current, findings: analyseSession(current) }, null, 2), 'application/json');
+  download(`focus-map-${current.id}.json`, buildJson(current), 'application/json');
   exportStatus.textContent = 'JSON evidence downloaded.';
 });
 document.querySelector('#copy-report')?.addEventListener('click', async () => {
@@ -174,6 +174,12 @@ document.querySelector<HTMLFormElement>('#license-form')?.addEventListener('subm
 
 document.querySelector<HTMLAnchorElement>('.license-actions > a.button')!.href = CHECKOUT_URL;
 const stored = await browser.storage.local.get(STORAGE.sessions);
-sessions = (stored[STORAGE.sessions] as FocusSession[] | undefined) ?? [];
+const savedSessions = (stored[STORAGE.sessions] as FocusSession[] | undefined) ?? [];
+sessions = savedSessions.map(sanitizeSession);
+// Existing local-only records predate the privacy repair. Rewrite them when
+// the dashboard next opens so they cannot be exported or retained unchanged.
+if (JSON.stringify(savedSessions) !== JSON.stringify(sessions)) {
+  await browser.storage.local.set({ [STORAGE.sessions]: sessions });
+}
 renderSessions();
 await loadLicense();
