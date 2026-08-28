@@ -1,5 +1,12 @@
 node_modules/
 dist/
+.output/
+.wxt/
+.factory/lighthouse.json
+site/public/downloads/
+test-results/
+playwright-report/
+coverage/
 .env
 *.log
 graphify-out/
