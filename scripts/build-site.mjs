@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { relative, resolve, sep } from 'node:path';
 import { spawn } from 'node:child_process';
 
 const root = resolve(import.meta.dirname, '..');
@@ -28,7 +28,10 @@ async function filesIn(directory) {
 // The worker's cache key must change with the rendered site, not just when the
 // worker source changes. Hashing the completed static output gives every
 // deployment an honest shell revision while preserving reproducible builds.
-const files = (await filesIn(output)).filter((file) => file !== resolve(output, 'sw.js')).sort();
+const files = (await filesIn(output)).filter((file) => {
+  const path = relative(output, file);
+  return file !== resolve(output, 'sw.js') && !path.startsWith(`downloads${sep}`);
+}).sort();
 const digest = createHash('sha256');
 for (const file of files) {
   digest.update(file.slice(output.length));
