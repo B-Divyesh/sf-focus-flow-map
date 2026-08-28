@@ -1,0 +1,12 @@
+{
+  "slug": "focus-flow-map",
+  "title": "Focus Flow Map",
+  "territory": "devtools-data",
+  "user": "Keyboard-only, RSI-affected users and the teams supporting them who need to see whether a website's tab order reaches usable controls without hidden jumps or traps.",
+  "smallest_useful_product": "Browser extension that records a user-initiated tab/shift-tab session locally, renders a numbered focus map with element labels and viewport jumps, and exports a reproducible issue packet.",
+  "success_measure": "In pilot audits, users attach the exported map to 20 reports and maintainers reproduce at least 70% of reported focus failures on first attempt.",
+  "artifact_class": "browser-extension",
+  "monetization": "freemium",
+  "constraints": "Record only on explicit start; redact input values and sensitive URLs; keyboard and screen-reader access to the map itself is mandatory; avoid transmitting site content by default.",
+  "state": "RESEARCHED"
+}

@@ -1,0 +1,8 @@
+{
+  "asset": "hero-blueprint.png",
+  "model": "factory-image (Azure AI Foundry)",
+  "generated_at": "2026-08-27",
+  "use_case": "stylized-concept",
+  "prompt": "An editorial still life of a midnight-blue architectural drafting sheet mapping a keyboard Tab journey through a website as numbered coral and cream focus stations connected by fine ruled paths, with two subtle viewport frames and one clear scroll-jump break. Tactile blueprint paper, translucent vellum, slim metal ruler, tiny registration crosses, crisp ink, subtle paper grain. Wide 3:2 landscape, oblique top-down view, route rising lower left to upper right, calm negative space, no human hands. Soft raking studio light, restrained shadows, 50mm editorial product lens, sharp primary sheet and gentle depth toward edges. Midnight drafting blue, warm cream paper, electric coral marks, desaturated teal rules, one small mint completion point. No text, no letters, no numbers, no watermark, no logos, no brand marks, no browser chrome, no readable UI, no people, no neon gradient, no floating glass cards, no clutter.",
+  "review": "Accepted: coherent route, no text artifacts, people, brands, logos, or misleading browser UI."
+}
