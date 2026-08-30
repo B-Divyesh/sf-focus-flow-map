@@ -34,7 +34,14 @@ describe('privacy helpers', () => {
       .toBe('https://example.com/private/:redacted/record');
     expect(redactUrl('https://example.com/patients/jane-doe/reset/eyJhbGciOiJIUzI1NiJ9.payload.signature'))
       .toBe('https://example.com/patients/:redacted/reset/:redacted');
-    expect(redactUrl('https://example.com/projects/route-map/settings')).toBe('https://example.com/projects/route-map/settings');
+    expect(redactUrl('https://example.com/projects/route-map/settings')).toBe('https://example.com/projects/:redacted/settings');
+  });
+
+  it('redacts unencoded personal names and short values in identifier-bearing paths', () => {
+    expect(redactUrl('https://example.com/cases/jane-doe/review')).toBe('https://example.com/cases/:redacted/review');
+    expect(redactUrl('https://example.com/cases/alice/review')).toBe('https://example.com/cases/:redacted/review');
+    expect(redactUrl('https://example.com/records/AB12')).toBe('https://example.com/records/:redacted');
+    expect(redactUrl('file:///Users/alice/private-report.html')).toBe('[URL unavailable]');
   });
 
   it('redacts email, URL, and token-like labels', () => {
@@ -60,15 +67,19 @@ describe('issue packet', () => {
     expect(markdown).toContain('query strings, hashes, input values');
   });
 
-  it('applies URL redaction again at every export boundary', () => {
-    const unsafe = { ...session([step()]), url: 'https://example.com/customers/alice%40example.com/token/super-secret-token-123456' };
+  it('fixes the verifier encoded-email reproduction at every export boundary', () => {
+    const unsafe = {
+      ...session([step()]),
+      url: 'https://example.com/private/focus-flow-map.qa%2Bprivate%40example.com/record?query=drop-me#fragment',
+    };
     const markdown = buildMarkdown(unsafe);
     const json = buildJson(unsafe);
     const safe = sanitizeSession(unsafe);
     for (const packet of [markdown, json, JSON.stringify(safe)]) {
-      expect(packet).not.toContain('alice');
-      expect(packet).not.toContain('super-secret-token-123456');
-      expect(packet).toContain('https://example.com/customers/:redacted/token/:redacted');
+      expect(packet).not.toContain('focus-flow-map.qa');
+      expect(packet).not.toContain('drop-me');
+      expect(packet).not.toContain('fragment');
+      expect(packet).toContain('https://example.com/private/:redacted/record');
     }
   });
 });

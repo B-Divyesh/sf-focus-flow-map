@@ -9,6 +9,11 @@ declare const chrome: {
     query(query: { active: boolean; currentWindow: boolean }): Promise<Array<{ id?: number }>>;
     sendMessage(tabId: number, message: { type: string }): Promise<{ ok: boolean; steps: number }>;
   };
+  storage: {
+    local: {
+      get(key: string): Promise<Record<string, unknown>>;
+    };
+  };
 };
 
 test('extension records a real Tab route and exports a redacted local map', async ({}, testInfo) => {
@@ -43,6 +48,14 @@ test('extension records a real Tab route and exports a redacted local map', asyn
     });
     expect(stopped.ok).toBe(true);
     expect(stopped.steps).toBeGreaterThanOrEqual(2);
+    // Check extension storage before the dashboard loads. This is the exact
+    // verifier reproduction and proves the sensitive path never persists.
+    const saved = await worker.evaluate(() => chrome.storage.local.get('ffm_sessions'));
+    const savedPacket = JSON.stringify(saved);
+    expect(savedPacket).toContain('http://127.0.0.1:4173/private/:redacted/record');
+    expect(savedPacket).not.toContain('focus-flow-map.qa');
+    expect(savedPacket).not.toContain('drop-me');
+    expect(savedPacket).not.toContain('fragment');
     const extensionId = new URL(worker.url()).host;
     const dashboard = await context.newPage();
     await dashboard.goto(`chrome-extension://${extensionId}/dashboard.html`);

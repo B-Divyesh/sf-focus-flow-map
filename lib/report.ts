@@ -1,15 +1,32 @@
 import type { Finding, FocusSession, FocusStep } from './types';
 
 const EMAIL = /[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g;
-const EMAIL_SEGMENT = /^[^\s/@]+@[^\s/@]+\.[^\s/@]+$/;
+const EMAIL_VALUE = /[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/i;
 const URL_PATTERN = /https?:\/\/[^\s]+/gi;
 const SECRET = /\b(?:bearer\s+)?[A-Za-z0-9_-]{24,}\b/gi;
 const IDENTIFIER_ROUTES = new Set([
-  'account', 'accounts', 'client', 'clients', 'customer', 'customers', 'member', 'members',
-  'order', 'orders', 'patient', 'patients', 'person', 'people', 'profile', 'profiles',
-  'session', 'sessions', 'ticket', 'tickets', 'user', 'users',
+  'account', 'accounts', 'case', 'cases', 'client', 'clients', 'company', 'companies',
+  'contact', 'contacts', 'customer', 'customers', 'document', 'documents', 'employee',
+  'employees', 'file', 'files', 'invoice', 'invoices', 'lead', 'leads', 'member', 'members',
+  'order', 'orders', 'organization', 'organizations', 'patient', 'patients', 'person',
+  'people', 'profile', 'profiles', 'project', 'projects', 'record', 'records', 'session',
+  'sessions', 'staff', 'subscriber', 'subscribers', 'team', 'teams', 'tenant', 'tenants',
+  'ticket', 'tickets', 'user', 'users', 'workspace', 'workspaces',
 ]);
 const SECRET_ROUTES = new Set(['auth', 'authorize', 'invite', 'invites', 'login', 'password', 'private', 'reset', 'secret', 'token', 'tokens']);
+// A route segment is only retained when it is a common, non-personal part of
+// a URL's structure. Keeping arbitrary words would leak short names such as
+// `/cases/alice`, which are impossible to distinguish reliably from a route.
+const STATIC_ROUTE_SEGMENTS = new Set([
+  'about', 'access', 'action', 'actions', 'add', 'admin', 'api', 'app', 'archive',
+  'auth', 'authorize', 'billing', 'callback', 'cancel', 'changelog', 'checkout',
+  'confirm', 'create', 'dashboard', 'demo', 'docs', 'download', 'edit', 'error',
+  'export', 'features', 'form', 'forms', 'help', 'home', 'index', 'invite', 'invites',
+  'legal', 'license', 'login', 'logout', 'new', 'notification', 'notifications', 'page',
+  'pages', 'password', 'preferences', 'pricing', 'privacy', 'private', 'record', 'reports',
+  'reset', 'review', 'search', 'security', 'settings', 'signin', 'signup', 'support', 'terms',
+  'token', 'tokens', 'update', 'verify', 'welcome',
+]);
 
 function decodePathSegment(segment: string): string {
   let decoded = segment;
@@ -30,14 +47,14 @@ function decodePathSegment(segment: string): string {
 
 function isOpaqueIdentifier(segment: string): boolean {
   return (
-    /^\d{5,}$/.test(segment)
+    /^\d+$/.test(segment)
     || /^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(segment)
     || /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(segment)
     // Opaque IDs and API tokens normally combine letters with digits or a
     // URL-safe separator. Keeping ordinary route words avoids losing useful
     // route shape such as `/settings/notifications`.
     || (segment.length >= 16 && /[A-Za-z]/.test(segment) && /[0-9_-]/.test(segment))
-    || segment.length > 48
+    || segment.length >= 20
   );
 }
 
@@ -55,14 +72,23 @@ export function sanitizeText(value: string | null | undefined, fallback = 'Unlab
 export function redactUrl(input: string): string {
   try {
     const url = new URL(input);
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return '[URL unavailable]';
     const segments = url.pathname.split('/');
     const path = segments.map((segment, index) => {
       if (!segment) return segment;
       const decoded = decodePathSegment(segment);
+      const routeWord = decoded.toLowerCase();
       const previous = decodePathSegment(segments[index - 1] ?? '').toLowerCase();
       const identifierValue = IDENTIFIER_ROUTES.has(previous);
       const secretValue = SECRET_ROUTES.has(previous);
-      if (EMAIL_SEGMENT.test(decoded) || identifierValue || secretValue || isOpaqueIdentifier(decoded)) return ':redacted';
+      if (
+        EMAIL_VALUE.test(decoded)
+        || decoded.includes('@')
+        || identifierValue
+        || secretValue
+        || isOpaqueIdentifier(decoded)
+        || !(IDENTIFIER_ROUTES.has(routeWord) || STATIC_ROUTE_SEGMENTS.has(routeWord))
+      ) return ':redacted';
       return segment;
     }).join('/');
     return `${url.origin}${path}`;
