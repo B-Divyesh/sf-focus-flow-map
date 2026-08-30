@@ -1,7 +1,7 @@
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { chromium, expect, test } from '@playwright/test';
+import { chromium, expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 declare const chrome: {
@@ -20,6 +20,22 @@ declare const chrome: {
     };
   };
 };
+
+async function expectMinimumTargetSize(page: Page) {
+  const undersized = await page.locator('a[href], button, summary, input, select, textarea').evaluateAll((nodes) => nodes.flatMap((node) => {
+    const style = getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    if (style.display === 'none' || style.visibility === 'hidden' || rect.width === 0 || rect.height === 0) return [];
+    if (rect.width + 0.01 >= 44 && rect.height + 0.01 >= 44) return [];
+    return [{
+      element: node.tagName.toLowerCase(),
+      name: (node.getAttribute('aria-label') || node.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 80),
+      width: Math.round(rect.width * 10) / 10,
+      height: Math.round(rect.height * 10) / 10,
+    }];
+  }));
+  expect(undersized, 'Every rendered extension target must be at least 44×44 CSS px').toEqual([]);
+}
 
 test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-redaction @claim:markdown-json-export extension records and exports a private local map', async ({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the extension smoke test once.');
@@ -51,6 +67,13 @@ test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-re
       return chrome.tabs.sendMessage(tab.id, { type: 'START_RECORDING' });
     });
     expect(started.ok).toBe(true);
+    const overlayTargets = await page.locator('#focus-flow-map-recorder').evaluate((host) => (
+      [...host.shadowRoot!.querySelectorAll('button')].map((button) => {
+        const rect = button.getBoundingClientRect();
+        return { name: button.textContent, width: rect.width, height: rect.height };
+      }).filter(({ width, height }) => width + 0.01 < 44 || height + 0.01 < 44)
+    ));
+    expect(overlayTargets, 'Recorder overlay controls must be at least 44×44 CSS px').toEqual([]);
     await page.evaluate(() => {
       const label = document.createElement('label');
       label.htmlFor = 'claim-private-value';
@@ -116,11 +139,15 @@ test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-re
     expect(remoteRequests).toEqual([]);
     const dashboardAxe = await new AxeBuilder({ page: dashboard }).analyze();
     expect(dashboardAxe.violations.filter((item) => item.impact === 'serious' || item.impact === 'critical')).toEqual([]);
+    await expectMinimumTargetSize(dashboard);
+    await dashboard.setViewportSize({ width: 390, height: 844 });
+    await expectMinimumTargetSize(dashboard);
     const popup = await context.newPage();
     await popup.goto(`chrome-extension://${extensionId}/popup.html`);
     await expect(popup.locator('h1')).toHaveCount(1);
     const popupAxe = await new AxeBuilder({ page: popup }).analyze();
     expect(popupAxe.violations.filter((item) => item.impact === 'serious' || item.impact === 'critical')).toEqual([]);
+    await expectMinimumTargetSize(popup);
   } finally {
     await context.close();
     await rm(profile, { recursive: true, force: true });

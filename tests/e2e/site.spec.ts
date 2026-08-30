@@ -1,5 +1,21 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function expectMinimumTargetSize(page: Page) {
+  const undersized = await page.locator('a[href], button, summary, input, select, textarea').evaluateAll((nodes) => nodes.flatMap((node) => {
+    const style = getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    if (style.display === 'none' || style.visibility === 'hidden' || rect.width === 0 || rect.height === 0) return [];
+    if (rect.width + 0.01 >= 44 && rect.height + 0.01 >= 44) return [];
+    return [{
+      element: node.tagName.toLowerCase(),
+      name: (node.getAttribute('aria-label') || node.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 80),
+      width: Math.round(rect.width * 10) / 10,
+      height: Math.round(rect.height * 10) / 10,
+    }];
+  }));
+  expect(undersized, 'Every rendered interactive target must be at least 44×44 CSS px').toEqual([]);
+}
 
 for (const path of ['/', '/privacy/', '/terms/', '/404.html']) {
   test(`${path} has a semantic, serious-issue-free document`, async ({ page }) => {
@@ -13,6 +29,7 @@ for (const path of ['/', '/privacy/', '/terms/', '/404.html']) {
     const results = await new AxeBuilder({ page }).analyze();
     const serious = results.violations.filter((item) => item.impact === 'serious' || item.impact === 'critical');
     expect(serious).toEqual([]);
+    await expectMinimumTargetSize(page);
     expect(errors).toEqual([]);
   });
 }
@@ -111,6 +128,7 @@ test('demo is responsive, reduced-motion safe, and free of serious accessibility
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter((item) => item.impact === 'serious' || item.impact === 'critical')).toEqual([]);
+  await expectMinimumTargetSize(page);
 });
 
 test('service worker keeps the demo available after an offline reload', async ({ browser }, testInfo) => {
@@ -149,6 +167,34 @@ test('@claim:chromium-package download and evidence workflow are usable', async 
   await expect(page.locator('#demo-findings')).toBeVisible();
 });
 
+test('installation copy makes no unmeasured time promise', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText('Install the extension', { exact: true })).toBeVisible();
+  await expect(page.locator('body')).not.toContainText(/install in under a minute/i);
+});
+
+test('copy-license action is absent until a valid license exists', async ({ page }) => {
+  await page.goto('/');
+  const copy = page.locator('#copy-license');
+  await expect(copy).toBeHidden();
+  expect(await copy.evaluate((node) => ({
+    display: getComputedStyle(node).display,
+    width: node.getBoundingClientRect().width,
+    height: node.getBoundingClientRect().height,
+  }))).toEqual({ display: 'none', width: 0, height: 0 });
+  await copy.focus();
+  expect(await page.evaluate(() => document.activeElement?.id)).not.toBe('copy-license');
+
+  await page.evaluate(() => localStorage.setItem('sb_license:focus-flow-map', JSON.stringify({
+    token: 'recorded-valid-license',
+    valid: true,
+    checkedAt: Date.now(),
+  })));
+  await page.reload();
+  await expect(copy).toBeVisible();
+  await expect(copy).toBeEnabled();
+});
+
 test('390px navigation opens and closes by keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
@@ -157,6 +203,7 @@ test('390px navigation opens and closes by keyboard', async ({ page }) => {
   await page.keyboard.press('Enter');
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('#mobile-menu')).toBeVisible();
+  await expectMinimumTargetSize(page);
   await page.keyboard.press('Escape');
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await expect(page.locator('#mobile-menu')).toBeHidden();

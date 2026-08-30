@@ -59,7 +59,9 @@ Audited 30 August 2026 against the plain-words rules. Counts treat hyphenated te
 
 ## Interface labels
 
-Headings and controls are short literal labels: **Try it with sample data**, **Download for Chromium**, **Reset demo**, **Start for real**, **Hide review notes**, **Show review notes**, **Export the report**, **Read the privacy policy**, **Buy a Pro license**, and **Verify license**.
+Headings and controls are short literal labels: **Try it with sample data**, **Download for Chromium**, **Reset demo**, **Start for real**, **Hide review notes**, **Show review notes**, **Export the report**, **Read the privacy policy**, **Buy a Pro license**, **Verify license**, and **Install the extension**.
+
+The installation section makes no speed promise. Its previous “under a minute” label was removed because the product does not measure installation time.
 
 ## Terminology
 
