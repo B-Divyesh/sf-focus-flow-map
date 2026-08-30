@@ -3,10 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Record the real keyboard focus route through a webpage and export a private, reproducible issue packet." />
+    <meta name="description" content="Record where Tab moves through a webpage, review jumps and loops, and export a local issue report." />
     <meta name="theme-color" content="#071b26" />
-    <title>Focus Flow Map — See where Tab really goes</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Focus Flow Map — Map the keyboard focus route" />
+    <meta property="og:description" content="Record where Tab moves and export a local issue report." />
+    <meta property="og:image" content="https://focus-flow-map.sociobot.in/assets/social-card.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Focus Flow Map — Map the keyboard focus route" />
+    <meta name="twitter:description" content="Record where Tab moves and export a local issue report." />
+    <meta name="twitter:image" content="https://focus-flow-map.sociobot.in/assets/social-card.webp" />
+    <link rel="canonical" href="https://focus-flow-map.sociobot.in/" />
+    <title>Focus Flow Map — Map the keyboard focus route</title>
     <link rel="icon" href="/assets/mark.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="preload" href="/fonts/plex-sans.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/hero-blueprint-768.avif" as="image" type="image/avif" media="(max-width: 768px)" />
   </head>
@@ -14,19 +26,36 @@
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <a class="brand" href="/" aria-label="Focus Flow Map home"><img src="/assets/mark.svg" width="36" height="36" alt=""><span>Focus Flow Map</span></a>
-      <nav aria-label="Primary navigation"><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="#pro">Pro</a><a class="nav-download" href="/downloads/focus-flow-map-chrome.zip" download>Download</a></nav>
+      <nav aria-label="Primary navigation"><a href="/?demo=1">Demo</a><a href="#how">How it works</a><a href="#privacy">Privacy</a><a class="nav-download" href="/downloads/focus-flow-map-chrome.zip" download>Download</a></nav>
       <button id="menu-button" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
     </header>
-    <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile navigation" hidden><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="#pro">Pro</a><a href="/downloads/focus-flow-map-chrome.zip" download>Download extension</a></nav>
+    <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile navigation" hidden><a href="/?demo=1">Demo</a><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="/downloads/focus-flow-map-chrome.zip" download>Download extension</a></nav>
+
+    <aside id="demo-banner" class="demo-banner" aria-label="Demo controls" hidden>
+      <strong>Demo — sample data, nothing is saved</strong>
+      <div><button id="reset-demo" class="secondary" type="button">Reset demo</button><a id="start-real" class="button" href="/">Start for real</a></div>
+      <p id="demo-status" class="sr-only" role="status" aria-live="polite"></p>
+    </aside>
 
     <main id="main">
+      <section id="demo-workspace" class="demo-workspace" hidden>
+        <div class="demo-intro">
+          <p class="eyebrow">Sample focus map</p>
+          <div id="demo-heading-slot"></div>
+          <p>See a finished checkout route with a viewport jump and a missing focus indicator.</p>
+          <p>Use the review notes to understand what a maintainer receives.</p>
+        </div>
+        <div id="demo-route-slot"></div>
+      </section>
+
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">Keyboard route recorder / MV3</p>
-          <h1>See where <kbd>Tab</kbd> really goes.</h1>
-          <p class="hero-lede">Record a real keyboard journey, spot hidden jumps and loops, then hand maintainers a reproducible issue packet—not another score.</p>
-          <div class="hero-actions"><a class="button" href="/downloads/focus-flow-map-chrome.zip" download>Download for Chromium <span aria-hidden="true">↓</span></a><a class="text-link" href="#how">Inspect the workflow <span aria-hidden="true">↘</span></a></div>
-          <p class="compatibility"><span aria-hidden="true">◎</span> Free core tools · local-only data · Chrome, Edge, Brave</p>
+          <p class="eyebrow">Keyboard focus route recorder</p>
+          <h1>Map where <kbd>Tab</kbd> goes.</h1>
+          <p class="hero-lede">For keyboard-only and RSI-affected users, it records the focus route and turns it into a report.</p>
+          <div class="hero-actions"><a class="button" href="/?demo=1">Try it with sample data <span aria-hidden="true">→</span></a><a class="button secondary" href="/downloads/focus-flow-map-chrome.zip" download>Download for Chromium <span aria-hidden="true">↓</span></a></div>
+          <p class="action-note">A finished route opens now. Download when you are ready to record a site.</p>
+          <p class="compatibility"><span aria-hidden="true">◎</span> Chromium extension package</p>
         </div>
         <figure class="hero-visual">
           <picture>
@@ -37,37 +66,39 @@
         </figure>
       </section>
 
-      <section class="proof-strip" aria-label="Product capabilities"><p><strong>Explicit start</strong><span>Nothing runs until you choose.</span></p><p><strong>Visible route</strong><span>Order, direction, target, and jump.</span></p><p><strong>Useful evidence</strong><span>Markdown + JSON issue packets.</span></p></section>
+      <section class="proof-strip" aria-label="Product facts"><p><strong>Starts on your command</strong><span>Recording begins only when you choose.</span></p><p><strong>Stays in the extension</strong><span>Routes use local extension storage.</span></p><p><strong>Exports for free</strong><span>Download Markdown and JSON reports.</span></p></section>
 
       <section id="how" class="workflow">
-        <div class="section-intro"><p class="eyebrow">One deliberate pass</p><h2>Audit the journey you can feel.</h2><p>Automated rules can tell you what might be focusable. Focus Flow Map records what actually happened under your hands.</p></div>
+        <div class="section-intro"><p class="eyebrow">How it works</p><h2>Record and share one keyboard route.</h2><p>Automated rules list possible controls. Focus Flow Map records the route you actually used.</p></div>
         <ol class="workflow-list">
-          <li><span class="step-number mono">01</span><div><h3>Start on purpose</h3><p>Choose the toolbar action on the page you want to inspect. The recorder announces itself and stays visible.</p></div></li>
-          <li><span class="step-number mono">02</span><div><h3>Navigate normally</h3><p>Use Tab and Shift+Tab. The route records labels, safe selectors, viewport position, direction, and focus styling—not what you type.</p></div></li>
-          <li><span class="step-number mono">03</span><div><h3>Hand off the evidence</h3><p>Review numbered stations and checks for jumps, off-screen targets, loops, stalls, and absent computed focus indicators. Export in one keystroke.</p></div></li>
+          <li><span class="step-number mono">01</span><div><h3>Start recording</h3><p>Choose the extension on the page you want to inspect. A visible recorder confirms that it is running.</p></div></li>
+          <li><span class="step-number mono">02</span><div><h3>Use Tab normally</h3><p>Use Tab and Shift+Tab. The route records safe labels, positions, direction, and focus styling.</p><p>It never records what you type.</p></div></li>
+          <li><span class="step-number mono">03</span><div><h3>Export the report</h3><p>Review numbered steps and checks for jumps, loops, stalls, hidden targets, and missing focus indicators.</p><p>Export the route as Markdown or JSON.</p></div></li>
         </ol>
       </section>
 
       <section class="map-demo" aria-labelledby="demo-heading">
-        <div class="demo-heading"><div><p class="eyebrow">Example field sheet</p><h2 id="demo-heading">A route anyone can replay</h2></div><button id="toggle-findings" class="secondary" type="button" aria-expanded="true" aria-controls="demo-findings">Hide review notes</button></div>
+        <div class="demo-heading"><div><p class="eyebrow">Sample checkout route</p><h2 id="demo-heading">Replay the route step by step</h2></div><button id="toggle-findings" class="secondary" type="button" aria-expanded="true" aria-controls="demo-findings">Hide review notes</button></div>
         <div class="demo-grid">
           <ol class="route" aria-label="Example focus route">
-            <li><span class="node mono">1</span><div><strong>Skip to main content</strong><span class="mono">a · y 0 · TAB</span></div></li>
-            <li><span class="node mono">2</span><div><strong>Search documentation</strong><span class="mono">input · y 0 · TAB</span></div></li>
-            <li class="jump"><span class="jump-label mono">viewport +684 px</span><span class="node mono">3</span><div><strong>Choose a release</strong><span class="mono">button · y 684 · TAB</span></div></li>
-            <li><span class="node mono">4</span><div><strong>Download package</strong><span class="mono">a · y 684 · TAB</span></div></li>
+            <li><span class="node mono">1</span><div><strong>Skip to checkout</strong><span class="mono">a · y 0 · TAB</span></div></li>
+            <li><span class="node mono">2</span><div><strong>Change basket quantity</strong><span class="mono">button · y 0 · TAB</span></div></li>
+            <li><span class="node mono">3</span><div><strong>Apply discount code</strong><span class="mono">button · y 0 · TAB</span></div></li>
+            <li class="jump"><span class="jump-label mono">viewport +684 px</span><span class="node mono">4</span><div><strong>Delivery address</strong><span class="mono">input · y 684 · TAB</span></div></li>
+            <li><span class="node mono">5</span><div><strong>Place order</strong><span class="mono">button · y 684 · TAB</span></div></li>
+            <li><span class="node mono">6</span><div><strong>Review basket</strong><span class="mono">a · y 0 · SHIFT + TAB</span></div></li>
           </ol>
-          <aside id="demo-findings" class="demo-findings"><p class="eyebrow">Checks raised</p><h3>Step 3 needs review</h3><p><span aria-hidden="true">↕</span> The viewport moved 684 pixels. Confirm that the newly focused control remains easy to locate.</p><p><span aria-hidden="true">◇</span> No computed outline was detected. Verify the control visually in the browser.</p><p class="caveat">Observations are evidence prompts, not automatic accessibility verdicts.</p></aside>
+          <aside id="demo-findings" class="demo-findings"><p class="eyebrow">Review notes</p><h3>Step 4 needs review</h3><p><span aria-hidden="true">↕</span> The viewport moved 684 pixels. Confirm that the delivery field remains easy to locate.</p><p><span aria-hidden="true">◇</span> No computed outline was detected on Place order. Check the control in the browser.</p><p class="caveat">These notes support a review. They do not certify accessibility.</p></aside>
         </div>
       </section>
 
       <section id="privacy" class="privacy-section">
         <div class="privacy-stamp" aria-hidden="true"><span>LOCAL</span><span>BY DEFAULT</span></div>
-        <div><p class="eyebrow">Privacy is the architecture</p><h2>Your audit stays on your device.</h2><p>Focus Flow Map removes query strings and hashes, redacts token-like text and emails, and never records input values. Sessions live in browser storage. No page content is sent to us. License verification sends only the license token to Sociobot.</p><a class="text-link" href="/privacy/">Read the plain-language privacy policy <span aria-hidden="true">→</span></a></div>
+        <div><p class="eyebrow">Privacy</p><h2>Your focus route stays local.</h2><p>Focus Flow Map removes query strings, hashes, sensitive path values, email addresses, and token-like text.</p><p>It never records input values. Sessions stay in extension storage. No focus session is sent to us.</p><p>License verification sends only the license token to Sociobot.</p><a class="text-link" href="/privacy/">Read the privacy policy <span aria-hidden="true">→</span></a></div>
       </section>
 
       <section id="pro" class="pricing">
-        <div><p class="eyebrow">Optional local Pro</p><h2>Keep the audit trail.</h2><p>Free gives you a complete single-page map and every export format. Pro adds a 30-session local history and private audit notes. Accessibility, safety, and evidence export are never paywalled.</p></div>
+        <div><p class="eyebrow">Optional Pro license</p><h2>Keep more local routes.</h2><p>Free includes the latest focus map and both export formats.</p><p>Pro adds a 30-session local history and private audit notes.</p><p>Accessibility, safety, and report exports stay free.</p></div>
         <div class="price-sheet">
           <p class="mono sheet-label">PERSONAL LICENSE</p><p class="price"><span>$</span>24</p><p>One-time purchase</p>
           <ul><li>30-session local history</li><li>Private notes per audit</li><li>Use on your own devices</li></ul>
@@ -75,13 +106,13 @@
           <details><summary>Already purchased?</summary><form id="restore-form"><label for="license">Paste your license token</label><input id="license" type="password" autocomplete="off" required><button class="secondary" type="submit">Verify license</button></form></details>
           <div id="license-result" class="license-result" role="status" aria-live="polite"></div>
           <button id="copy-license" class="ghost copy-license" type="button" hidden>Copy license for the extension</button>
-          <p class="legal-line">Sociobot/Dodo is merchant of record. Refunds revoke the license. <a href="/terms/">Terms</a></p>
+          <p class="legal-line">Sociobot/Dodo is the merchant of record. Refunds revoke the license. <a href="/terms/">Terms</a></p>
         </div>
       </section>
 
       <section class="install" aria-labelledby="install-heading"><p class="eyebrow">Install in under a minute</p><h2 id="install-heading">Load the unpacked extension.</h2><ol><li>Download and unzip the package.</li><li>Open <code>chrome://extensions</code> and turn on Developer mode.</li><li>Choose “Load unpacked” and select the unzipped folder.</li><li>Pin Focus Flow Map, open a website, and start recording.</li></ol><p>The Chrome Web Store listing is planned; this direct package is the v1 distribution.</p></section>
     </main>
-    <footer class="site-footer"><a class="brand" href="/"><img src="/assets/mark.svg" width="30" height="30" alt=""><span>Focus Flow Map</span></a><p>Evidence for the route—not a pass/fail score.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-focus-flow-map">Source</a></nav><p class="generation-note">Hero imagery generated for this product with the factory image model.</p></footer>
+    <footer class="site-footer"><a class="brand" href="/"><img src="/assets/mark.svg" width="30" height="30" alt=""><span>Focus Flow Map</span></a><p>Record a focus route and share the report.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-focus-flow-map">Source</a></nav><p class="generation-note">Built by Param Factory · v1.0.0 · Original hero image generated with the factory image model.</p></footer>
     <script type="module" src="/main.ts"></script>
   </body>
 </html>

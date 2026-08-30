@@ -39,7 +39,8 @@ class MemoryCaches {
 
 async function workerFor(revision: string, caches: MemoryCaches) {
   const source = (await readFile(resolve(import.meta.dirname, '../../site/public/sw.js'), 'utf8'))
-    .replace('__BUILD_REVISION__', revision);
+    .replace('__BUILD_REVISION__', revision)
+    .replace('__SHELL_ASSETS__', '[]');
   const handlers = new Map<string, Handler>();
   const skipWaiting = vi.fn();
   const claim = vi.fn();

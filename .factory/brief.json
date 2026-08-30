@@ -1,6 +1,7 @@
 {
   "slug": "focus-flow-map",
   "title": "Focus Flow Map",
+  "summary": "Map where Tab moves and export a local keyboard focus report.",
   "territory": "devtools-data",
   "user": "Keyboard-only, RSI-affected users and the teams supporting them who need to see whether a website's tab order reaches usable controls without hidden jumps or traps.",
   "smallest_useful_product": "Browser extension that records a user-initiated tab/shift-tab session locally, renders a numbered focus map with element labels and viewport jumps, and exports a reproducible issue packet.",

@@ -40,6 +40,7 @@ All body pairings meet WCAG AA: paper on ink is above 12:1, ink on paper above 1
 - Route steps: numbered circular stations connected by a ruled line. Scroll jumps use a double-rule break and a written viewport delta so color is never the sole signal.
 - Recording state: a fixed, compact drafting ruler on the audited page shows step count and stop action. It never captures keystrokes or values.
 - Empty/error/offline states: written as clipped field notes with one next action. Offline affects license verification only; free recording and exports remain available.
+- Demo state: a cream drafting notice remains visible above a completed six-station route. Reset and exit controls use the same measured button grammar.
 - Destructive actions name the object, confirm before deletion, and offer no ambiguous icon-only action.
 
 ## Motion policy
@@ -71,3 +72,5 @@ Palette words: midnight drafting blue, warm cream paper, electric coral marks, d
 Negative list: no text, no letters, no watermark, no logos, no brand marks, no browser chrome, no readable UI, no people, no neon gradient, no floating glass cards, no clutter.
 
 Generated with the factory image model (`factory-image`, Azure AI Foundry) on 2026-08-27. The asset is original to Focus Flow Map and used under the product's MIT distribution. The final prompt is stored beside the source image in `assets/src/hero-blueprint.json`.
+
+The 1200×630 social card is a center crop of the approved hero WebP. The 180×180 touch icon is resized from the hand-authored product mark. Both derivatives were produced locally with Sharp on 2026-08-30; no additional model or third-party asset was used.

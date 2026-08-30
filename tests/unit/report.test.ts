@@ -50,7 +50,7 @@ describe('privacy helpers', () => {
 });
 
 describe('issue packet', () => {
-  it('flags jumps, hidden targets, stalls, and recent repeats', () => {
+  it('@claim:route-checks flags jumps, hidden targets, stalls, and recent repeats', () => {
     const route = session([
       step(),
       step({ index: 2, selector: 'body > main > a', scrollDelta: 700, visible: false, focusIndicator: false, stalled: true }),

@@ -1,9 +1,15 @@
 import './style.css';
 
 const STORAGE_KEY = 'sb_license:focus-flow-map';
+const DEMO_PREFIX = 'demo:focus-flow-map:';
+const DEMO_STATE_KEY = `${DEMO_PREFIX}state`;
 const VERIFY_URL = 'https://api.sociobot.in/api/v1/products/focus-flow-map/verify';
 const DAY = 86_400_000;
 type License = { token: string; valid: boolean; checkedAt: number; expiresAt?: string | null };
+type DemoState = { findingsVisible: boolean };
+
+const params = new URLSearchParams(location.search);
+const isDemo = params.get('demo') === '1';
 
 const menuButton = document.querySelector<HTMLButtonElement>('#menu-button')!;
 const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu')!;
@@ -26,12 +32,67 @@ document.addEventListener('keydown', (event) => {
 
 const findingsButton = document.querySelector<HTMLButtonElement>('#toggle-findings')!;
 const findings = document.querySelector<HTMLElement>('#demo-findings')!;
+function readDemoState(): DemoState {
+  if (!isDemo) return { findingsVisible: true };
+  try {
+    const saved = JSON.parse(localStorage.getItem(DEMO_STATE_KEY) ?? 'null') as DemoState | null;
+    return saved && typeof saved.findingsVisible === 'boolean' ? saved : { findingsVisible: true };
+  } catch {
+    return { findingsVisible: true };
+  }
+}
+
+function writeDemoState(state: DemoState) {
+  if (isDemo) localStorage.setItem(DEMO_STATE_KEY, JSON.stringify(state));
+}
+
+function clearDemoStorage() {
+  localStorage.removeItem(DEMO_STATE_KEY);
+}
+
+function renderFindings(visible: boolean) {
+  findingsButton.setAttribute('aria-expanded', String(visible));
+  findings.hidden = !visible;
+  findingsButton.textContent = visible ? 'Hide review notes' : 'Show review notes';
+}
+
 findingsButton.addEventListener('click', () => {
-  const visible = findingsButton.getAttribute('aria-expanded') === 'true';
-  findingsButton.setAttribute('aria-expanded', String(!visible));
-  findings.hidden = visible;
-  findingsButton.textContent = visible ? 'Show review notes' : 'Hide review notes';
+  const nextVisible = findingsButton.getAttribute('aria-expanded') !== 'true';
+  renderFindings(nextVisible);
+  writeDemoState({ findingsVisible: nextVisible });
 });
+
+function initialiseDemo() {
+  document.body.classList.add('demo-mode');
+  document.title = 'Demo — Focus Flow Map';
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = 'https://focus-flow-map.sociobot.in/?demo=1';
+  const banner = document.querySelector<HTMLElement>('#demo-banner')!;
+  const workspace = document.querySelector<HTMLElement>('#demo-workspace')!;
+  const hero = document.querySelector<HTMLElement>('.hero')!;
+  const heading = hero.querySelector<HTMLHeadingElement>('h1')!;
+  const map = document.querySelector<HTMLElement>('.map-demo')!;
+  banner.hidden = false;
+  workspace.hidden = false;
+  hero.hidden = true;
+  heading.textContent = 'Review a sample keyboard route.';
+  document.querySelector('#demo-heading-slot')!.append(heading);
+  document.querySelector('#demo-route-slot')!.append(map);
+
+  const state = readDemoState();
+  writeDemoState(state);
+  renderFindings(state.findingsVisible);
+
+  const status = document.querySelector<HTMLElement>('#demo-status')!;
+  document.querySelector<HTMLButtonElement>('#reset-demo')!.addEventListener('click', () => {
+    clearDemoStorage();
+    const reset = { findingsVisible: true };
+    writeDemoState(reset);
+    renderFindings(reset.findingsVisible);
+    status.textContent = 'Demo reset to the original six-step route.';
+  });
+  document.querySelector<HTMLAnchorElement>('#start-real')!.addEventListener('click', clearDemoStorage);
+  window.addEventListener('pagehide', clearDemoStorage);
+}
 
 function readLicense(): License | undefined {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null') as License | undefined; }
@@ -56,7 +117,6 @@ async function verify(token: string): Promise<License> {
 }
 
 async function initialiseLicense() {
-  const params = new URLSearchParams(location.search);
   const returned = params.get('license');
   if (returned) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ token: returned, valid: true, checkedAt: 0 } satisfies License));
@@ -84,5 +144,9 @@ document.querySelector<HTMLButtonElement>('#copy-license')!.addEventListener('cl
   catch { showLicense(record, 'Copy was blocked. Use your browser’s site storage or return email to retrieve the token.'); }
 });
 
+if (isDemo) initialiseDemo();
+else {
+  renderFindings(true);
+  void initialiseLicense();
+}
 if ('serviceWorker' in navigator) window.addEventListener('load', () => void navigator.serviceWorker.register('/sw.js'));
-void initialiseLicense();

@@ -38,7 +38,13 @@ for (const file of files) {
   digest.update(await readFile(file));
 }
 const revision = digest.digest('hex').slice(0, 16);
+const shellAssets = files
+  .map((file) => `/${relative(output, file).split(sep).join('/')}`)
+  .filter((path) => /^\/assets\/.*\.(?:css|js)$/.test(path));
 const workerPath = resolve(output, 'sw.js');
 const worker = await readFile(workerPath, 'utf8');
 if (!worker.includes('__BUILD_REVISION__')) throw new Error('Service-worker revision placeholder is missing.');
-await writeFile(workerPath, worker.replace('__BUILD_REVISION__', revision));
+if (!worker.includes('__SHELL_ASSETS__')) throw new Error('Service-worker shell placeholder is missing.');
+await writeFile(workerPath, worker
+  .replace('__BUILD_REVISION__', revision)
+  .replace('__SHELL_ASSETS__', JSON.stringify(shellAssets)));

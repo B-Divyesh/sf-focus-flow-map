@@ -1,20 +1,34 @@
 # Focus Flow Map
 
-Focus Flow Map is a privacy-first Chromium extension for keyboard-only and RSI-affected users, accessibility auditors, and the teams supporting them. It records a user-initiated Tab/Shift+Tab session, turns the actual route into a numbered local map, highlights likely jumps and dead ends, and exports a reproducible Markdown or JSON issue packet.
+Focus Flow Map is a Chromium extension for keyboard-only and RSI-affected users, auditors, and the teams supporting them.
+
+It records a user-started Tab and Shift+Tab route. The local report shows numbered steps, jumps, loops, and missing focus indicators. Free exports include Markdown and JSON.
 
 Live site: <https://focus-flow-map.sociobot.in>
+
+One-click sample: <https://focus-flow-map.sociobot.in/?demo=1>
+
+## Try the isolated demo
+
+Choose **Try it with sample data** on the first screen, or open the sample link above. A completed six-step checkout route appears immediately.
+
+The banner identifies demo mode. **Reset demo** restores the sample, and **Start for real** returns to the normal product page.
+
+Demo state uses only `demo:focus-flow-map:` keys and is removed when you leave. The demo does not read or change real license data. See [.factory/demo.md](.factory/demo.md) for the sample and isolation details.
 
 ## What v1 does
 
 - Records only after the user chooses **Start recording**.
-- Captures focus order, direction, safe structural selector, accessible label, viewport position, scroll delta, visibility, and the presence of a computed focus indicator.
-- Flags large viewport jumps, off-screen targets, recent repeats, stalled Tab movement, and missing computed focus indicators for human review.
-- Redacts query strings, hashes, sensitive URL path values (including encoded emails, tokens, IDs, and account/person routes), URLs in labels, and token-like text. It never reads or records input values.
-- Stores sessions in browser extension storage and sends no audit content to a server.
+- Captures focus order, direction, safe selectors, labels, viewport position, scroll changes, visibility, and computed focus indicators.
+- Flags large viewport jumps, off-screen targets, recent repeats, stalled Tab movement, and missing focus indicators for review.
+- Redacts queries, hashes, sensitive URL paths, URLs in labels, email addresses, identifiers, and token-like text.
+- Never reads or records input values.
+- Stores sessions in browser extension storage. It sends no audit content to a server.
 - Exports a complete Markdown or JSON issue packet in the free tier.
-- Offers an optional $24 one-time Pro license for a 30-session local history and private audit notes. Core accessibility and export features remain free.
+- Offers an optional $24 one-time Pro license for 30 local sessions and private notes.
+- Keeps accessibility, safety, and exports free.
 
-The generated observations are evidence prompts, not an accessibility certification. Review them and test with disabled users before making a compliance claim.
+The generated notes support an accessibility review. They do not certify compliance. Test with disabled users before making a compliance claim.
 
 ## Run locally
 
@@ -36,7 +50,9 @@ npm test
 npm run build
 ```
 
-`npm test` runs Vitest privacy/report tests, Chromium extension recording smoke tests, 390 px responsive tests, and axe checks for the site, popup, and report.
+`npm test` runs privacy and report tests, Chromium extension tests, 390 px tests, and axe checks.
+
+Customer-facing claims and their exact commands are listed in [.factory/claims.json](.factory/claims.json). Each command runs one tagged test against shipped sample data.
 
 The exact production build command is `npm run build`. It creates:
 
@@ -52,17 +68,18 @@ npx vite preview --config vite.site.config.ts
 
 ## Architecture
 
-- WXT + TypeScript for the MV3 service worker, content recorder, popup, and local report page.
-- Vite + vanilla TypeScript for the static product, privacy, and terms pages.
-- Browser storage for extension sessions and license state; local storage for private report notes and the landing-page license handoff.
+- WXT and TypeScript for the MV3 worker, recorder, popup, and local report.
+- Vite and vanilla TypeScript for the static product, demo, privacy, and terms pages.
+- Extension storage for sessions and license state. Extension-origin local storage keeps private report notes.
+- A separate `demo:focus-flow-map:` namespace for disposable sample state.
 - Sociobot billing API for hosted checkout and license verification. No payment provider is embedded.
 - No analytics, external runtime scripts, CDN fonts, or remote session storage.
 
 ## Permissions
 
-- `activeTab` and site access: observe focus changes on the page only after an explicit start.
-- `storage`: keep focus maps and license state on the current device.
-- `tabs`: identify the active page and open the local map.
+- `activeTab` and site access observe focus only after an explicit start.
+- `storage` keeps focus maps and license state on the current device.
+- `tabs` identifies the active page and opens the local map.
 
 See [the product brief](.factory/brief.json), [visual thesis](.factory/design.md), [privacy policy](site/privacy/index.html), and [terms](site/terms/index.html).
 

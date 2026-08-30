@@ -1,0 +1,79 @@
+[
+  {
+    "id": "demo-isolated",
+    "claim": "Try a six-step sample focus route without reading or changing real license data",
+    "where": "landing first screen, demo banner, README",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:demo-isolated",
+    "sandbox": "fresh browser context; enter /?demo=1 from the first-screen action; instrument every localStorage operation and outgoing request; reset and leave the demo"
+  },
+  {
+    "id": "keyboard-demo",
+    "claim": "Operate the sample report and demo controls with the keyboard",
+    "where": "demo controls",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:keyboard-demo",
+    "sandbox": "fresh browser context at /?demo=1; use Tab and Enter only; assert focus and visible state changes"
+  },
+  {
+    "id": "chromium-package",
+    "claim": "Download a packaged Chromium extension from the first screen",
+    "where": "landing first screen, installation steps, README",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:chromium-package",
+    "sandbox": "fresh browser context; follow the first-screen package URL; assert a successful non-empty ZIP response"
+  },
+  {
+    "id": "explicit-recording",
+    "claim": "Recording begins only after the user chooses to start",
+    "where": "landing facts, workflow, README, privacy policy",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:explicit-recording",
+    "sandbox": "fresh Chromium extension profile on the /?demo=1 sample; inspect extension storage and the page before sending START_RECORDING"
+  },
+  {
+    "id": "local-session-privacy",
+    "claim": "Focus sessions stay in extension storage and no audit content is sent to a server",
+    "where": "landing privacy section, README, privacy policy",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:local-session-privacy",
+    "sandbox": "fresh Chromium extension profile on the /?demo=1 sample; capture all requests and inspect chrome.storage.local after recording"
+  },
+  {
+    "id": "sensitive-redaction",
+    "claim": "Reports exclude query strings, hashes, input values, and sensitive URL path values",
+    "where": "landing privacy section, README, privacy policy, report export panel",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:sensitive-redaction",
+    "sandbox": "fresh extension profile; demo URL contains an encoded email, query, and fragment; a synthetic input contains a secret fixture; inspect storage and both exports"
+  },
+  {
+    "id": "markdown-json-export",
+    "claim": "Export the recorded route as Markdown and JSON for free",
+    "where": "landing first-screen facts, workflow, pricing, README",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:markdown-json-export",
+    "sandbox": "fresh free extension profile; record the /?demo=1 sample; download and inspect both report formats"
+  },
+  {
+    "id": "route-checks",
+    "claim": "Raise review notes for viewport jumps, hidden targets, repeats, stalls, and missing focus indicators",
+    "where": "landing workflow, README, report map",
+    "test": "npm run test:unit -- --testNamePattern @claim:route-checks",
+    "sandbox": "recorded focus-session fixture containing each route condition; assert every check kind"
+  },
+  {
+    "id": "history-limits",
+    "claim": "Free mode keeps the latest local session and Pro keeps up to 30",
+    "where": "landing pricing, README, extension report",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:history-limits",
+    "sandbox": "fresh extension profile; save two free fixture sessions, then 31 locally licensed fixture sessions; inspect chrome.storage.local"
+  },
+  {
+    "id": "pro-local-notes",
+    "claim": "Pro saves private audit notes on the current device",
+    "where": "landing pricing, README, extension report",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:pro-local-notes",
+    "sandbox": "fresh extension profile with a recorded valid-license fixture; save a note and inspect extension-origin localStorage"
+  },
+  {
+    "id": "pro-price",
+    "claim": "Pro is listed as a $24 one-time purchase through the Sociobot checkout URL",
+    "where": "landing pricing, README, extension report",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:pro-price",
+    "sandbox": "fresh extension profile with fixture data; assert exact price, purchase terms, and checkout destination without contacting billing"
+  }
+]
