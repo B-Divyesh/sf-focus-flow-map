@@ -31,7 +31,8 @@ test('390px navigation opens and closes by keyboard', async ({ page }) => {
   await page.keyboard.press('Enter');
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('#mobile-menu')).toBeVisible();
-  await page.keyboard.press('Shift+Tab');
-  await page.keyboard.press('Tab');
-  await page.keyboard.press('Enter');
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('#mobile-menu')).toBeHidden();
+  await expect(menu).toBeFocused();
 });

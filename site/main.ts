@@ -7,15 +7,22 @@ type License = { token: string; valid: boolean; checkedAt: number; expiresAt?: s
 
 const menuButton = document.querySelector<HTMLButtonElement>('#menu-button')!;
 const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu')!;
+function closeMobileMenu(returnFocus = false) {
+  mobileMenu.hidden = true;
+  menuButton.setAttribute('aria-expanded', 'false');
+  if (returnFocus) menuButton.focus();
+}
 menuButton.addEventListener('click', () => {
   const open = menuButton.getAttribute('aria-expanded') === 'true';
   menuButton.setAttribute('aria-expanded', String(!open));
   mobileMenu.hidden = open;
 });
 mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-  mobileMenu.hidden = true;
-  menuButton.setAttribute('aria-expanded', 'false');
+  closeMobileMenu();
 }));
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !mobileMenu.hidden) closeMobileMenu(true);
+});
 
 const findingsButton = document.querySelector<HTMLButtonElement>('#toggle-findings')!;
 const findings = document.querySelector<HTMLElement>('#demo-findings')!;
