@@ -77,6 +77,7 @@ function initialiseDemo() {
   heading.textContent = 'Review a sample keyboard route.';
   document.querySelector('#demo-heading-slot')!.append(heading);
   document.querySelector('#demo-route-slot')!.append(map);
+  document.documentElement.classList.remove('demo-loading');
 
   const state = readDemoState();
   writeDemoState(state);
