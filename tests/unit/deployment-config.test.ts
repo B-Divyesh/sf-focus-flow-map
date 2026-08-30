@@ -4,6 +4,7 @@ import { expect, test } from 'vitest';
 
 test('Azure static deployment has the promised cache and browser response policy', async () => {
   const config = JSON.parse(await readFile(resolve(import.meta.dirname, '../../site/public/staticwebapp.config.json'), 'utf8')) as {
+    navigationFallback?: unknown;
     globalHeaders: Record<string, string>;
     routes: { route: string; headers: Record<string, string> }[];
     responseOverrides: Record<string, { rewrite: string }>;
@@ -13,6 +14,7 @@ test('Azure static deployment has the promised cache and browser response policy
     'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
   });
   expect(config.globalHeaders['Content-Security-Policy']).toContain("default-src 'self'");
+  expect(config.navigationFallback).toBeUndefined();
   expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html' });
   expect(config.routes).toEqual(expect.arrayContaining([
     { route: '/assets/*', headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } },
