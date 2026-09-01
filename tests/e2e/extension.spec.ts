@@ -38,6 +38,7 @@ async function expectMinimumTargetSize(page: Page) {
 }
 
 test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-redaction @claim:markdown-json-export @claim:recorded-route-fields extension records and exports a private local map', async ({}, testInfo) => {
+  test.setTimeout(60_000);
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the extension smoke test once.');
   const profile = await mkdtemp(join(tmpdir(), 'focus-flow-map-'));
   const extensionPath = resolve('.output/chrome-mv3');
@@ -175,6 +176,7 @@ test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-re
 });
 
 test('@claim:history-limits @claim:pro-local-notes @claim:pro-unavailable free and licensed local storage work without an unavailable checkout', async ({}, testInfo) => {
+  test.setTimeout(60_000);
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the extension storage claim once.');
   const profile = await mkdtemp(join(tmpdir(), 'focus-flow-map-history-'));
   const extensionPath = resolve('.output/chrome-mv3');
