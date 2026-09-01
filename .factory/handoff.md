@@ -1,35 +1,41 @@
-# Review 3 handoff — Focus Flow Map
+# Polish round 3 handoff — Focus Flow Map
 
-- **Work order:** `focus-flow-map-review-3`
-- **Candidate:** `b8f7e23479e562eb9c33a87cebc4fd54508f0b87`
+- **Repair commit:** `7f8627171c84c20c55079ba5fa18eb1114ff76a5`
+- **Pushed:** `origin/main` at that commit
+- **Deployment:** `cf102f56-7e1a-4caa-b589-8e4e4d671dff`
 - **Live:** <https://focus-flow-map.sociobot.in>
 - **Demo:** <https://focus-flow-map.sociobot.in/?demo=1>
-- **Result:** **FAIL** — seven minor findings; no blocking finding
+- **Result:** PASS — no known gaps or unresolved findings.
 
-Independent product QA was completed without changing product code or deployment state. The full report is [.factory/review-3.md](review-3.md).
+## Done
 
-The cold mobile and desktop first screens clearly identify the job, audience, and first action. The one-click demo immediately shows realistic route data at both sizes. Reset works, demo state remains separate, real license state remains unchanged, and the fresh live request log is same-origin.
+- Closed all seven review-3/controller findings: destination-labeled external links, explicit desktop download action, removal of ROUTE 014 lore, plain sample labels, one vocabulary system, plain license fallback copy, and expanded README accessibility/Manifest V3 wording.
+- Preserved the blueprint drafting-sheet visual system and shipped the repair in the MV3 extension plus static landing artifact.
+- Kept the one-click `?demo=1` sandbox isolated, with banner, reset, Start for real, six-step route report, and same-origin live requests.
+- Re-checked every earlier review-1/review-2 finding: route focus/announcements, metadata, 404, mobile first viewport, claim coverage, privacy, keyboard navigation, and copy.
+- Added source and browser regression coverage for the repaired wording and link behavior. Updated `claims.json`, copy audit, demo docs, catalog description, and design terminology.
 
-All 17 commands in `.factory/claims.json` passed separately from a clean clone. `npm test` passed 13 unit checks and 44 browser checks, with four intentional mobile-project skips. `npm run build` produced `dist/site/` and the packaged extension. The worker URL checker passed home, demo, Privacy, Terms, and the direct 404 document. Live axe checks found no serious or critical issue on the checked routes at 390×844 or 1440×1000.
-
-## Remaining work
-
-Resolve F-3-1 through F-3-7 before acceptance:
-
-1. Identify external destinations in link text or accessible names.
-2. Rename the desktop **Download** action to **Download extension**.
-3. Remove or clarify **ROUTE 014**.
-4. Replace unexplained sample shorthand with plain route labels.
-5. Standardize focus-route, route-report, and review-note terms.
-6. Rewrite the technical license fallback messages.
-7. Expand `MV3` and replace `axe checks` with plain wording in the README.
-
-## How to verify
+## Verify locally
 
 ```bash
 npm ci
+npm run typecheck
 npm test
 npm run build
+npm audit --omit=dev --audit-level=low
+unzip -t dist/site/downloads/focus-flow-map-chrome.zip
 ```
 
-Run each `test` command in `.factory/claims.json` separately. Then confirm the first viewport at 390×844 and 1440×1000, enter `/?demo=1`, check Reset and Start for real, crawl every same-origin link, check external-link labels, and rerun the complete sentence audit.
+Run every command in `.factory/claims.json` separately. The full details and the finding map are in [.factory/polish-3.md](polish-3.md).
+
+## Evidence
+
+- Clean clone `/tmp/focus-flow-map-polish3.67ZMqF` at the repair commit: `npm ci`, every one of 17 claim commands, `npm test` (17 unit, 54 browser), typecheck, build, production-only audit, and ZIP integrity all passed.
+- Cold live home/demo/legal verification had no console errors: [home](evidence/polish-3-live-home/verify.json), [demo](evidence/polish-3-live-demo/verify.json), [Privacy](evidence/polish-3-live-privacy/verify.json), [Terms](evidence/polish-3-live-terms/verify.json).
+- [Live re-check](evidence/polish-3-live/live-check.json) confirms all seven review-3 fixes, mobile bounds, same-origin demo requests, title/lang/main/h1, axe serious/critical = zero on five routes, and a real HTTP 404.
+- Live Lighthouse: 100 Performance, 100 Accessibility, 100 Best Practices, 100 SEO; FCP 0.9 s, LCP 1.2 s, TBT 0 ms, CLS 0 in [polish-3-lighthouse-live.json](evidence/polish-3-lighthouse-live.json).
+- Local and live `index.html` share SHA-256 `ef3b117c59639f318eee4feea3b9869c47ab9b7320c84fd21f2689a57debb18b`.
+
+## Known gaps
+
+None.

@@ -1,0 +1,142 @@
+{
+  "checkedAt": "2026-09-01T22:23:34.456Z",
+  "base": "https://focus-flow-map.sociobot.in",
+  "routes": {
+    "/": {
+      "status": 200,
+      "meta": {
+        "title": "Focus Flow Map — Map the keyboard focus route",
+        "h1": "Map where Tab goes.",
+        "main": true,
+        "lang": "en",
+        "canonical": "https://focus-flow-map.sociobot.in/"
+      },
+      "seriousAxe": []
+    },
+    "/?demo=1": {
+      "status": 200,
+      "meta": {
+        "title": "Demo — Focus Flow Map",
+        "h1": "Review a sample focus route.",
+        "main": true,
+        "lang": "en",
+        "canonical": "https://focus-flow-map.sociobot.in/?demo=1"
+      },
+      "seriousAxe": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "meta": {
+        "title": "Privacy — Focus Flow Map",
+        "h1": "Read how your focus data stays local.",
+        "main": true,
+        "lang": "en",
+        "canonical": "https://focus-flow-map.sociobot.in/privacy/"
+      },
+      "seriousAxe": []
+    },
+    "/terms/": {
+      "status": 200,
+      "meta": {
+        "title": "Terms — Focus Flow Map",
+        "h1": "Use focus reports with care.",
+        "main": true,
+        "lang": "en",
+        "canonical": "https://focus-flow-map.sociobot.in/terms/"
+      },
+      "seriousAxe": []
+    },
+    "/this-page-does-not-exist": {
+      "status": 404,
+      "meta": {
+        "title": "Page not found — Focus Flow Map",
+        "h1": "Page not found.",
+        "main": true,
+        "lang": "en",
+        "canonical": "https://focus-flow-map.sociobot.in/404.html"
+      },
+      "seriousAxe": []
+    }
+  },
+  "findings": {
+    "F-3-1": {
+      "externalLinks": [
+        {
+          "host": "api.sociobot.in",
+          "name": "Buy a Pro license on Sociobot (external)"
+        },
+        {
+          "host": "github.com",
+          "name": "View source on GitHub (external)"
+        }
+      ],
+      "privacyExternal": [
+        {
+          "host": "github.com",
+          "name": "GitHub issue tracker (external)"
+        }
+      ]
+    },
+    "F-3-2": {
+      "desktopDownload": 1
+    },
+    "F-3-3": {
+      "route014Count": 0,
+      "exampleFocusRoute": true
+    },
+    "F-3-5": {
+      "focusRoute": true,
+      "routeReport": true,
+      "reviewNotes": true
+    },
+    "F-3-4": {
+      "labels": [
+        "Link · page position 0 · Tab",
+        "Button · page position 0 · Tab",
+        "Text field · page position 684 · Tab",
+        "Page moved down 684 pixels",
+        "Link · page position 0 · Shift + Tab"
+      ],
+      "firstRowY": 596.640625
+    },
+    "F-3-6": {
+      "offlineMessage": "Your last verified license remains active. We’ll check it again when you are online.",
+      "copyMessage": "Copy was blocked. Copy the token from your purchase email and paste it into the extension."
+    }
+  },
+  "mobile": {
+    "demo": {
+      "firstRowY": 596.640625,
+      "routeRows": 6
+    },
+    "homeFacts": [
+      {
+        "fact": "Recording begins only when you choose.",
+        "y": 633.296875,
+        "height": 21.6875
+      },
+      {
+        "fact": "Route reports use local extension storage.",
+        "y": 658.984375,
+        "height": 21.6875
+      },
+      {
+        "fact": "Download Markdown and JSON route reports.",
+        "y": 684.671875,
+        "height": 21.6875
+      }
+    ]
+  },
+  "demoRequests": [
+    "https://focus-flow-map.sociobot.in/?demo=1",
+    "https://focus-flow-map.sociobot.in/fonts/plex-sans.woff2",
+    "https://focus-flow-map.sociobot.in/assets/hero-blueprint-768.avif",
+    "https://focus-flow-map.sociobot.in/demo-boot.js",
+    "https://focus-flow-map.sociobot.in/route-focus.js",
+    "https://focus-flow-map.sociobot.in/assets/home-1YwCVK6M.js",
+    "https://focus-flow-map.sociobot.in/assets/home-1hgd7AiT.css",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg",
+    "https://focus-flow-map.sociobot.in/fonts/plex-mono.woff2"
+  ],
+  "errors": []
+}
