@@ -35,6 +35,13 @@
     "sandbox": "fresh Chromium extension profile on the /?demo=1 sample; capture all requests and inspect chrome.storage.local after recording"
   },
   {
+    "id": "license-request-minimum-data",
+    "claim": "License verification sends only the license token to Sociobot",
+    "where": "landing privacy section, privacy policy",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:license-request-minimum-data",
+    "sandbox": "fresh browser context with a stale fixture license; intercept verification; record method, URL, headers, and body; assert one token query value and no request body"
+  },
+  {
     "id": "sensitive-redaction",
     "claim": "Reports exclude query strings, hashes, input values, and sensitive URL path values",
     "where": "landing privacy section, README, privacy policy, report export panel",
@@ -56,6 +63,13 @@
     "sandbox": "recorded focus-session fixture containing each route condition; assert every check kind"
   },
   {
+    "id": "recorded-route-fields",
+    "claim": "A recorded route includes order, direction, safe selectors, labels, viewport position, scroll changes, visibility, and focus indicators",
+    "where": "README What v1 does, landing workflow",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:recorded-route-fields",
+    "sandbox": "fresh Chromium extension profile; record controls on the demo entry point; inspect every stored step and assert every documented field and safe selector shape"
+  },
+  {
     "id": "history-limits",
     "claim": "Free mode keeps the latest local session and Pro keeps up to 30",
     "where": "landing pricing, README, extension report",
@@ -75,5 +89,19 @@
     "where": "landing pricing, README, extension report",
     "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:pro-price",
     "sandbox": "fresh extension profile with fixture data; assert exact price, purchase terms, and checkout destination without contacting billing"
+  },
+  {
+    "id": "original-image-provenance",
+    "claim": "The original hero illustration was generated for Focus Flow Map with the factory image model",
+    "where": "landing hero caption, landing footer",
+    "test": "npm run test:unit -- --testNamePattern @claim:original-image-provenance",
+    "sandbox": "repository checkout; inspect the dated local provenance record, prompt, accepted review, source image, shipped derivative, and visual thesis disclosure"
+  },
+  {
+    "id": "no-third-party-runtime",
+    "claim": "The site uses no analytics, external runtime scripts, CDN fonts, or remote session storage",
+    "where": "README Architecture, privacy policy",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:no-third-party-runtime",
+    "sandbox": "fresh isolated browser context with service workers blocked; capture home and demo requests and resource types; assert same-origin scripts and fonts, no frames, and isolated demo storage"
   }
 ]

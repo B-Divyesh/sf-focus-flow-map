@@ -17,6 +17,7 @@ describe('customer claims manifest', () => {
     const testSource = (await Promise.all([
       'tests/e2e/extension.spec.ts',
       'tests/e2e/site.spec.ts',
+      'tests/unit/provenance.test.ts',
       'tests/unit/report.test.ts',
     ].map((path) => readFile(resolve(root, path), 'utf8')))).join('\n');
 

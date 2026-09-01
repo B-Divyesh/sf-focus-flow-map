@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 30 August 2026 against the plain-words rules. Counts treat hyphenated terms as one word. The longest sentence is 16 words. No sentence exceeds 22 words, and no banned word appears.
+Audited 1 September 2026 against the plain-words rules. Counts treat hyphenated terms as one word. The longest sentence is 16 words. No sentence exceeds 22 words, and no banned word appears.
 
 ## First screen and demo
 
@@ -10,6 +10,7 @@ Audited 30 August 2026 against the plain-words rules. Counts treat hyphenated te
 | For keyboard-only and RSI-affected users, it records the focus route and turns it into a report. | 16 | Pass |
 | A finished route opens now. | 5 | Pass |
 | Download when you are ready to record a site. | 9 | Pass |
+| Original illustration generated for this product. | 6 | Pass |
 | Recording begins only when you choose. | 6 | Pass |
 | Routes use local extension storage. | 5 | Pass |
 | Download Markdown and JSON reports. | 5 | Pass |
@@ -22,7 +23,7 @@ Audited 30 August 2026 against the plain-words rules. Counts treat hyphenated te
 
 | Copy | Words | Result |
 | --- | ---: | --- |
-| Automated rules list possible controls. | 5 | Pass |
+| The report marks steps that need a manual check. | 9 | Pass |
 | Focus Flow Map records the route you actually used. | 9 | Pass |
 | Choose the extension on the page you want to inspect. | 10 | Pass |
 | A visible recorder confirms that it is running. | 8 | Pass |
@@ -50,12 +51,12 @@ Audited 30 August 2026 against the plain-words rules. Counts treat hyphenated te
 | Free includes the latest focus map and both export formats. | 10 | Pass |
 | Pro adds a 30-session local history and private audit notes. | 10 | Pass |
 | Accessibility, safety, and report exports stay free. | 7 | Pass |
-| Sociobot/Dodo is the merchant of record. | 7 | Pass |
-| Refunds revoke the license. | 4 | Pass |
+| Sociobot/Dodo takes payment and handles refunds. | 7 | Pass |
+| A refund stops the Pro license. | 6 | Pass |
 | The Chrome Web Store listing is planned; this direct package is the v1 distribution. | 14 | Pass |
 | Record a focus route and share the report. | 8 | Pass |
 | Built by Param Factory. | 4 | Pass |
-| The original hero image was generated with the factory image model. | 10 | Pass |
+| The factory image model generated the original hero image for this product. | 11 | Pass |
 
 ## Interface labels
 

@@ -24,7 +24,7 @@ Demo state uses only `demo:focus-flow-map:` keys and is removed when you leave. 
 - Redacts queries, hashes, sensitive URL paths, URLs in labels, email addresses, identifiers, and token-like text.
 - Never reads or records input values.
 - Stores sessions in browser extension storage. It sends no audit content to a server.
-- Exports a complete Markdown or JSON issue packet in the free tier.
+- Exports a complete Markdown or JSON report in the free tier.
 - Offers an optional $24 one-time Pro license for 30 local sessions and private notes.
 - Keeps accessibility, safety, and exports free.
 
@@ -50,7 +50,7 @@ npm test
 npm run build
 ```
 
-`npm test` runs privacy and report tests, Chromium extension tests, 390 px tests, and axe checks.
+`npm test` runs privacy and report tests, Chromium extension tests, 390 px tests, route metadata checks, and axe checks.
 
 Customer-facing claims and their exact commands are listed in [.factory/claims.json](.factory/claims.json). Each command runs one tagged test against shipped sample data.
 
@@ -73,7 +73,7 @@ npx vite preview --config vite.site.config.ts
 - Extension storage for sessions and license state. Extension-origin local storage keeps private report notes.
 - A separate `demo:focus-flow-map:` namespace for disposable sample state.
 - Sociobot billing API for hosted checkout and license verification. No payment provider is embedded.
-- No analytics, external runtime scripts, CDN fonts, or remote session storage.
+- No analytics, external runtime scripts, CDN fonts, or remote session storage. The `no-third-party-runtime` claim test checks both home and demo.
 
 ## Permissions
 

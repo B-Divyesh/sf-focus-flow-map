@@ -11,6 +11,10 @@ type DemoState = { findingsVisible: boolean };
 const params = new URLSearchParams(location.search);
 const isDemo = params.get('demo') === '1';
 
+function setMeta(selector: string, value: string) {
+  document.querySelector<HTMLMetaElement>(selector)?.setAttribute('content', value);
+}
+
 const menuButton = document.querySelector<HTMLButtonElement>('#menu-button')!;
 const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu')!;
 function closeMobileMenu(returnFocus = false) {
@@ -65,7 +69,16 @@ findingsButton.addEventListener('click', () => {
 function initialiseDemo() {
   document.body.classList.add('demo-mode');
   document.title = 'Demo — Focus Flow Map';
-  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = 'https://focus-flow-map.sociobot.in/?demo=1';
+  const demoUrl = 'https://focus-flow-map.sociobot.in/?demo=1';
+  const demoTitle = 'Demo — Focus Flow Map';
+  const demoDescription = 'Review a six-step sample keyboard focus route with a viewport jump and a missing focus indicator.';
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = demoUrl;
+  setMeta('meta[name="description"]', demoDescription);
+  setMeta('meta[property="og:url"]', demoUrl);
+  setMeta('meta[property="og:title"]', demoTitle);
+  setMeta('meta[property="og:description"]', demoDescription);
+  setMeta('meta[name="twitter:title"]', demoTitle);
+  setMeta('meta[name="twitter:description"]', demoDescription);
   const banner = document.querySelector<HTMLElement>('#demo-banner')!;
   const workspace = document.querySelector<HTMLElement>('#demo-workspace')!;
   const hero = document.querySelector<HTMLElement>('.hero')!;

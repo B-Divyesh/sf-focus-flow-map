@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type Request } from '@playwright/test';
 
 async function expectMinimumTargetSize(page: Page) {
   const undersized = await page.locator('a[href], button, summary, input, select, textarea').evaluateAll((nodes) => nodes.flatMap((node) => {
@@ -33,6 +33,76 @@ for (const path of ['/', '/privacy/', '/terms/', '/404.html']) {
     expect(errors).toEqual([]);
   });
 }
+
+const routeMetadata = [
+  {
+    path: '/',
+    title: 'Focus Flow Map — Map the keyboard focus route',
+    description: 'Record where Tab moves through a webpage, review jumps and loops, and export a local issue report.',
+    canonical: 'https://focus-flow-map.sociobot.in/',
+  },
+  {
+    path: '/?demo=1',
+    title: 'Demo — Focus Flow Map',
+    description: 'Review a six-step sample keyboard focus route with a viewport jump and a missing focus indicator.',
+    canonical: 'https://focus-flow-map.sociobot.in/?demo=1',
+  },
+  {
+    path: '/privacy/',
+    title: 'Privacy — Focus Flow Map',
+    description: 'Read what Focus Flow Map stores, redacts, and sends when you record a keyboard focus route.',
+    canonical: 'https://focus-flow-map.sociobot.in/privacy/',
+  },
+  {
+    path: '/terms/',
+    title: 'Terms — Focus Flow Map',
+    description: 'Read the terms for using Focus Flow Map, its local reports, and the optional Pro license.',
+    canonical: 'https://focus-flow-map.sociobot.in/terms/',
+  },
+  {
+    path: '/404.html',
+    title: 'Page not found — Focus Flow Map',
+    description: 'The requested Focus Flow Map page was not found.',
+    canonical: 'https://focus-flow-map.sociobot.in/404.html',
+  },
+];
+
+for (const metadata of routeMetadata) {
+  test(`${metadata.path} has complete route-specific metadata`, async ({ page }) => {
+    await page.goto(metadata.path);
+    await expect(page).toHaveTitle(metadata.title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', metadata.description);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', metadata.canonical);
+    await expect(page.locator('link[rel="icon"]')).toHaveCount(1);
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveCount(1);
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', metadata.canonical);
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', metadata.title);
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content', metadata.description);
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://focus-flow-map.sociobot.in/assets/social-card.webp');
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', metadata.title);
+    await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute('content', metadata.description);
+    await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', 'https://focus-flow-map.sociobot.in/assets/social-card.webp');
+  });
+}
+
+test('route changes move focus to the new h1 and announce it', async ({ page }) => {
+  await page.goto('/');
+  const homeHeading = page.getByRole('heading', { level: 1 });
+  await expect(homeHeading).toBeFocused();
+  await expect(page.locator('#route-announcer')).toHaveText('Page changed: Map where Tab goes.');
+
+  await page.locator('footer').getByRole('link', { name: 'Privacy' }).click();
+  const privacyHeading = page.getByRole('heading', { level: 1 });
+  await expect(privacyHeading).toBeFocused();
+  await expect(privacyHeading).toHaveAttribute('tabindex', '-1');
+  await expect(page.locator('#route-announcer')).toHaveText('Page changed: Read how your focus data stays local.');
+
+  await page.goBack();
+  await expect(page).toHaveURL('http://127.0.0.1:4173/');
+  await expect(homeHeading).toBeFocused();
+  await expect(page.locator('#route-announcer')).toHaveText('Page changed: Map where Tab goes.');
+});
 
 test('@claim:demo-isolated first-screen demo uses only its sample namespace', async ({ page }) => {
   const requests: string[] = [];
@@ -100,10 +170,64 @@ test('@claim:demo-isolated first-screen demo uses only its sample namespace', as
   expect(stored.demo).toBeNull();
 });
 
+test('@claim:license-request-minimum-data verification sends only the license token', async ({ page }) => {
+  let requestEvidence: { method: string; url: string; headers: Record<string, string>; body: string | null } | undefined;
+  await page.addInitScript(() => localStorage.setItem('sb_license:focus-flow-map', JSON.stringify({
+    token: 'claim-license-token',
+    valid: true,
+    checkedAt: 0,
+  })));
+  await page.route('https://api.sociobot.in/**', async (route) => {
+    const request = route.request();
+    requestEvidence = {
+      method: request.method(),
+      url: request.url(),
+      headers: await request.allHeaders(),
+      body: request.postData(),
+    };
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ valid: true, reason: 'ok', expires_at: null }) });
+  });
+  await page.goto('/');
+  await expect(page.locator('#license-result')).toHaveText(/License active/);
+  expect(requestEvidence).toBeDefined();
+  const url = new URL(requestEvidence!.url);
+  expect(requestEvidence!.method).toBe('GET');
+  expect(url.origin).toBe('https://api.sociobot.in');
+  expect(url.pathname).toBe('/api/v1/products/focus-flow-map/verify');
+  expect([...url.searchParams.entries()]).toEqual([['license', 'claim-license-token']]);
+  expect(requestEvidence!.body).toBeNull();
+  expect(Object.values(requestEvidence!.headers).join('\n')).not.toContain('claim-license-token');
+});
+
+test('@claim:no-third-party-runtime home and demo load only product scripts, fonts, and storage', async ({ browser }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the runtime-origin capture once.');
+  const context = await browser.newContext({ serviceWorkers: 'block' });
+  try {
+    const requests: Array<{ url: string; type: string }> = [];
+    context.on('request', (request: Request) => requests.push({ url: request.url(), type: request.resourceType() }));
+    const page = await context.newPage();
+    await page.goto('http://127.0.0.1:4173/');
+    await page.waitForLoadState('networkidle');
+    await page.goto('http://127.0.0.1:4173/?demo=1');
+    await page.waitForLoadState('networkidle');
+    expect(requests.length).toBeGreaterThan(0);
+    expect(requests.every(({ url }) => new URL(url).origin === 'http://127.0.0.1:4173')).toBe(true);
+    expect(requests.filter(({ type }) => type === 'script').length).toBeGreaterThan(0);
+    expect(requests.filter(({ type }) => type === 'font').length).toBeGreaterThan(0);
+    expect(requests.filter(({ type }) => ['fetch', 'xhr', 'ping'].includes(type))).toEqual([]);
+    expect(await page.locator('script[src]').evaluateAll((scripts) => scripts.every((script) => new URL((script as HTMLScriptElement).src).origin === location.origin))).toBe(true);
+    expect(await page.locator('iframe').count()).toBe(0);
+    await expect(page.locator('a[href="https://api.sociobot.in/api/v1/products/focus-flow-map/checkout"]')).toHaveCount(1);
+    await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+  } finally {
+    await context.close();
+  }
+});
+
 test('@claim:keyboard-demo sample report controls work without a mouse', async ({ page }) => {
   await page.goto('/?demo=1');
   const reset = page.getByRole('button', { name: 'Reset demo' });
-  for (let index = 0; index < 12 && !(await reset.evaluate((element) => element === document.activeElement)); index += 1) {
+  for (let index = 0; index < 24 && !(await reset.evaluate((element) => element === document.activeElement)); index += 1) {
     await page.keyboard.press('Tab');
   }
   await expect(reset).toBeFocused();

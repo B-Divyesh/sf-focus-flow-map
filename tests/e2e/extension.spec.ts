@@ -37,7 +37,7 @@ async function expectMinimumTargetSize(page: Page) {
   expect(undersized, 'Every rendered extension target must be at least 44×44 CSS px').toEqual([]);
 }
 
-test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-redaction @claim:markdown-json-export extension records and exports a private local map', async ({}, testInfo) => {
+test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-redaction @claim:markdown-json-export @claim:recorded-route-fields extension records and exports a private local map', async ({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the extension smoke test once.');
   const profile = await mkdtemp(join(tmpdir(), 'focus-flow-map-'));
   const extensionPath = resolve('.output/chrome-mv3');
@@ -104,6 +104,26 @@ test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-re
     // verifier reproduction and proves the sensitive path never persists.
     const saved = await worker.evaluate(() => chrome.storage.local.get('ffm_sessions'));
     const savedPacket = JSON.stringify(saved);
+    const firstSession = (saved as { ffm_sessions: Array<{ steps: Array<Record<string, unknown>> }> }).ffm_sessions[0];
+    expect(firstSession).toBeDefined();
+    const recordedSteps = firstSession!.steps;
+    expect(recordedSteps.length).toBeGreaterThanOrEqual(2);
+    for (const [position, recordedStep] of recordedSteps.entries()) {
+      expect(recordedStep).toMatchObject({
+        index: position + 1,
+        timestamp: expect.any(Number),
+        direction: expect.stringMatching(/^(forward|backward|unknown)$/),
+        tag: expect.any(String),
+        role: expect.any(String),
+        label: expect.any(String),
+        selector: expect.stringMatching(/^body > /),
+        rect: { x: expect.any(Number), y: expect.any(Number), width: expect.any(Number), height: expect.any(Number) },
+        viewport: { width: expect.any(Number), height: expect.any(Number), scrollX: expect.any(Number), scrollY: expect.any(Number) },
+        scrollDelta: expect.any(Number),
+        visible: expect.any(Boolean),
+        focusIndicator: expect.any(Boolean),
+      });
+    }
     expect(savedPacket).toContain('http://127.0.0.1:4173/private/:redacted/record');
     expect(savedPacket).not.toContain('focus-flow-map.qa');
     expect(savedPacket).not.toContain('drop-me');
