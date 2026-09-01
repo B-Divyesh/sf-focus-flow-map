@@ -358,16 +358,21 @@ test('copy-license action is absent until a valid license exists', async ({ page
 test('390px navigation opens and closes by keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  const menu = page.getByRole('button', { name: 'Open menu' });
+  const menu = page.locator('#menu-button');
+  await expect(menu).toBeVisible();
+  await expect(menu).toHaveAccessibleName('Open menu');
+  await expect(menu).toHaveText('Open menu');
   await menu.focus();
   await page.keyboard.press('Enter');
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   await expect(menu).toHaveAccessibleName('Close menu');
+  await expect(menu).toHaveText('Close menu');
   await expect(page.locator('#mobile-menu')).toBeVisible();
   await expectMinimumTargetSize(page);
   await page.keyboard.press('Escape');
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await expect(menu).toHaveAccessibleName('Open menu');
+  await expect(menu).toHaveText('Open menu');
   await expect(page.locator('#mobile-menu')).toBeHidden();
   await expect(menu).toBeFocused();
 });
