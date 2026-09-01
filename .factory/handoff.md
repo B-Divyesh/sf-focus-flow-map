@@ -1,42 +1,27 @@
-# First-read review 2 handoff — Focus Flow Map
+# Polish round 2 handoff — Focus Flow Map
 
-- **Work order:** `focus-flow-map-review-2`
-- **Candidate:** `1217c05037acaf13a95e809ce25827ae18ea2fa6`
-- **Live URL:** <https://focus-flow-map.sociobot.in>
-- **Demo URL:** <https://focus-flow-map.sociobot.in/?demo=1>
-- **Result:** **FAIL** — one blocking and six minor findings are recorded in `.factory/review-2.md`.
+- **Work order:** `focus-flow-map-polish-2`
+- **Repair commit:** `b3fff797cee63642e2382e2aa1bd39a345bb7d6b`
+- **Deployment:** `bc496a2d-1585-4a64-bfbe-5e68c96dca78`
+- **Live:** <https://focus-flow-map.sociobot.in>
+- **Demo:** <https://focus-flow-map.sociobot.in/?demo=1>
+- **Result:** PASS; no review finding remains open.
 
-## What was done
+## Delivered
 
-- Confirmed the cold first-read experience at 390×844 and 1440×1000.
-- Checked the one-click demo, Reset, exit, storage isolation, request log, offline reload, and sample content.
-- Ran every command in `.factory/claims.json` from a clean clone.
-- Checked landing and README copy with word counts and concrete rewrites.
-- Confirmed every review-1 finding against production and source.
-- Checked route metadata, headings, landmarks, links, missing-page behavior, Back navigation, focus announcements, accessibility results, and visual identity.
-- Modified no product code.
+- Fixed the blocking phone demo layout: the six-step sample is visible after one click, with its first numbered row in the 390×844 viewport.
+- Moved the three product facts into the first phone screen before the illustration.
+- Added two declared, executable claims: `mobile-first-view` and `refund-revokes-pro`; the manifest now has 17 individually runnable claim tests.
+- Removed unsupported license/distribution promises; made refund behavior fixture-tested; rewrote technical and vague copy in the landing page, README, privacy, and terms.
+- Renamed the static sample heading, the 404 h1, and both phone-menu states. Existing routing, route-focus, metadata, legal links, demo isolation, offline, redaction, and extension-package behavior remain covered.
+- Preserved the blueprint drafting visual identity and updated `.factory/copy-audit.md`.
 
-## Verification
+## Exact verification
 
-Clean clone: `/tmp/focus-flow-map-review2.ofnuJO`
+Fresh clone `/tmp/focus-flow-map-polish2.6ezb3y`: `npm ci` succeeded; every one of the 17 commands in `.factory/claims.json` passed; `npm test` passed; `npm run build` passed; `unzip -t dist/site/downloads/focus-flow-map-chrome.zip` passed; and `npm audit --omit=dev --audit-level=low` reported 0 vulnerabilities.
 
-```bash
-npm ci
-# Run each `test` command in .factory/claims.json
-npm test
-npm run build
-```
+The full suite passed 13 unit tests and 48 desktop/phone browser cases with four expected project-specific skips. After deployment, `verify-url.sh` passed home, demo, privacy, terms, and 404. Live Playwright axe checks at 390 px found no serious or critical violations for those five routes. Cold screenshots and JSON evidence are in `.factory/evidence/polish-2-live-*`; the first mobile views are `polish-2-live-home/first-viewport-mobile.png` and `polish-2-live-demo/first-viewport-mobile.png`.
 
-Results:
+## Known gaps / next steps
 
-- 15 of 15 declared claim commands passed.
-- Full suite: 13 unit checks and 40 browser checks passed; four expected project-specific checks were skipped.
-- Production build completed and created `dist/` and the packaged extension.
-- Live same-origin route crawl returned 200 for home, demo, Privacy, Terms, and the extension ZIP.
-- A deliberately missing product URL returned the designed HTTP 404 page.
-
-## Remaining work
-
-The blocking item is `F-2-1`: at 390×844, the first sample route row begins at y=966, below the first demo viewport. The current check confirms row count but not first-viewport visibility.
-
-Minor items cover first-screen fact placement, unlisted license and distribution statements, an unsupported replay heading, vague or technical copy, the metaphorical missing-page h1, and the phone menu label. Exact locations and fixes are in `.factory/review-2.md`.
+None. The standalone axe CLI could not discover Chrome in this worker; the pinned Playwright axe integration completed the equivalent live scan successfully.
