@@ -73,7 +73,7 @@ function initialiseDemo() {
   document.title = 'Demo — Focus Flow Map';
   const demoUrl = 'https://focus-flow-map.sociobot.in/?demo=1';
   const demoTitle = 'Demo — Focus Flow Map';
-  const demoDescription = 'Review a six-step sample keyboard focus route with a viewport jump and a missing focus indicator.';
+  const demoDescription = 'Review a six-step sample focus route with a page jump and a missing focus indicator.';
   document.querySelector<HTMLLinkElement>('link[rel="canonical"]')!.href = demoUrl;
   setMeta('meta[name="description"]', demoDescription);
   setMeta('meta[property="og:url"]', demoUrl);
@@ -89,7 +89,7 @@ function initialiseDemo() {
   banner.hidden = false;
   workspace.hidden = false;
   hero.hidden = true;
-  heading.textContent = 'Review a sample keyboard route.';
+  heading.textContent = 'Review a sample focus route.';
   document.querySelector('#demo-heading-slot')!.append(heading);
   document.querySelector('#demo-route-slot')!.append(map);
   document.documentElement.classList.remove('demo-loading');
@@ -104,7 +104,7 @@ function initialiseDemo() {
     const reset = { findingsVisible: true };
     writeDemoState(reset);
     renderFindings(reset.findingsVisible);
-    status.textContent = 'Demo reset to the original six-step route.';
+    status.textContent = 'Demo reset to the original six-step focus route.';
   });
   document.querySelector<HTMLAnchorElement>('#start-real')!.addEventListener('click', clearDemoStorage);
   window.addEventListener('pagehide', clearDemoStorage);
@@ -142,7 +142,7 @@ async function initialiseLicense() {
   showLicense(record);
   if (record?.token && Date.now() - record.checkedAt >= DAY) {
     try { showLicense(await verify(record.token)); }
-    catch { showLicense(record, record.valid ? 'License cached. Verification will retry when you are online.' : 'Offline. Free tools and downloads remain available.'); }
+    catch { showLicense(record, record.valid ? 'Your last verified license remains active. We’ll check it again when you are online.' : 'Offline. Free tools and downloads remain available.'); }
   }
 }
 
@@ -156,8 +156,8 @@ document.querySelector<HTMLFormElement>('#restore-form')!.addEventListener('subm
 document.querySelector<HTMLButtonElement>('#copy-license')!.addEventListener('click', async () => {
   const record = readLicense();
   if (!record?.valid) return;
-  try { await navigator.clipboard.writeText(record.token); showLicense(record, 'License copied. Paste it under Restore in the extension map.'); }
-  catch { showLicense(record, 'Copy was blocked. Use your browser’s site storage or return email to retrieve the token.'); }
+  try { await navigator.clipboard.writeText(record.token); showLicense(record, 'License copied. Paste it into the extension to use local Pro.'); }
+  catch { showLicense(record, 'Copy was blocked. Copy the token from your purchase email and paste it into the extension.'); }
 });
 
 if (isDemo) initialiseDemo();

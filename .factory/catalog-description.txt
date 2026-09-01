@@ -1,1 +1,1 @@
-Map Tab routes and export a local keyboard focus report.
+Map keyboard focus routes and export local route reports.

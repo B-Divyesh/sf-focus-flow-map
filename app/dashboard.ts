@@ -46,13 +46,13 @@ function renderSession(session: FocusSession) {
     button.className = 'station';
     button.innerHTML = `<span class="station-number mono">${step.index}</span><span class="station-copy"><strong></strong><span class="station-meta mono"></span></span><span class="key mono"></span>`;
     button.querySelector('strong')!.textContent = step.label;
-    button.querySelector('.station-meta')!.textContent = `${step.role} · y ${Math.round(step.viewport.scrollY)}${step.scrollDelta ? ` · ${step.scrollDelta > 0 ? '+' : ''}${step.scrollDelta}px` : ''}`;
+    button.querySelector('.station-meta')!.textContent = `${step.role} · page position ${Math.round(step.viewport.scrollY)}${step.scrollDelta ? ` · page moved ${step.scrollDelta > 0 ? 'down ' : 'up '}${Math.abs(step.scrollDelta)} pixels` : ''}`;
     button.querySelector('.key')!.textContent = step.direction === 'backward' ? '⇧ TAB' : step.direction === 'forward' ? 'TAB' : 'FOCUS';
-    button.setAttribute('aria-label', `Step ${step.index}: ${step.label}. ${step.direction}. ${step.scrollDelta ? `Viewport moved ${step.scrollDelta} pixels.` : 'No viewport move.'}`);
+    button.setAttribute('aria-label', `Step ${step.index}: ${step.label}. ${step.direction}. ${step.scrollDelta ? `Page moved ${step.scrollDelta > 0 ? 'down ' : 'up '}${Math.abs(step.scrollDelta)} pixels.` : 'No page movement.'}`);
     button.addEventListener('click', () => {
       document.querySelectorAll('.station').forEach((node) => node.removeAttribute('aria-current'));
       button.setAttribute('aria-current', 'step');
-      exportStatus.textContent = `Step ${step.index}: ${step.selector}; ${step.visible ? 'visible' : 'outside viewport'}; ${step.focusIndicator ? 'focus style detected' : 'no focus style detected'}.`;
+      exportStatus.textContent = `Step ${step.index}: ${step.selector}; ${step.visible ? 'visible' : 'not currently visible'}; ${step.focusIndicator ? 'focus style detected' : 'no focus style detected'}.`;
     });
     item.append(button);
     return item;
@@ -76,7 +76,7 @@ function renderSessions() {
     return option;
   }));
   select.disabled = sessions.length < 2 || !pro;
-  historyNote.textContent = pro ? `${sessions.length} of 30 local sessions saved.` : 'Free mode keeps the latest session.';
+  historyNote.textContent = pro ? `${sessions.length} of 30 local route reports saved.` : 'Free mode keeps the latest route report.';
   if (sessions[0]) renderSession(sessions[0]);
   else { empty.hidden = false; report.hidden = true; }
 }
@@ -115,7 +115,7 @@ async function loadLicense() {
       await browser.storage.local.set({ [STORAGE.license]: checked });
       await applyLicense(checked);
     } catch {
-      licenseState.textContent = pro ? 'Pro active · verification will retry when online' : 'Offline · free tools remain available';
+      licenseState.textContent = pro ? 'Your last verified Pro license remains active. We’ll check it again when you are online.' : 'Offline. Free tools remain available.';
     }
   }
 }

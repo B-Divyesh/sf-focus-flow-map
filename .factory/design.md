@@ -19,7 +19,7 @@ This is an intentionally single-mode treatment. A consistent midnight drafting f
 | Signal | `--signal-400` | `#FF8066` | Active focus, primary action |
 | Signal dark | `--signal-800` | `#702316` | Text on paper warning fields |
 | Success | `--ok-400` | `#77D5AC` | Complete/save state |
-| Warning | `--warn-300` | `#F4CB73` | Scroll jump and caution |
+| Warning | `--warn-300` | `#F4CB73` | Page jump and caution |
 | Danger | `--danger-300` | `#FF9B92` | Error or suspected trap |
 
 All body pairings meet WCAG AA: paper on ink is above 12:1, ink on paper above 12:1, signal on ink above 6:1. Signal is always paired with an icon, label, or shape.
@@ -37,7 +37,7 @@ All body pairings meet WCAG AA: paper on ink is above 12:1, ink on paper above 1
 
 - Primary action: a coral rectangular button with a small crosshair marker; verbs are explicit ("Start recording", "Export issue packet").
 - Focus: a 3px paper outline plus 3px coral offset halo, visible on every field and control.
-- Route steps: numbered circular stations connected by a ruled line. Scroll jumps use a double-rule break and a written viewport delta so color is never the sole signal.
+- Route steps: numbered circular stations connected by a ruled line. Page jumps use a double-rule break and a written page-movement label so color is never the sole signal.
 - Recording state: a fixed, compact drafting ruler on the audited page shows step count and stop action. It never captures keystrokes or values.
 - Empty/error/offline states: written as clipped field notes with one next action. Offline affects license verification only; free recording and exports remain available.
 - Demo state: a cream drafting notice remains visible above a completed six-station route. Reset and exit controls use the same measured button grammar.

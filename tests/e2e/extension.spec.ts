@@ -132,7 +132,7 @@ test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-re
     const extensionId = new URL(worker.url()).host;
     const dashboard = await context.newPage();
     await dashboard.goto(`chrome-extension://${extensionId}/dashboard.html`);
-    await expect(dashboard.getByRole('heading', { level: 1, name: 'Your focus route' })).toBeVisible();
+    await expect(dashboard.getByRole('heading', { level: 1, name: 'Your route report' })).toBeVisible();
     await expect(dashboard.locator('#report')).toBeVisible();
     await expect(dashboard.locator('.station')).toHaveCount(stopped.steps);
     await expect(dashboard.locator('#page-meta')).toContainText('http://127.0.0.1:4173/private/:redacted/record');
@@ -219,16 +219,26 @@ test('@claim:history-limits @claim:pro-local-notes @claim:pro-price free and Pro
     expect(pro.ffm_sessions).toHaveLength(30);
 
     await dashboard.reload();
-    await expect(dashboard.locator('#history-note')).toHaveText('30 of 30 local sessions saved.');
+    await expect(dashboard.locator('#history-note')).toHaveText('30 of 30 local route reports saved.');
     await expect(dashboard.locator('#pro-notes')).toBeVisible();
     await dashboard.locator('#audit-note').fill('Ask the checkout team to review the jump.');
     await dashboard.getByRole('button', { name: 'Save note' }).click();
     await expect(dashboard.locator('#export-status')).toHaveText('Private audit note saved on this device.');
     const notes = await dashboard.evaluate(() => localStorage.getItem('ffm_audit_notes'));
     expect(notes).toContain('Ask the checkout team to review the jump.');
-    const buy = dashboard.getByRole('link', { name: 'Buy a $24 license' });
+    const buy = dashboard.getByRole('link', { name: 'Buy a $24 license on Sociobot (external)' });
     await expect(buy).toHaveAttribute('href', 'https://api.sociobot.in/api/v1/products/focus-flow-map/checkout');
     await expect(dashboard.getByText('One-time purchase.', { exact: false })).toBeVisible();
+    const externalLinks = await dashboard.locator('a[href]').evaluateAll((anchors) => anchors.flatMap((anchor) => {
+      const url = new URL((anchor as HTMLAnchorElement).href);
+      if (url.protocol === 'chrome-extension:' || !['http:', 'https:'].includes(url.protocol)) return [];
+      return [{ host: url.hostname, name: anchor.getAttribute('aria-label') || anchor.textContent?.replace(/\s+/g, ' ').trim() || '' }];
+    }));
+    expect(externalLinks).toEqual(expect.arrayContaining([
+      expect.objectContaining({ host: 'api.sociobot.in', name: expect.stringMatching(/sociobot.*external/i) }),
+      expect.objectContaining({ host: 'focus-flow-map.sociobot.in', name: expect.stringMatching(/focus flow map.*external/i) }),
+    ]));
+    expect(externalLinks.every(({ name }) => /external/i.test(name))).toBe(true);
   } finally {
     await context.close();
     await rm(profile, { recursive: true, force: true });

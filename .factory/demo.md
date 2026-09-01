@@ -2,7 +2,7 @@
 
 Open <https://focus-flow-map.sociobot.in/?demo=1> or use **Try it with sample data** on the first screen.
 
-The demo opens a completed six-step keyboard route through a checkout. The route includes a 684-pixel viewport jump, a missing focus indicator, forward Tab steps, and one Shift+Tab step. Review notes explain what a maintainer should inspect.
+The demo opens a completed six-step focus route through a checkout. The route includes a 684-pixel page jump, a missing focus indicator, forward Tab steps, and one Shift+Tab step. Review notes explain what a maintainer should inspect.
 
 Demo UI state uses only the `demo:focus-flow-map:` localStorage namespace. While the demo banner is visible, the site does not read or write the real `sb_license:focus-flow-map` key. The demo also skips license verification, so it makes no billing request.
 

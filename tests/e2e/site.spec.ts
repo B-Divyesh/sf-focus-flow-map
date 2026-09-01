@@ -44,7 +44,7 @@ const routeMetadata = [
   {
     path: '/?demo=1',
     title: 'Demo — Focus Flow Map',
-    description: 'Review a six-step sample keyboard focus route with a viewport jump and a missing focus indicator.',
+    description: 'Review a six-step sample focus route with a page jump and a missing focus indicator.',
     canonical: 'https://focus-flow-map.sociobot.in/?demo=1',
   },
   {
@@ -85,6 +85,70 @@ for (const metadata of routeMetadata) {
     await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', 'https://focus-flow-map.sociobot.in/assets/social-card.webp');
   });
 }
+
+test('external site links name their destination and say they leave the product', async ({ page }) => {
+  const expectedNames: Record<string, RegExp> = {
+    'api.sociobot.in': /sociobot.*external/i,
+    'github.com': /github.*external/i,
+  };
+
+  for (const path of ['/', '/privacy/', '/terms/', '/404.html']) {
+    await page.goto(path);
+    const externalLinks = await page.locator('a[href]').evaluateAll((anchors) => anchors.flatMap((anchor) => {
+      const url = new URL((anchor as HTMLAnchorElement).href);
+      if (url.origin === location.origin || !['http:', 'https:'].includes(url.protocol)) return [];
+      return [{ host: url.hostname, name: anchor.getAttribute('aria-label') || anchor.textContent?.replace(/\s+/g, ' ').trim() || '' }];
+    }));
+    for (const link of externalLinks) {
+      expect(expectedNames[link.host], `Declare the destination rule for ${link.host}`).toBeDefined();
+      expect(link.name).toMatch(expectedNames[link.host]!);
+    }
+  }
+});
+
+test('site uses the same download label, plain sample labels, and route-report terms', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/');
+  await expect(page.locator('.site-header nav').getByRole('link', { name: 'Download extension' })).toBeVisible();
+  await expect(page.getByText('ROUTE 014', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('Example focus route', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Record one focus route and share its route report.' })).toBeVisible();
+  await expect(page.getByText('Free keeps your latest route report and both export formats.')).toBeVisible();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator('#menu-button').click();
+  await expect(page.locator('#mobile-menu').getByRole('link', { name: 'Download extension' })).toBeVisible();
+
+  await page.goto('/?demo=1');
+  for (const label of [
+    'Link · page position 0 · Tab',
+    'Button · page position 0 · Tab',
+    'Text field · page position 684 · Tab',
+    'Page moved down 684 pixels',
+    'Link · page position 0 · Shift + Tab',
+  ]) await expect(page.getByText(label, { exact: true }).first()).toBeVisible();
+  await expect(page.locator('body')).not.toContainText(/viewport|keyboard route|focus map|generated notes/i);
+  await expect(page.getByText('These review notes support a review.')).toBeVisible();
+});
+
+test('license fallback messages give a familiar next step', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('sb_license:focus-flow-map', JSON.stringify({
+    token: 'offline-license-fixture', valid: true, checkedAt: 0,
+  })));
+  await page.route('https://api.sociobot.in/**', async (route) => route.fulfill({ status: 503 }));
+  await page.goto('/');
+  await expect(page.locator('#license-result')).toHaveText('Your last verified license remains active. We’ll check it again when you are online.');
+
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: () => Promise.reject(new DOMException('Blocked', 'NotAllowedError')) },
+    });
+  });
+  await page.reload();
+  await page.getByRole('button', { name: 'Copy license for the extension' }).click();
+  await expect(page.locator('#license-result')).toHaveText('Copy was blocked. Copy the token from your purchase email and paste it into the extension.');
+});
 
 test('route changes move focus to the new h1 and announce it', async ({ page }) => {
   await page.goto('/');
@@ -140,7 +204,7 @@ test('@claim:demo-isolated first-screen demo uses only its sample namespace', as
   await expect(page).toHaveURL(/\?demo=1$/);
   await expect(page).toHaveTitle('Demo — Focus Flow Map');
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Review a sample keyboard route.');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Review a sample focus route.');
   await expect(page.locator('.route > li')).toHaveCount(6);
 
   const storageOperations = await page.evaluate(() => (
@@ -154,7 +218,7 @@ test('@claim:demo-isolated first-screen demo uses only its sample namespace', as
   await expect(page.locator('#demo-findings')).toBeHidden();
   await page.getByRole('button', { name: 'Reset demo' }).click();
   await expect(page.locator('#demo-findings')).toBeVisible();
-  await expect(page.locator('#demo-status')).toHaveText('Demo reset to the original six-step route.');
+  await expect(page.locator('#demo-status')).toHaveText('Demo reset to the original six-step focus route.');
 
   await page.getByRole('link', { name: 'Start for real' }).click();
   await expect(page).toHaveURL('http://127.0.0.1:4173/');
@@ -175,8 +239,8 @@ test('@claim:mobile-first-view one-click sample and product facts are visible in
   await page.goto('/');
   for (const fact of [
     'Recording begins only when you choose.',
-    'Routes use local extension storage.',
-    'Download Markdown and JSON reports.',
+    'Route reports use local extension storage.',
+    'Download Markdown and JSON route reports.',
   ]) {
     const box = await page.locator('.hero-facts').getByText(fact, { exact: true }).boundingBox();
     expect(box, `${fact} should render`).not.toBeNull();
@@ -268,7 +332,7 @@ test('@claim:keyboard-demo sample report controls work without a mouse', async (
   }
   await expect(reset).toBeFocused();
   await page.keyboard.press('Enter');
-  await expect(page.locator('#demo-status')).toHaveText('Demo reset to the original six-step route.');
+  await expect(page.locator('#demo-status')).toHaveText('Demo reset to the original six-step focus route.');
 
   const notes = page.getByRole('button', { name: 'Hide review notes' });
   for (let index = 0; index < 8 && !(await notes.evaluate((element) => element === document.activeElement)); index += 1) {
@@ -302,10 +366,10 @@ test('service worker keeps the demo available after an offline reload', async ({
       await page.waitForFunction(() => navigator.serviceWorker.controller !== null, undefined, { timeout: 15_000 });
     });
     await page.reload();
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Review a sample keyboard route.');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Review a sample focus route.');
     await context.setOffline(true);
     await page.reload();
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Review a sample keyboard route.');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Review a sample focus route.');
     await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   } finally {
     await context.close();

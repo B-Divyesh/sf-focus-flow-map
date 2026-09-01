@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Focus map — Focus Flow Map</title>
+    <title>Route report — Focus Flow Map</title>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to focus map</a>
+    <a class="skip-link" href="#main">Skip to route report</a>
     <header class="topbar">
-      <a class="wordmark" href="https://focus-flow-map.sociobot.in" target="_blank" rel="noreferrer">
+      <a class="wordmark" href="https://focus-flow-map.sociobot.in" target="_blank" rel="noreferrer" aria-label="Open Focus Flow Map website (external)">
         <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 23 11 16l6 4 11-12" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="4" cy="23" r="3"/><circle cx="11" cy="16" r="3"/><circle cx="17" cy="20" r="3"/><circle cx="28" cy="8" r="3"/></svg>
         <span>Focus Flow Map</span>
       </a>
@@ -16,17 +16,17 @@
     </header>
     <main id="main">
       <section class="intro">
-        <div><p class="eyebrow">Audit sheet / local record</p><h1>Your focus route</h1><p class="lede">A numbered account of where Tab went, what moved, and what another person should check.</p></div>
+        <div><p class="eyebrow">Audit sheet / local record</p><h1>Your route report</h1><p class="lede">A numbered account of where Tab went, what moved, and what another person should check.</p></div>
         <div class="session-control">
-          <label for="session-select">Recorded session</label>
+          <label for="session-select">Saved route report</label>
           <select id="session-select" disabled><option>No sessions yet</option></select>
-          <p id="history-note" class="muted">Free mode keeps the latest session.</p>
+        <p id="history-note" class="muted">Free mode keeps the latest route report.</p>
         </div>
       </section>
 
       <section id="empty-state" class="field-note" aria-labelledby="empty-heading">
         <p class="pin mono">FIELD NOTE 00</p>
-        <h2 id="empty-heading">No route on the sheet yet</h2>
+        <h2 id="empty-heading">No focus route recorded yet</h2>
         <p>Open a website, choose the extension, start recording, then use Tab and Shift+Tab as you normally would.</p>
         <button id="empty-help" type="button">Show recording steps</button>
         <ol id="help-steps" hidden><li>Pin Focus Flow Map in the browser toolbar.</li><li>Choose <strong>Start recording</strong>.</li><li>Navigate by keyboard, then use the on-page <strong>Stop</strong> button.</li></ol>
@@ -35,19 +35,19 @@
       <div id="report" hidden>
         <section class="summary" aria-labelledby="summary-heading">
           <div><p class="eyebrow">Route summary</p><h2 id="summary-heading"><span id="step-total">0</span> focus stations</h2><p id="page-meta" class="muted"></p></div>
-          <dl><div><dt>Viewport jumps</dt><dd id="jump-total">0</dd></div><div><dt>Checks raised</dt><dd id="finding-total">0</dd></div><div><dt>Direction</dt><dd id="direction-total">—</dd></div></dl>
+          <dl><div><dt>Page jumps</dt><dd id="jump-total">0</dd></div><div><dt>Checks raised</dt><dd id="finding-total">0</dd></div><div><dt>Direction</dt><dd id="direction-total">—</dd></div></dl>
         </section>
 
         <div class="report-grid">
           <section class="route-panel" aria-labelledby="route-heading">
-            <div class="section-heading"><div><p class="eyebrow">Sequence</p><h2 id="route-heading">Focus stations</h2></div><p class="legend"><span class="legend-jump"></span> Scroll jump</p></div>
+            <div class="section-heading"><div><p class="eyebrow">Sequence</p><h2 id="route-heading">Focus route</h2></div><p class="legend"><span class="legend-jump"></span> Page jump</p></div>
             <ol id="route-list" class="route-list"></ol>
           </section>
           <aside class="evidence-panel" aria-labelledby="evidence-heading">
             <p class="eyebrow">Review notes</p><h2 id="evidence-heading">Checks to reproduce</h2>
             <ul id="findings-list" class="findings"></ul>
             <div class="export-box">
-              <h3>Issue packet</h3><p>Exports include the route, viewport changes, and checks. Input values, query strings, and hashes are excluded.</p>
+              <h3>Route report exports</h3><p>Exports include the focus route, page movement, and review notes. Input values, query strings, and hashes are excluded.</p>
               <button id="export-markdown" type="button">Export Markdown</button>
               <button id="export-json" class="secondary" type="button">Export JSON</button>
               <button id="copy-report" class="ghost" type="button">Copy report</button>
@@ -59,21 +59,21 @@
             </div>
           </aside>
         </div>
-        <button id="delete-session" class="danger-button" type="button">Delete this session</button>
+        <button id="delete-session" class="danger-button" type="button">Delete this route report</button>
       </div>
 
       <section class="license-panel" aria-labelledby="license-heading">
         <div><p class="eyebrow">Optional local pro</p><h2 id="license-heading">Keep a 30-session history</h2><p>Free recording and every export stay free. A $24 one-time license adds local history and private audit notes on this device.</p></div>
         <div class="license-actions">
           <p id="license-state" class="license-state" role="status">Free mode</p>
-          <a class="button" href="https://api.sociobot.in/api/v1/products/focus-flow-map/checkout" target="_blank" rel="noreferrer">Buy a $24 license</a>
+          <a class="button" href="https://api.sociobot.in/api/v1/products/focus-flow-map/checkout" target="_blank" rel="noreferrer">Buy a $24 license on Sociobot (external)</a>
           <details><summary>Have a license? Restore it</summary><form id="license-form"><label for="license-token">License token</label><input id="license-token" type="password" autocomplete="off" spellcheck="false" required><button type="submit" class="secondary">Verify license</button></form></details>
-          <p class="fine">One-time purchase. <a href="https://focus-flow-map.sociobot.in/privacy/" target="_blank" rel="noreferrer">Privacy</a> · <a href="https://focus-flow-map.sociobot.in/terms/" target="_blank" rel="noreferrer">Terms</a></p>
+          <p class="fine">One-time purchase. <a href="https://focus-flow-map.sociobot.in/privacy/" target="_blank" rel="noreferrer" aria-label="Privacy policy on Focus Flow Map (external)">Privacy</a> · <a href="https://focus-flow-map.sociobot.in/terms/" target="_blank" rel="noreferrer" aria-label="Terms on Focus Flow Map (external)">Terms</a></p>
         </div>
       </section>
     </main>
     <footer class="page-footer"><span>Focus Flow Map v1.0</span><span>Evidence, not a pass/fail score.</span></footer>
-    <dialog id="delete-dialog"><form method="dialog"><h2>Delete this session?</h2><p>This removes the selected route from this device. It cannot be undone.</p><div><button value="cancel" class="secondary">Keep session</button><button id="confirm-delete" value="delete">Delete session</button></div></form></dialog>
+    <dialog id="delete-dialog"><form method="dialog"><h2>Delete this route report?</h2><p>This removes the selected focus route from this device. It cannot be undone.</p><div><button value="cancel" class="secondary">Keep route report</button><button id="confirm-delete" value="delete">Delete route report</button></div></form></dialog>
     <script type="module" src="../app/dashboard.ts"></script>
   </body>
 </html>

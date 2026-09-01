@@ -15,10 +15,10 @@
   },
   {
     "id": "mobile-first-view",
-    "claim": "On a 390 px phone, the first screen shows all three product facts and the demo shows a sample route row after one click",
+    "claim": "On a 390 px phone, the first screen shows all three product facts and the demo shows a sample focus-route row after one click",
     "where": "landing first screen, demo workspace",
     "test": "npm run test:e2e -- --project=mobile-390 --grep @claim:mobile-first-view",
-    "sandbox": "fresh 390×844 browser context; open home, assert all facts intersect the viewport, click the sample action, and assert the first route row intersects the viewport"
+    "sandbox": "fresh 390×844 browser context; open home, assert all facts appear on the first screen, click the sample action, and assert the first focus-route row appears on the first screen"
   },
   {
     "id": "chromium-package",
@@ -71,14 +71,14 @@
   },
   {
     "id": "route-checks",
-    "claim": "Raise review notes for viewport jumps, hidden targets, repeats, stalls, and missing focus indicators",
+    "claim": "Raise review notes for page jumps, hidden targets, repeats, stalls, and missing focus indicators",
     "where": "landing workflow, README, report map",
     "test": "npm run test:unit -- --testNamePattern @claim:route-checks",
     "sandbox": "recorded focus-session fixture containing each route condition; assert every check kind"
   },
   {
     "id": "recorded-route-fields",
-    "claim": "A recorded route includes order, direction, safe selectors, labels, viewport position, scroll changes, visibility, and focus indicators",
+    "claim": "A recorded focus route includes order, direction, safe selectors, labels, page position, page movement, visibility, and focus indicators",
     "where": "README What v1 does, landing workflow",
     "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:recorded-route-fields",
     "sandbox": "fresh Chromium extension profile; record controls on the demo entry point; inspect every stored step and assert every documented field and safe selector shape"
