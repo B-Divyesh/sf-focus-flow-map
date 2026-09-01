@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 1 September 2026 for polish round 2 against the plain-words rules. Counts treat hyphenated terms as one word. The longest sentence is 16 words. No sentence exceeds 22 words, and no banned word appears.
+Audited 1 September 2026 for polish round 2 retry against the plain-words rules. Counts treat hyphenated terms as one word. The longest sentence is 16 words. No sentence exceeds 22 words, and no banned word appears.
 
 ## First screen and demo
 
@@ -61,6 +61,8 @@ Audited 1 September 2026 for polish round 2 against the plain-words rules. Count
 Headings and controls are short literal labels: **Try it with sample data**, **Download for Chromium**, **Reset demo**, **Start for real**, **Hide review notes**, **Show review notes**, **Review a finished six-step route**, **Read the privacy policy**, **Buy a Pro license**, **Verify license**, **Install the extension**, **Open menu**, and **Close menu**.
 
 The installation section makes no speed promise. Its previous “under a minute” label was removed because the product does not measure installation time.
+
+The catalog description is “Map Tab routes and export a local keyboard focus report.” It starts with a verb and is 56 characters.
 
 ## Terminology
 

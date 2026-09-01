@@ -1,27 +1,48 @@
-# Polish round 2 handoff — Focus Flow Map
+# Polish round 2 retry handoff — Focus Flow Map
 
-- **Work order:** `focus-flow-map-polish-2`
-- **Repair commit:** `b3fff797cee63642e2382e2aa1bd39a345bb7d6b`
-- **Deployment:** `bc496a2d-1585-4a64-bfbe-5e68c96dca78`
+- **Work order:** `focus-flow-map-polish-2-retry1`
+- **Code repair:** `7af344e7bdd5cc83a1ab817e529ee16df4434559`
+- **Deployment:** `3d4513ee-4b3b-459f-a5ca-2de61d6ec2a8`
 - **Live:** <https://focus-flow-map.sociobot.in>
 - **Demo:** <https://focus-flow-map.sociobot.in/?demo=1>
-- **Result:** PASS; no review finding remains open.
+- **Result:** PASS — nothing remains open from review 1, review 2, or the controller retry.
 
 ## Delivered
 
-- Fixed the blocking phone demo layout: the six-step sample is visible after one click, with its first numbered row in the 390×844 viewport.
-- Moved the three product facts into the first phone screen before the illustration.
-- Added two declared, executable claims: `mobile-first-view` and `refund-revokes-pro`; the manifest now has 17 individually runnable claim tests.
-- Removed unsupported license/distribution promises; made refund behavior fixture-tested; rewrote technical and vague copy in the landing page, README, privacy, and terms.
-- Renamed the static sample heading, the 404 h1, and both phone-menu states. Existing routing, route-focus, metadata, legal links, demo isolation, offline, redaction, and extension-package behavior remain covered.
-- Preserved the blueprint drafting visual identity and updated `.factory/copy-audit.md`.
+The controller’s responsive-test failure was reproduced in both Playwright projects. The product correctly renamed the button after activation, but the name-bound locator then stopped resolving. The test now uses the stable button id and independently checks visible text, accessible name, `aria-expanded`, panel visibility, keyboard activation, Escape, focus return, and 44 px targets.
+
+All seven review-2 repairs remain present: first-viewport sample data and product facts at 390×844, isolated `?demo=1` storage with reset/exit controls, tested claims, plain copy, real route metadata/focus/404 behavior, legal links, and the responsive menu states. All six review-1 repairs also remain covered. The blueprint drafting-sheet identity and browser-extension artifact are unchanged.
+
+The catalog line is now: “Map Tab routes and export a local keyboard focus report.” It is verb-first and 56 characters.
 
 ## Exact verification
 
-Fresh clone `/tmp/focus-flow-map-polish2.6ezb3y`: `npm ci` succeeded; every one of the 17 commands in `.factory/claims.json` passed; `npm test` passed; `npm run build` passed; `unzip -t dist/site/downloads/focus-flow-map-chrome.zip` passed; and `npm audit --omit=dev --audit-level=low` reported 0 vulnerabilities.
+- Fresh clone `/tmp/focus-flow-map-polish2-retry.nO2WGY` at `7af344e7bdd5cc83a1ab817e529ee16df4434559`: `npm ci` passed.
+- Every one of the 17 commands in `.factory/claims.json` passed independently.
+- `npm run check` passed TypeScript, 13 unit tests, 44 browser cases, four intentional project skips, and `npm run build`.
+- The responsive menu regression passed in both `desktop-chromium` and `mobile-390`.
+- `npm audit --omit=dev --audit-level=low`: 0 production vulnerabilities.
+- Extension ZIP integrity: no errors; packaged extension size: 91.76 kB.
+- Static budget: 5.32 kB raw JS and 16.13 kB raw CSS.
+- Deployment `3d4513ee-4b3b-459f-a5ca-2de61d6ec2a8` completed successfully.
+- Cold `verify-url.sh` checks passed home, demo, Privacy, Terms, and direct 404 with no console/page errors.
+- A real missing URL returned HTTP 404 and the designed “Page not found.” document.
+- Live 390×844 Playwright checks passed menu state/focus, first-screen facts, first demo row, reset/exit, storage isolation, route focus, metadata, no overflow, same-origin networking, and offline demo reload.
+- Live axe checks found no serious or critical issue on home, demo, Privacy, Terms, or 404.
+- Live Lighthouse scored 100/100/100/100 for Performance/Accessibility/Best Practices/SEO; FCP 0.9 s, LCP 1.1 s, TBT 0 ms, CLS 0.
+- Deployed and local home SHA-256 both equal `9f82eac484b37d12c32bd236a6902fff534d7f8d191534a86e0c86ed2a010cab`.
 
-The full suite passed 13 unit tests and 48 desktop/phone browser cases with four expected project-specific skips. After deployment, `verify-url.sh` passed home, demo, privacy, terms, and 404. Live Playwright axe checks at 390 px found no serious or critical violations for those five routes. Cold screenshots and JSON evidence are in `.factory/evidence/polish-2-live-*`; the first mobile views are `polish-2-live-home/first-viewport-mobile.png` and `polish-2-live-demo/first-viewport-mobile.png`.
+Evidence and the finding-by-finding map are in [.factory/polish-2.md](polish-2.md) and [.factory/evidence/polish-2-retry-live/live-check.json](evidence/polish-2-retry-live/live-check.json).
+
+## How to verify
+
+```bash
+npm ci
+npm run check
+```
+
+Then run each `test` command in `.factory/claims.json`. Preview the static build with `npx vite preview --config vite.site.config.ts`, or load `.output/chrome-mv3` as an unpacked Chromium extension.
 
 ## Known gaps / next steps
 
-None. The standalone axe CLI could not discover Chrome in this worker; the pinned Playwright axe integration completed the equivalent live scan successfully.
+None.

@@ -1,0 +1,138 @@
+{
+  "checkedAt": "2026-09-01T21:06:12.157Z",
+  "origin": "https://focus-flow-map.sociobot.in",
+  "errors": [],
+  "expectedDiagnostics": [
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ],
+  "checks": {
+    "factBoxes": [
+      {
+        "text": "Recording begins only when you choose.",
+        "y": 633.296875,
+        "bottom": 654.984375
+      },
+      {
+        "text": "Routes use local extension storage.",
+        "y": 658.984375,
+        "bottom": 680.671875
+      },
+      {
+        "text": "Download Markdown and JSON reports.",
+        "y": 684.671875,
+        "bottom": 706.359375
+      }
+    ],
+    "menu": {
+      "initial": {
+        "text": "Open menu",
+        "expanded": "false"
+      },
+      "open": {
+        "text": "Close menu",
+        "expanded": "true",
+        "panelVisible": true
+      },
+      "closed": {
+        "text": "Open menu",
+        "expanded": "false",
+        "panelHidden": true,
+        "focusReturned": true
+      }
+    },
+    "demo": {
+      "url": "https://focus-flow-map.sociobot.in/?demo=1",
+      "title": "Demo — Focus Flow Map",
+      "heading": "Review a sample keyboard route.",
+      "banner": true,
+      "rowCount": 6,
+      "firstRow": "1 Skip to checkout a · y 0 · TAB",
+      "firstRowY": 652.796875,
+      "reviewHeading": "Review a finished six-step route",
+      "note": "REVIEW NOTES Step 4 needs review ↕ The viewport moved 684 pixels. Confirm that the delivery field remains easy to locate. ◇ The browser detected no focus outline on Place order. Check the control in the browser. These notes support a review. They do not certify accessibility.",
+      "overflow": false
+    },
+    "demoStorageOperations": [
+      {
+        "operation": "get",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "set",
+        "key": "demo:focus-flow-map:state"
+      }
+    ],
+    "afterExit": {
+      "real": "{\"token\":\"live-real-sentinel\",\"valid\":true,\"checkedAt\":1788296773870}",
+      "demo": null
+    },
+    "routeFocus": {
+      "privacy": "Read how your focus data stays local.",
+      "privacyFocused": true,
+      "privacyAnnouncement": "Page changed: Read how your focus data stays local.",
+      "home": "Map where Tab goes.",
+      "homeFocused": true,
+      "homeAnnouncement": "Page changed: Map where Tab goes."
+    },
+    "routes": [
+      {
+        "path": "/",
+        "title": "Focus Flow Map — Map the keyboard focus route",
+        "canonical": "https://focus-flow-map.sociobot.in/",
+        "h1": 1,
+        "main": 1,
+        "serious": [],
+        "overflow": false
+      },
+      {
+        "path": "/?demo=1",
+        "title": "Demo — Focus Flow Map",
+        "canonical": "https://focus-flow-map.sociobot.in/?demo=1",
+        "h1": 1,
+        "main": 1,
+        "serious": [],
+        "overflow": false
+      },
+      {
+        "path": "/privacy/",
+        "title": "Privacy — Focus Flow Map",
+        "canonical": "https://focus-flow-map.sociobot.in/privacy/",
+        "h1": 1,
+        "main": 1,
+        "serious": [],
+        "overflow": false
+      },
+      {
+        "path": "/terms/",
+        "title": "Terms — Focus Flow Map",
+        "canonical": "https://focus-flow-map.sociobot.in/terms/",
+        "h1": 1,
+        "main": 1,
+        "serious": [],
+        "overflow": false
+      },
+      {
+        "path": "/404.html",
+        "title": "Page not found — Focus Flow Map",
+        "canonical": "https://focus-flow-map.sociobot.in/404.html",
+        "h1": 1,
+        "main": 1,
+        "serious": [],
+        "overflow": false
+      }
+    ],
+    "unknown": {
+      "status": 404,
+      "title": "Page not found — Focus Flow Map",
+      "heading": "Page not found."
+    },
+    "foundRetired": [],
+    "externalRequests": [],
+    "offline": {
+      "title": "Demo — Focus Flow Map",
+      "heading": "Review a sample keyboard route.",
+      "banner": true,
+      "rows": 6
+    }
+  }
+}
