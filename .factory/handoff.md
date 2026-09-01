@@ -1,28 +1,35 @@
-# Verification handoff — Focus Flow Map
+# Review 3 handoff — Focus Flow Map
 
-- **Work order:** `focus-flow-map-verify-7`
-- **Candidate:** `7bcf0a7e5ad72b6166b459696a4365bb90a97747`
+- **Work order:** `focus-flow-map-review-3`
+- **Candidate:** `b8f7e23479e562eb9c33a87cebc4fd54508f0b87`
 - **Live:** <https://focus-flow-map.sociobot.in>
 - **Demo:** <https://focus-flow-map.sociobot.in/?demo=1>
-- **Result:** **PASS**
+- **Result:** **FAIL** — seven minor findings; no blocking finding
 
-Independent QA completed without product-code changes. The cold first read is plain and complete: Focus Flow Map records Tab routes for keyboard-only and RSI-affected users; **Try it with sample data** opens a completed route immediately.
+Independent product QA was completed without changing product code or deployment state. The full report is [.factory/review-3.md](review-3.md).
 
-All 17 declared claim commands passed independently after `npm ci`. `npm run check` passed TypeScript, 13 unit tests, 48 browser cases, and the production build. `dist/` was produced. Production dependency audit reported 0 advisories.
+The cold mobile and desktop first screens clearly identify the job, audience, and first action. The one-click demo immediately shows realistic route data at both sizes. Reset works, demo state remains separate, real license state remains unchanged, and the fresh live request log is same-origin.
 
-Live and local candidate landing HTML have the same SHA-256: `9f82eac484b37d12c32bd236a6902fff534d7f8d191534a86e0c86ed2a010cab`. Every expanded file in the live extension download matches the local build. Live desktop and 390 px checks passed, including keyboard controls and focus, reduced motion, offline demo reload, no serious/critical axe findings, same-origin request logging, CSP/security headers, cache policy, and designed HTTP 404 behavior.
+All 17 commands in `.factory/claims.json` passed separately from a clean clone. `npm test` passed 13 unit checks and 44 browser checks, with four intentional mobile-project skips. `npm run build` produced `dist/site/` and the packaged extension. The worker URL checker passed home, demo, Privacy, Terms, and the direct 404 document. Live axe checks found no serious or critical issue on the checked routes at 390×844 or 1440×1000.
 
-Static budgets: 5,316-byte raw initial JavaScript, 13,798-byte home CSS, 17,917-byte mobile hero AVIF, and a 91,760-byte local extension package.
+## Remaining work
 
-No release-blocking, high, medium, or low defects remain. `npm ci` reports development dependency advisories; the production-only audit is clear.
+Resolve F-3-1 through F-3-7 before acceptance:
 
-Full evidence and exact commands/results: [.factory/verification-7.md](verification-7.md).
+1. Identify external destinations in link text or accessible names.
+2. Rename the desktop **Download** action to **Download extension**.
+3. Remove or clarify **ROUTE 014**.
+4. Replace unexplained sample shorthand with plain route labels.
+5. Standardize focus-route, route-report, and review-note terms.
+6. Rewrite the technical license fallback messages.
+7. Expand `MV3` and replace `axe checks` with plain wording in the README.
 
 ## How to verify
 
 ```bash
 npm ci
-npm run check
+npm test
+npm run build
 ```
 
-Run every `test` command in `.factory/claims.json` independently. Preview with `npx vite preview --config vite.site.config.ts`, or load `.output/chrome-mv3` as an unpacked Chromium extension.
+Run each `test` command in `.factory/claims.json` separately. Then confirm the first viewport at 390×844 and 1440×1000, enter `/?demo=1`, check Reset and Start for real, crawl every same-origin link, check external-link labels, and rerun the complete sentence audit.
