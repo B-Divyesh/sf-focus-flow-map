@@ -1,32 +1,41 @@
-# Review handoff — Focus Flow Map
+# Repair handoff — Focus Flow Map
 
-**Work order:** `focus-flow-map-review-1`
-**Result:** **FAIL** — documentation-only review; product code was not changed.
+- **Work order:** `focus-flow-map-polish-1`
+- **Base:** `de707451b56a7ef35cb70498e927a483b52a2eec`
+- **Repair:** `a38f0b6b4821032a95c22b59b495fc8b47714172`
+- **Deployment:** Azure Static Web App `sf-focus-flow-map`, deployment `211c4028-75d5-4649-aae2-73be739bfd20`
+- **Live:** <https://focus-flow-map.sociobot.in>
+- **Result:** PASS
 
-## Done
+## Delivered
 
-- Reviewed the live product from fresh 390 px and desktop browser contexts.
-- Confirmed the first-screen clarity and one-click isolated demo flow.
-- Ran every claim command from `.factory/claims.json` after `npm ci`; all passed.
-- Ran `npm run check`; typecheck, 12 unit tests, 28 Playwright cases with expected skips, and the production build completed successfully.
-- Checked live route responses, demo storage/request behavior, history records, copy, metadata, routing focus behavior, and product structure.
-- Wrote the complete evidence and six remaining minor findings in `.factory/review-1.md`.
-
-## Findings left
-
-1. Route changes leave focus on `BODY`, not the new `<h1>`.
-2. Demo, legal, and 404 route metadata is incomplete or stale.
-3. The license-request privacy statement has no declared claim test.
-4. Three claim-like provenance/runtime statements have no claims entry.
-5. The README recording-field statement exceeds declared test coverage.
-6. Two landing sentences use unexplained terms.
+- Route changes and history restoration focus the new h1 and announce it politely.
+- Home, demo, privacy, terms, 404, and unknown-route behavior have complete route-specific metadata and real URLs.
+- Four missing public claims now have manifest entries and exact tests: minimum license-request data, image provenance, no third-party runtime, and every recorded route field.
+- Landing, legal, and extension payment copy now explains who takes payment and handles refunds. The report copy explains manual checks without the previous jargon.
+- The isolated one-click demo, mobile layout, local storage boundaries, legal links, designed 404, blueprint visual system, and extension download remain intact.
+- `.factory/catalog-description.txt`, `.factory/copy-audit.md`, `.factory/claims.json`, and `.factory/polish-1.md` reflect the released product.
 
 ## Verification
 
-```text
-npm ci
-# every command listed in .factory/claims.json
-npm run check
-```
+From a fresh clone after `npm ci`:
 
-No external resource other than `focus-flow-map.sociobot.in` was requested during the review. The tree is buildable; this review and this handoff are the only intended tracked changes.
+- All 15 claim commands passed separately.
+- `npm run check`: typecheck passed; 13 unit tests passed; 40 browser tests passed; 4 intentional cross-project skips; production build passed.
+- `npm audit --omit=dev --audit-level=low`: 0 vulnerabilities.
+- Extension ZIP integrity passed.
+
+Production verification after deployment:
+
+- `verify-url.sh` passed `/`, `/?demo=1`, `/privacy/`, `/terms/`, and `/404.html` with zero console errors.
+- Cold route navigation focused and announced the Privacy h1; Back focused and announced the home h1.
+- Demo, legal, and 404 metadata were complete. An unknown URL returned the designed page with HTTP 404.
+- Cold demo showed six steps, made same-origin requests only, preserved a real-license sentinel, cleared its demo key on exit, and returned home.
+- Live mobile Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; FCP 1.1 s, LCP 1.2 s, TBT 0 ms, CLS 0.
+- The live and local home HTML SHA-256 values match: `15c0acfc235f5c014b9a3bd12180c47b79f3f1cb6e6605c3d910bcbe7cbae9f8`.
+
+Run locally with `npm ci && npm run check`. Build with `npm run build`; deployable files are in `dist/site`.
+
+## Known gaps and next steps
+
+No acceptance gap remains. The Chrome Web Store listing is still planned and is accurately described as future distribution work.

@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-09-01",
+  "origin": "https://focus-flow-map.sociobot.in",
+  "route_focus": {
+    "privacy_heading": "Read how your focus data stays local.",
+    "privacy_announcement": "Page changed: Read how your focus data stays local.",
+    "home_heading_after_back": "Map where Tab goes.",
+    "home_announcement_after_back": "Page changed: Map where Tab goes."
+  },
+  "metadata": [
+    { "path": "/?demo=1", "title": "Demo — Focus Flow Map", "canonical": "https://focus-flow-map.sociobot.in/?demo=1", "open_graph_and_twitter_complete": true },
+    { "path": "/privacy/", "title": "Privacy — Focus Flow Map", "canonical": "https://focus-flow-map.sociobot.in/privacy/", "open_graph_and_twitter_complete": true },
+    { "path": "/terms/", "title": "Terms — Focus Flow Map", "canonical": "https://focus-flow-map.sociobot.in/terms/", "open_graph_and_twitter_complete": true },
+    { "path": "/404.html", "title": "Page not found — Focus Flow Map", "canonical": "https://focus-flow-map.sociobot.in/404.html", "open_graph_and_twitter_complete": true }
+  ],
+  "unknown_route": {
+    "path": "/cold-unknown-route-for-polish-1",
+    "status": 404,
+    "title": "Page not found — Focus Flow Map",
+    "heading": "This page is not on the route."
+  },
+  "demo": {
+    "banner_visible": true,
+    "sample_steps": 6,
+    "all_requests_same_origin": true,
+    "real_license_sentinel_unchanged": true,
+    "exit_url": "https://focus-flow-map.sociobot.in/",
+    "demo_key_after_exit": null
+  }
+}
