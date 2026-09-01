@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-09-01T22:29:51.558Z",
+  "baseUrl": "https://focus-flow-map.sociobot.in",
+  "duringDemo": {
+    "operations": [
+      {
+        "operation": "get",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "set",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "remove",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "set",
+        "key": "demo:focus-flow-map:state"
+      }
+    ],
+    "real": "polish-3-real-license-sentinel",
+    "demo": "{\"findingsVisible\":true}",
+    "banner": "Demo — sample data, nothing is saved\n      Reset demoStart for real\n      Demo reset to the original six-step focus route."
+  },
+  "afterExit": {
+    "real": "polish-3-real-license-sentinel",
+    "demo": null,
+    "bannerHidden": true
+  },
+  "requests": [
+    "https://focus-flow-map.sociobot.in/?demo=1",
+    "https://focus-flow-map.sociobot.in/fonts/plex-sans.woff2",
+    "https://focus-flow-map.sociobot.in/demo-boot.js",
+    "https://focus-flow-map.sociobot.in/route-focus.js",
+    "https://focus-flow-map.sociobot.in/assets/home-1YwCVK6M.js",
+    "https://focus-flow-map.sociobot.in/assets/home-1hgd7AiT.css",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg",
+    "https://focus-flow-map.sociobot.in/assets/hero-blueprint-768.avif",
+    "https://focus-flow-map.sociobot.in/fonts/plex-mono.woff2",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg",
+    "https://focus-flow-map.sociobot.in/",
+    "https://focus-flow-map.sociobot.in/fonts/plex-sans.woff2",
+    "https://focus-flow-map.sociobot.in/demo-boot.js",
+    "https://focus-flow-map.sociobot.in/route-focus.js",
+    "https://focus-flow-map.sociobot.in/assets/home-1YwCVK6M.js",
+    "https://focus-flow-map.sociobot.in/assets/home-1hgd7AiT.css",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg",
+    "https://focus-flow-map.sociobot.in/assets/hero-blueprint-768.avif",
+    "https://focus-flow-map.sociobot.in/fonts/plex-mono.woff2",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg"
+  ],
+  "externalRequests": [],
+  "pass": true,
+  "failures": []
+}
