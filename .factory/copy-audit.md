@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 1 September 2026 for polish round 3. This inventory covers every visitor-facing sentence, status, heading, action, fact, and sample label in `site/index.html` and its runtime states in `site/main.ts`. Counts treat hyphenated terms, product names, and key names as one word. No sentence exceeds 22 words and no banned marketing term appears.
+Audited 1 September 2026 for polish round 4. This inventory covers every visitor-facing sentence, status, heading, action, fact, and sample label in `site/index.html` and its runtime states in `site/main.ts`. Counts treat hyphenated terms, product names, and key names as one word. No sentence exceeds 22 words and no banned marketing term appears.
 
 ## First screen and facts
 
@@ -55,16 +55,24 @@ Audited 1 September 2026 for polish round 3. This inventory covers every visitor
 | No focus route is sent to us. | 7 | Pass |
 | License verification sends only the license token to Sociobot. | 9 | Declared claim |
 
-## License, installation, footer, and runtime states
+## Pro status, installation, footer, and runtime states
 
 | Copy | Words | Result |
 | --- | ---: | --- |
+| Pro license sales are unavailable. | 5 | Clear unavailable state |
+| The product owner has not enabled checkout. | 7 | Clear reason |
+| You cannot buy a license here. | 6 | Clear outcome |
 | Free keeps your latest route report and both export formats. | 10 | Pass |
-| Keep more local route reports. | 5 | Plain price heading |
-| Pro adds a 30-session local history and private audit notes. | 10 | Pass |
-| Recording, redaction, and Markdown and JSON exports are free. | 9 | Pass |
-| Buy a Pro license on Sociobot (external) | 7 | Named external destination |
-| A refund stops Pro features. | 5 | Declared claim |
+| Recording, redaction, and Markdown and JSON exports remain free. | 9 | Pass |
+| Sales not enabled | 3 | Literal status label |
+| No purchase action | 3 | Literal status heading |
+| Pro stays off unless you already have a valid license. | 10 | Pass |
+| Free: latest local route report | 5 | Plain feature label |
+| Free: Markdown and JSON exports | 5 | Plain feature label |
+| Have an existing license? | 4 | Plain recovery action |
+| Paste your license token | 4 | Plain field label |
+| Verify license | 2 | Result-naming action |
+| No payment can be made on this site. | 8 | Pass |
 | Download and unzip the package. | 5 | Pass |
 | Open chrome://extensions and turn on Developer mode. | 7 | Pass |
 | Choose “Load unpacked” and select the unzipped folder. | 8 | Pass |
@@ -93,5 +101,6 @@ Audited 1 September 2026 for polish round 3. This inventory covers every visitor
 
 ## Checks
 
-- `tests/unit/copy.test.ts` rejects retired sample shorthand, invented route lore, inconsistent route terms, technical license fallback copy, unnamed external destinations, and unexplained README abbreviations.
-- `tests/e2e/site.spec.ts` checks the rendered desktop/mobile navigation labels, all rendered external site links, plain sample labels, and both license fallback states.
+- `tests/unit/copy.test.ts` rejects retired sample shorthand, inconsistent terms, technical fallback copy, dead checkout actions, and unexplained README abbreviations.
+- `tests/e2e/site.spec.ts` checks rendered navigation labels, external links, plain sample labels, both license fallback states, and the absent checkout action.
+- `@claim:pro-unavailable` checks the live-shaped site and packaged extension state, proves no checkout or purchase link exists, and confirms free downloads and exports remain.

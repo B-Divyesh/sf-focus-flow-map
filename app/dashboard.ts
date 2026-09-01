@@ -1,6 +1,6 @@
 import { browser } from 'wxt/browser';
 import { analyseSession, buildJson, buildMarkdown, sanitizeSession } from '../lib/report';
-import { CHECKOUT_URL, isFresh, verifyLicense } from '../lib/license';
+import { isFresh, verifyLicense } from '../lib/license';
 import { STORAGE, type Finding, type FocusSession, type LicenseRecord } from '../lib/types';
 import '../styles/shared.css';
 import '../styles/dashboard.css';
@@ -172,7 +172,6 @@ document.querySelector<HTMLFormElement>('#license-form')?.addEventListener('subm
   }
 });
 
-document.querySelector<HTMLAnchorElement>('.license-actions > a.button')!.href = CHECKOUT_URL;
 const stored = await browser.storage.local.get(STORAGE.sessions);
 const savedSessions = (stored[STORAGE.sessions] as FocusSession[] | undefined) ?? [];
 sessions = savedSessions.map(sanitizeSession);

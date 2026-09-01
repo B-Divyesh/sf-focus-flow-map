@@ -44,6 +44,24 @@ describe('plain product language', () => {
     expect(main).not.toContain('site storage');
   });
 
+  it('states that Pro sales are unavailable without rendering a checkout action', async () => {
+    const sources = await Promise.all([
+      read('site/index.html'),
+      read('site/terms/index.html'),
+      read('entrypoints/dashboard.html'),
+      read('app/dashboard.ts'),
+      read('lib/license.ts'),
+      read('README.md'),
+    ]);
+    const joined = sources.join('\n');
+    expect(joined).toContain('Pro license sales are unavailable');
+    expect(joined).toContain('There is no purchase action.');
+    expect(joined).not.toContain('/checkout');
+    expect(joined).not.toMatch(/<a\b[^>]*>[^<]*Buy a [^<]*license/i);
+    expect(joined).not.toContain('$24');
+    expect(joined).not.toContain('One-time purchase');
+  });
+
   it('names every external website destination before it opens', async () => {
     const sources = await Promise.all([
       read('site/index.html'),
@@ -59,7 +77,6 @@ describe('plain product language', () => {
     }));
 
     expect(links).toEqual(expect.arrayContaining([
-      expect.objectContaining({ host: 'api.sociobot.in', name: expect.stringMatching(/sociobot.*external/i) }),
       expect.objectContaining({ host: 'github.com', name: expect.stringMatching(/github.*external/i) }),
       expect.objectContaining({ host: 'focus-flow-map.sociobot.in', name: expect.stringMatching(/focus flow map.*external/i) }),
     ]));

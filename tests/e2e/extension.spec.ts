@@ -174,7 +174,7 @@ test('@claim:explicit-recording @claim:local-session-privacy @claim:sensitive-re
   }
 });
 
-test('@claim:history-limits @claim:pro-local-notes @claim:pro-price free and Pro storage limits work locally', async ({}, testInfo) => {
+test('@claim:history-limits @claim:pro-local-notes @claim:pro-unavailable free and licensed local storage work without an unavailable checkout', async ({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Run the extension storage claim once.');
   const profile = await mkdtemp(join(tmpdir(), 'focus-flow-map-history-'));
   const extensionPath = resolve('.output/chrome-mv3');
@@ -189,6 +189,10 @@ test('@claim:history-limits @claim:pro-local-notes @claim:pro-price free and Pro
     const extensionId = new URL(worker.url()).host;
     const dashboard = await context.newPage();
     await dashboard.goto(`chrome-extension://${extensionId}/dashboard.html`);
+    await expect(dashboard.getByRole('heading', { name: 'Pro license sales are unavailable' })).toBeVisible();
+    await expect(dashboard.getByText('Sales are not enabled. There is no purchase action.')).toBeVisible();
+    await expect(dashboard.locator('a[href*="/checkout"]')).toHaveCount(0);
+    await expect(dashboard.getByRole('link', { name: /buy.*license/i })).toHaveCount(0);
     const saveSessions = async (count: number) => dashboard.evaluate(async (total) => {
       for (let index = 0; index < total; index += 1) {
         await chrome.runtime.sendMessage({
@@ -226,16 +230,21 @@ test('@claim:history-limits @claim:pro-local-notes @claim:pro-price free and Pro
     await expect(dashboard.locator('#export-status')).toHaveText('Private audit note saved on this device.');
     const notes = await dashboard.evaluate(() => localStorage.getItem('ffm_audit_notes'));
     expect(notes).toContain('Ask the checkout team to review the jump.');
-    const buy = dashboard.getByRole('link', { name: 'Buy a $24 license on Sociobot (external)' });
-    await expect(buy).toHaveAttribute('href', 'https://api.sociobot.in/api/v1/products/focus-flow-map/checkout');
-    await expect(dashboard.getByText('One-time purchase.', { exact: false })).toBeVisible();
+    await expect(dashboard.getByRole('button', { name: 'Export Markdown' })).toBeVisible();
+    await expect(dashboard.getByRole('button', { name: 'Export JSON' })).toBeVisible();
+    const site = await context.newPage();
+    await site.goto('http://127.0.0.1:4173/');
+    await expect(site.getByRole('heading', { name: 'Pro license sales are unavailable.' })).toBeVisible();
+    await expect(site.getByText('The product owner has not enabled checkout. You cannot buy a license here.')).toBeVisible();
+    await expect(site.locator('a[href*="/checkout"]')).toHaveCount(0);
+    await expect(site.getByRole('link', { name: /buy.*license/i })).toHaveCount(0);
+    await expect(site.getByRole('link', { name: 'Download for Chromium' })).toBeVisible();
     const externalLinks = await dashboard.locator('a[href]').evaluateAll((anchors) => anchors.flatMap((anchor) => {
       const url = new URL((anchor as HTMLAnchorElement).href);
       if (url.protocol === 'chrome-extension:' || !['http:', 'https:'].includes(url.protocol)) return [];
       return [{ host: url.hostname, name: anchor.getAttribute('aria-label') || anchor.textContent?.replace(/\s+/g, ' ').trim() || '' }];
     }));
     expect(externalLinks).toEqual(expect.arrayContaining([
-      expect.objectContaining({ host: 'api.sociobot.in', name: expect.stringMatching(/sociobot.*external/i) }),
       expect.objectContaining({ host: 'focus-flow-map.sociobot.in', name: expect.stringMatching(/focus flow map.*external/i) }),
     ]));
     expect(externalLinks.every(({ name }) => /external/i.test(name))).toBe(true);

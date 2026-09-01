@@ -2,7 +2,6 @@ import type { LicenseRecord } from './types';
 
 export const PRODUCT_SLUG = 'focus-flow-map';
 export const BILLING_BASE = 'https://api.sociobot.in/api/v1';
-export const CHECKOUT_URL = `${BILLING_BASE}/products/${PRODUCT_SLUG}/checkout`;
 export const ONE_DAY = 86_400_000;
 
 export async function verifyLicense(token: string, fetcher: typeof fetch = fetch): Promise<LicenseRecord> {

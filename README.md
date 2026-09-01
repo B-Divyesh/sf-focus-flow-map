@@ -26,7 +26,8 @@ Demo state uses only `demo:focus-flow-map:` keys and is removed when you leave. 
 - Never reads or records input values.
 - Stores sessions in browser extension storage. It sends no audit content to a server.
 - Exports a complete Markdown or JSON route report in the free tier.
-- Offers an optional $24 one-time Pro license for 30 local sessions and private notes.
+- Shows that Pro license sales are unavailable because checkout is not enabled.
+- Lets an existing valid license restore a 30-session history and private notes.
 - Keeps recording, redaction, and Markdown and JSON exports free.
 
 The review notes support an accessibility review. They do not certify compliance. Test with disabled users before making a compliance claim.
@@ -73,7 +74,7 @@ npx vite preview --config vite.site.config.ts
 - Vite and vanilla TypeScript for the static product, demo, privacy, and terms pages.
 - Extension storage for sessions and license state. Extension-origin local storage keeps private report notes.
 - A separate `demo:focus-flow-map:` namespace for disposable sample state.
-- Sociobot billing API for hosted checkout and license verification. No payment provider is embedded.
+- Sociobot billing API for existing-license verification. The product offers no checkout action while sales are unavailable.
 - No analytics, external runtime scripts, CDN fonts, or remote session storage. The `no-third-party-runtime` claim test checks both home and demo.
 
 ## Permissions

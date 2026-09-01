@@ -49,13 +49,6 @@
     "sandbox": "fresh browser context with a stale fixture license; intercept verification; record method, URL, headers, and body; assert one token query value and no request body"
   },
   {
-    "id": "refund-revokes-pro",
-    "claim": "A refunded license stops Pro features while free tools remain available",
-    "where": "landing pricing, terms",
-    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:refund-revokes-pro",
-    "sandbox": "fresh browser context with a stale valid fixture license; intercept verification with a refunded invalid response; assert the product reports the license inactive and hides Pro-only license actions"
-  },
-  {
     "id": "sensitive-redaction",
     "claim": "Reports exclude query strings, hashes, input values, and sensitive URL path values",
     "where": "landing privacy section, README, privacy policy, report export panel",
@@ -98,11 +91,11 @@
     "sandbox": "fresh extension profile with a recorded valid-license fixture; save a note and inspect extension-origin localStorage"
   },
   {
-    "id": "pro-price",
-    "claim": "Pro is listed as a $24 one-time purchase through the Sociobot checkout URL",
-    "where": "landing pricing, README, extension report",
-    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:pro-price",
-    "sandbox": "fresh extension profile with fixture data; assert exact price, purchase terms, and checkout destination without contacting billing"
+    "id": "pro-unavailable",
+    "claim": "Pro license sales are unavailable and no checkout action is offered",
+    "where": "landing Pro status, README, terms, extension report",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:pro-unavailable",
+    "sandbox": "fresh site and packaged extension contexts; assert the unavailable state, absence of every checkout link or purchase action, and continued access to free exports"
   },
   {
     "id": "original-image-provenance",

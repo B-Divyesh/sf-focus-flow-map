@@ -56,7 +56,7 @@ const routeMetadata = [
   {
     path: '/terms/',
     title: 'Terms — Focus Flow Map',
-    description: 'Read the terms for using Focus Flow Map, its local reports, and the optional Pro license.',
+    description: 'Read the terms for using Focus Flow Map, its local route reports, and unavailable Pro license sales.',
     canonical: 'https://focus-flow-map.sociobot.in/terms/',
   },
   {
@@ -88,7 +88,6 @@ for (const metadata of routeMetadata) {
 
 test('external site links name their destination and say they leave the product', async ({ page }) => {
   const expectedNames: Record<string, RegExp> = {
-    'api.sociobot.in': /sociobot.*external/i,
     'github.com': /github.*external/i,
   };
 
@@ -286,7 +285,7 @@ test('@claim:license-request-minimum-data verification sends only the license to
   expect(Object.values(requestEvidence!.headers).join('\n')).not.toContain('claim-license-token');
 });
 
-test('@claim:refund-revokes-pro an invalid refunded license turns off Pro features', async ({ page }) => {
+test('an invalid existing license turns off Pro features while free tools remain available', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('sb_license:focus-flow-map', JSON.stringify({
     token: 'refunded-license-fixture', valid: true, checkedAt: 0,
   })));
@@ -296,7 +295,8 @@ test('@claim:refund-revokes-pro an invalid refunded license turns off Pro featur
   await page.goto('/');
   await expect(page.locator('#license-result')).toHaveText('License no longer active.');
   await expect(page.locator('#copy-license')).toBeHidden();
-  await expect(page.locator('.legal-line')).toContainText('A refund stops Pro features.');
+  await expect(page.getByText('Free keeps your latest route report and both export formats.')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Download for Chromium' })).toBeVisible();
 });
 
 test('@claim:no-third-party-runtime home and demo load only product scripts, fonts, and storage', async ({ browser }, testInfo) => {
@@ -308,6 +308,8 @@ test('@claim:no-third-party-runtime home and demo load only product scripts, fon
     const page = await context.newPage();
     await page.goto('http://127.0.0.1:4173/');
     await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('heading', { name: 'Pro license sales are unavailable.' })).toBeVisible();
+    await expect(page.locator('a[href*="/checkout"]')).toHaveCount(0);
     await page.goto('http://127.0.0.1:4173/?demo=1');
     await page.waitForLoadState('networkidle');
     expect(requests.length).toBeGreaterThan(0);
@@ -317,7 +319,7 @@ test('@claim:no-third-party-runtime home and demo load only product scripts, fon
     expect(requests.filter(({ type }) => ['fetch', 'xhr', 'ping'].includes(type))).toEqual([]);
     expect(await page.locator('script[src]').evaluateAll((scripts) => scripts.every((script) => new URL((script as HTMLScriptElement).src).origin === location.origin))).toBe(true);
     expect(await page.locator('iframe').count()).toBe(0);
-    await expect(page.locator('a[href="https://api.sociobot.in/api/v1/products/focus-flow-map/checkout"]')).toHaveCount(1);
+    await expect(page.locator('a[href*="/checkout"]')).toHaveCount(0);
     await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   } finally {
     await context.close();
