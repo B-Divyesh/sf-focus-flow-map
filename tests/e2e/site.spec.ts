@@ -27,8 +27,7 @@ for (const path of ['/', '/privacy/', '/terms/', '/404.html']) {
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page).toHaveTitle(/Focus Flow Map|Privacy|Terms/);
     const results = await new AxeBuilder({ page }).analyze();
-    const serious = results.violations.filter((item) => item.impact === 'serious' || item.impact === 'critical');
-    expect(serious).toEqual([]);
+    expect(results.violations).toEqual([]);
     await expectMinimumTargetSize(page);
     expect(errors).toEqual([]);
   });
@@ -353,7 +352,7 @@ test('demo is responsive, reduced-motion safe, and free of serious accessibility
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   const results = await new AxeBuilder({ page }).analyze();
-  expect(results.violations.filter((item) => item.impact === 'serious' || item.impact === 'critical')).toEqual([]);
+  expect(results.violations).toEqual([]);
   await expectMinimumTargetSize(page);
 });
 
