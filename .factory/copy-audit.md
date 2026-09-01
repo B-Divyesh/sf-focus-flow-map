@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 1 September 2026 against the plain-words rules. Counts treat hyphenated terms as one word. The longest sentence is 16 words. No sentence exceeds 22 words, and no banned word appears.
+Audited 1 September 2026 for polish round 2 against the plain-words rules. Counts treat hyphenated terms as one word. The longest sentence is 16 words. No sentence exceeds 22 words, and no banned word appears.
 
 ## First screen and demo
 
@@ -28,13 +28,13 @@ Audited 1 September 2026 against the plain-words rules. Counts treat hyphenated 
 | Choose the extension on the page you want to inspect. | 10 | Pass |
 | A visible recorder confirms that it is running. | 8 | Pass |
 | Use Tab and Shift+Tab. | 5 | Pass |
-| The route records safe labels, positions, direction, and focus styling. | 10 | Pass |
+| The route records redacted labels, page position, direction, and visible focus styles. | 11 | Pass |
 | It never records what you type. | 6 | Pass |
 | Review numbered steps and checks for jumps, loops, stalls, hidden targets, and missing focus indicators. | 15 | Pass |
 | Export the route as Markdown or JSON. | 7 | Pass |
 | The viewport moved 684 pixels. | 5 | Pass |
 | Confirm that the delivery field remains easy to locate. | 9 | Pass |
-| No computed outline was detected on Place order. | 8 | Pass |
+| The browser detected no focus outline on Place order. | 9 | Pass |
 | Check the control in the browser. | 6 | Pass |
 | These notes support a review. | 5 | Pass |
 | They do not certify accessibility. | 5 | Pass |
@@ -50,17 +50,15 @@ Audited 1 September 2026 against the plain-words rules. Counts treat hyphenated 
 | License verification sends only the license token to Sociobot. | 9 | Pass |
 | Free includes the latest focus map and both export formats. | 10 | Pass |
 | Pro adds a 30-session local history and private audit notes. | 10 | Pass |
-| Accessibility, safety, and report exports stay free. | 7 | Pass |
-| Sociobot/Dodo takes payment and handles refunds. | 7 | Pass |
-| A refund stops the Pro license. | 6 | Pass |
-| The Chrome Web Store listing is planned; this direct package is the v1 distribution. | 14 | Pass |
+| Recording, redaction, and Markdown and JSON exports are free. | 9 | Pass |
+| A refund stops Pro features. | 5 | Pass |
 | Record a focus route and share the report. | 8 | Pass |
 | Built by Param Factory. | 4 | Pass |
 | The factory image model generated the original hero image for this product. | 11 | Pass |
 
 ## Interface labels
 
-Headings and controls are short literal labels: **Try it with sample data**, **Download for Chromium**, **Reset demo**, **Start for real**, **Hide review notes**, **Show review notes**, **Export the report**, **Read the privacy policy**, **Buy a Pro license**, **Verify license**, and **Install the extension**.
+Headings and controls are short literal labels: **Try it with sample data**, **Download for Chromium**, **Reset demo**, **Start for real**, **Hide review notes**, **Show review notes**, **Review a finished six-step route**, **Read the privacy policy**, **Buy a Pro license**, **Verify license**, **Install the extension**, **Open menu**, and **Close menu**.
 
 The installation section makes no speed promise. Its previous “under a minute” label was removed because the product does not measure installation time.
 

@@ -20,12 +20,14 @@ const mobileMenu = document.querySelector<HTMLElement>('#mobile-menu')!;
 function closeMobileMenu(returnFocus = false) {
   mobileMenu.hidden = true;
   menuButton.setAttribute('aria-expanded', 'false');
+  menuButton.textContent = 'Open menu';
   if (returnFocus) menuButton.focus();
 }
 menuButton.addEventListener('click', () => {
   const open = menuButton.getAttribute('aria-expanded') === 'true';
   menuButton.setAttribute('aria-expanded', String(!open));
   mobileMenu.hidden = open;
+  menuButton.textContent = open ? 'Open menu' : 'Close menu';
 });
 mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
   closeMobileMenu();

@@ -19,14 +19,15 @@ Demo state uses only `demo:focus-flow-map:` keys and is removed when you leave. 
 ## What v1 does
 
 - Records only after the user chooses **Start recording**.
-- Captures focus order, direction, safe selectors, labels, viewport position, scroll changes, visibility, and computed focus indicators.
+- Captures focus order, direction, labels, page position, scrolling, and visibility.
+- Stores a redacted element locator and whether each control shows a focus outline.
 - Flags large viewport jumps, off-screen targets, recent repeats, stalled Tab movement, and missing focus indicators for review.
 - Redacts queries, hashes, sensitive URL paths, URLs in labels, email addresses, identifiers, and token-like text.
 - Never reads or records input values.
 - Stores sessions in browser extension storage. It sends no audit content to a server.
 - Exports a complete Markdown or JSON report in the free tier.
 - Offers an optional $24 one-time Pro license for 30 local sessions and private notes.
-- Keeps accessibility, safety, and exports free.
+- Keeps recording, redaction, and Markdown and JSON exports free.
 
 The generated notes support an accessibility review. They do not certify compliance. Test with disabled users before making a compliance claim.
 

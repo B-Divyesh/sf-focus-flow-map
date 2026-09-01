@@ -170,6 +170,29 @@ test('@claim:demo-isolated first-screen demo uses only its sample namespace', as
   expect(stored.demo).toBeNull();
 });
 
+test('@claim:mobile-first-view one-click sample and product facts are visible in the first phone viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  for (const fact of [
+    'Recording begins only when you choose.',
+    'Routes use local extension storage.',
+    'Download Markdown and JSON reports.',
+  ]) {
+    const box = await page.locator('.hero-facts').getByText(fact, { exact: true }).boundingBox();
+    expect(box, `${fact} should render`).not.toBeNull();
+    expect(box!.y).toBeGreaterThanOrEqual(0);
+    expect(box!.y + box!.height).toBeLessThanOrEqual(844);
+  }
+  await page.getByRole('link', { name: /Try it with sample data/ }).click();
+  await expect(page).toHaveURL(/\?demo=1$/);
+  const firstRouteRow = page.locator('.route > li').first();
+  const rowBox = await firstRouteRow.boundingBox();
+  expect(rowBox, 'The first sample route row should render').not.toBeNull();
+  expect(rowBox!.y).toBeGreaterThanOrEqual(0);
+  expect(rowBox!.y).toBeLessThan(844);
+  await expect(firstRouteRow.getByText('Skip to checkout')).toBeVisible();
+});
+
 test('@claim:license-request-minimum-data verification sends only the license token', async ({ page }) => {
   let requestEvidence: { method: string; url: string; headers: Record<string, string>; body: string | null } | undefined;
   await page.addInitScript(() => localStorage.setItem('sb_license:focus-flow-map', JSON.stringify({
@@ -197,6 +220,19 @@ test('@claim:license-request-minimum-data verification sends only the license to
   expect([...url.searchParams.entries()]).toEqual([['license', 'claim-license-token']]);
   expect(requestEvidence!.body).toBeNull();
   expect(Object.values(requestEvidence!.headers).join('\n')).not.toContain('claim-license-token');
+});
+
+test('@claim:refund-revokes-pro an invalid refunded license turns off Pro features', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('sb_license:focus-flow-map', JSON.stringify({
+    token: 'refunded-license-fixture', valid: true, checkedAt: 0,
+  })));
+  await page.route('https://api.sociobot.in/**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ valid: false, reason: 'refunded', expires_at: null }) });
+  });
+  await page.goto('/');
+  await expect(page.locator('#license-result')).toHaveText('License no longer active.');
+  await expect(page.locator('#copy-license')).toBeHidden();
+  await expect(page.locator('.legal-line')).toContainText('A refund stops Pro features.');
 });
 
 test('@claim:no-third-party-runtime home and demo load only product scripts, fonts, and storage', async ({ browser }, testInfo) => {
@@ -322,14 +358,16 @@ test('copy-license action is absent until a valid license exists', async ({ page
 test('390px navigation opens and closes by keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
-  const menu = page.getByRole('button', { name: 'Menu' });
+  const menu = page.getByRole('button', { name: 'Open menu' });
   await menu.focus();
   await page.keyboard.press('Enter');
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
+  await expect(menu).toHaveAccessibleName('Close menu');
   await expect(page.locator('#mobile-menu')).toBeVisible();
   await expectMinimumTargetSize(page);
   await page.keyboard.press('Escape');
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await expect(menu).toHaveAccessibleName('Open menu');
   await expect(page.locator('#mobile-menu')).toBeHidden();
   await expect(menu).toBeFocused();
 });

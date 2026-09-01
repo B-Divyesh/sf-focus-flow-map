@@ -14,6 +14,13 @@
     "sandbox": "fresh browser context at /?demo=1; use Tab and Enter only; assert focus and visible state changes"
   },
   {
+    "id": "mobile-first-view",
+    "claim": "On a 390 px phone, the first screen shows all three product facts and the demo shows a sample route row after one click",
+    "where": "landing first screen, demo workspace",
+    "test": "npm run test:e2e -- --project=mobile-390 --grep @claim:mobile-first-view",
+    "sandbox": "fresh 390×844 browser context; open home, assert all facts intersect the viewport, click the sample action, and assert the first route row intersects the viewport"
+  },
+  {
     "id": "chromium-package",
     "claim": "Download a packaged Chromium extension from the first screen",
     "where": "landing first screen, installation steps, README",
@@ -40,6 +47,13 @@
     "where": "landing privacy section, privacy policy",
     "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:license-request-minimum-data",
     "sandbox": "fresh browser context with a stale fixture license; intercept verification; record method, URL, headers, and body; assert one token query value and no request body"
+  },
+  {
+    "id": "refund-revokes-pro",
+    "claim": "A refunded license stops Pro features while free tools remain available",
+    "where": "landing pricing, terms",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:refund-revokes-pro",
+    "sandbox": "fresh browser context with a stale valid fixture license; intercept verification with a refunded invalid response; assert the product reports the license inactive and hides Pro-only license actions"
   },
   {
     "id": "sensitive-redaction",
