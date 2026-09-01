@@ -1,0 +1,116 @@
+{
+  "profile": "/tmp/ffm-verification-6-7qZ8eq",
+  "errors": [],
+  "expectedDiagnostics": [
+    "interrupted license request: Failed to load resource: net::ERR_CONNECTION_FAILED"
+  ],
+  "network": [
+    "https://focus-flow-map.sociobot.in/?demo=1&email=qa.private%40example.com&token=drop-me",
+    "https://focus-flow-map.sociobot.in/fonts/plex-sans.woff2",
+    "https://focus-flow-map.sociobot.in/demo-boot.js",
+    "https://focus-flow-map.sociobot.in/route-focus.js",
+    "https://focus-flow-map.sociobot.in/assets/home-B6qM9JVq.js",
+    "https://focus-flow-map.sociobot.in/assets/home-8ykqui4a.css",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg",
+    "https://focus-flow-map.sociobot.in/assets/hero-blueprint-768.avif",
+    "https://focus-flow-map.sociobot.in/fonts/plex-mono.woff2",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg",
+    "https://focus-flow-map.sociobot.in/sw.js",
+    "https://focus-flow-map.sociobot.in/",
+    "https://focus-flow-map.sociobot.in/privacy/",
+    "https://focus-flow-map.sociobot.in/terms/",
+    "https://focus-flow-map.sociobot.in/404.html",
+    "https://focus-flow-map.sociobot.in/demo-boot.js",
+    "https://focus-flow-map.sociobot.in/fonts/plex-sans.woff2",
+    "https://focus-flow-map.sociobot.in/fonts/plex-mono.woff2",
+    "https://focus-flow-map.sociobot.in/assets/mark.svg",
+    "https://focus-flow-map.sociobot.in/assets/hero-blueprint-768.webp",
+    "https://focus-flow-map.sociobot.in/assets/home-8ykqui4a.css",
+    "https://focus-flow-map.sociobot.in/assets/home-B6qM9JVq.js",
+    "https://focus-flow-map.sociobot.in/assets/legal-9pUSfUHA.css",
+    "chrome-extension://hmnflijplgdmgeiodjlopfaipppkpaab/chunks/dashboard-DSfgFwSc.js",
+    "chrome-extension://hmnflijplgdmgeiodjlopfaipppkpaab/chunks/shared-DaKVr05J.js",
+    "chrome-extension://hmnflijplgdmgeiodjlopfaipppkpaab/assets/shared-1urMqNh4.css",
+    "chrome-extension://hmnflijplgdmgeiodjlopfaipppkpaab/assets/dashboard-C2qziLLn.css",
+    "chrome-extension://hmnflijplgdmgeiodjlopfaipppkpaab/fonts/plex-mono.woff2",
+    "https://api.sociobot.in/api/v1/products/focus-flow-map/verify?license=fixture-inactive-license",
+    "https://api.sociobot.in/api/v1/products/focus-flow-map/verify?license=fixture-interrupted-license",
+    "https://api.sociobot.in/api/v1/products/focus-flow-map/verify?license=fixture-active-license"
+  ],
+  "checks": {
+    "beforeStart": {
+      "storage": {},
+      "overlayCount": 0
+    },
+    "emptyBoundary": {
+      "emptyStop": {
+        "ok": true,
+        "steps": 0
+      },
+      "savedSteps": 0,
+      "overlayTargets": [
+        {
+          "text": "Open map",
+          "width": 110.328125,
+          "height": 44
+        },
+        {
+          "text": "Stop",
+          "width": 66.421875,
+          "height": 44
+        }
+      ]
+    },
+    "recording": {
+      "normalStop": {
+        "ok": true,
+        "steps": 4
+      },
+      "stepCount": 4,
+      "directions": [
+        "unknown",
+        "unknown",
+        "forward",
+        "backward"
+      ],
+      "fieldsComplete": true,
+      "safeUrl": "https://focus-flow-map.sociobot.in/",
+      "sensitiveAbsent": true
+    },
+    "license": {
+      "requiredInvalid": true,
+      "requestsAfterEmpty": 0,
+      "inactiveState": "License no longer active",
+      "interruptedState": "Could not verify. Check your connection and try again.",
+      "recoveredState": "Pro active on this device",
+      "licenseRequests": 3
+    },
+    "exports": {
+      "markdownBytes": 1258,
+      "jsonBytes": 3244,
+      "safeUrlPresent": true,
+      "sensitiveAbsent": true
+    },
+    "deletion": {
+      "dialogInitialFocus": true,
+      "retainedAfterEscape": true,
+      "retainedAfterCancel": true,
+      "emptyAfterConfirm": true
+    },
+    "accessibility": {
+      "serious": [],
+      "mobile": {
+        "overflow": false,
+        "undersized": []
+      }
+    },
+    "network": {
+      "billingNetwork": [
+        "https://api.sociobot.in/api/v1/products/focus-flow-map/verify?license=fixture-inactive-license",
+        "https://api.sociobot.in/api/v1/products/focus-flow-map/verify?license=fixture-interrupted-license",
+        "https://api.sociobot.in/api/v1/products/focus-flow-map/verify?license=fixture-active-license"
+      ],
+      "otherRemoteDuringRecording": []
+    }
+  }
+}

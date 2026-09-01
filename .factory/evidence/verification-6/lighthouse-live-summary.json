@@ -1,0 +1,19 @@
+{
+  "lighthouseVersion": "13.4.1",
+  "fetchTime": "2026-09-01T19:48:31.632Z",
+  "url": "https://focus-flow-map.sociobot.in/?demo=1",
+  "scores": {
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100
+  },
+  "metrics": {
+    "firstContentfulPaintMs": 920.4925,
+    "largestContentfulPaintMs": 1220.4925,
+    "totalBlockingTimeMs": 83,
+    "cumulativeLayoutShift": 0,
+    "speedIndexMs": 920.4925
+  },
+  "runWarnings": []
+}

@@ -1,41 +1,39 @@
-# Repair handoff — Focus Flow Map
+# Independent verification 6 handoff — Focus Flow Map
 
-- **Work order:** `focus-flow-map-polish-1`
-- **Base:** `de707451b56a7ef35cb70498e927a483b52a2eec`
-- **Repair:** `a38f0b6b4821032a95c22b59b495fc8b47714172`
-- **Deployment:** Azure Static Web App `sf-focus-flow-map`, deployment `211c4028-75d5-4649-aae2-73be739bfd20`
-- **Live:** <https://focus-flow-map.sociobot.in>
-- **Result:** PASS
+- **Work order:** `focus-flow-map-verify-6`
+- **Candidate:** `e8901c9fbf406cb62d8472b4573bcf56651cc53d`
+- **Live URL:** <https://focus-flow-map.sociobot.in>
+- **Demo URL:** <https://focus-flow-map.sociobot.in/?demo=1>
+- **Result:** **PASS**
 
-## Delivered
+## What was confirmed
 
-- Route changes and history restoration focus the new h1 and announce it politely.
-- Home, demo, privacy, terms, 404, and unknown-route behavior have complete route-specific metadata and real URLs.
-- Four missing public claims now have manifest entries and exact tests: minimum license-request data, image provenance, no third-party runtime, and every recorded route field.
-- Landing, legal, and extension payment copy now explains who takes payment and handles refunds. The report copy explains manual checks without the previous jargon.
-- The isolated one-click demo, mobile layout, local storage boundaries, legal links, designed 404, blueprint visual system, and extension download remain intact.
-- `.factory/catalog-description.txt`, `.factory/copy-audit.md`, `.factory/claims.json`, and `.factory/polish-1.md` reflect the released product.
+- Confirmed that the cold first screen states what the product does, names keyboard-only and RSI-affected users, and offers one-click sample data with the result explained.
+- Confirmed that all 15 exact commands in `.factory/claims.json` pass.
+- Confirmed that `npm ci`, `npm run typecheck`, `npm test`, `npm run build`, ZIP integrity, and the production dependency check pass. The full suite has 13 passing unit checks and 40 passing browser checks, with four intentional mobile-project omissions for extension-only cases.
+- Confirmed the real extension flow in a new Chromium profile: explicit start, zero-step boundary, forward/reverse route recording, safe local storage, Markdown/JSON export, invalid input, inactive/interrupted/active license recovery with locally handled responses, and cancel/confirm deletion.
+- Confirmed desktop and 390 px behavior, keyboard-only controls, designed focus, 200% text, reduced motion, no serious/critical axe finding, and no unexpected console/page error.
+- Confirmed demo storage isolation and same-origin requests during the live demo flow.
+- Confirmed service-worker update and offline demo reload.
+- Confirmed live headers, caching, internal links, designed HTTP 404, and bundle budgets.
+- Confirmed fresh mobile Lighthouse scores of 100/100/100/100; LCP 1.22 s, blocking time 83 ms, and layout shift 0.
+- Confirmed that 22 served artifacts and every extracted extension package file match the candidate build.
 
-## Verification
+## How to verify
 
-From a fresh clone after `npm ci`:
+```bash
+npm ci
+npm run typecheck
+npm test
+npm run build
+unzip -t dist/site/downloads/focus-flow-map-chrome.zip
+npm audit --omit=dev --audit-level=low
+```
 
-- All 15 claim commands passed separately.
-- `npm run check`: typecheck passed; 13 unit tests passed; 40 browser tests passed; 4 intentional cross-project skips; production build passed.
-- `npm audit --omit=dev --audit-level=low`: 0 vulnerabilities.
-- Extension ZIP integrity passed.
+Open <https://focus-flow-map.sociobot.in/?demo=1> for the isolated six-step sample. Detailed evidence and exact results are in [`.factory/verification-6.md`](verification-6.md) and [`.factory/evidence/verification-6/`](evidence/verification-6/).
 
-Production verification after deployment:
+## Defects and next steps
 
-- `verify-url.sh` passed `/`, `/?demo=1`, `/privacy/`, `/terms/`, and `/404.html` with zero console errors.
-- Cold route navigation focused and announced the Privacy h1; Back focused and announced the home h1.
-- Demo, legal, and 404 metadata were complete. An unknown URL returned the designed page with HTTP 404.
-- Cold demo showed six steps, made same-origin requests only, preserved a real-license sentinel, cleared its demo key on exit, and returned home.
-- Live mobile Lighthouse: Performance 100, Accessibility 100, Best Practices 100, SEO 100; FCP 1.1 s, LCP 1.2 s, TBT 0 ms, CLS 0.
-- The live and local home HTML SHA-256 values match: `15c0acfc235f5c014b9a3bd12180c47b79f3f1cb6e6605c3d910bcbe7cbae9f8`.
+No critical, major, moderate, or minor product defect was found. The Chrome Web Store listing remains planned; the direct Chromium package is complete for v1.
 
-Run locally with `npm ci && npm run check`. Build with `npm run build`; deployable files are in `dist/site`.
-
-## Known gaps and next steps
-
-No acceptance gap remains. The Chrome Web Store listing is still planned and is accurately described as future distribution work.
+No product code was modified by this verification work order.

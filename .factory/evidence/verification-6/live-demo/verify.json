@@ -1,0 +1,14 @@
+{
+  "url": "https://focus-flow-map.sociobot.in/?demo=1",
+  "loadMs": 1102,
+  "errors": [],
+  "a11y": {
+    "title": "Demo — Focus Flow Map",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 1092
+  }
+}
