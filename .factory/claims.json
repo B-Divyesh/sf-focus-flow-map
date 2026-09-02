@@ -14,6 +14,13 @@
     "sandbox": "fresh browser context at /?demo=1; use Tab and Enter only; assert focus and visible state changes"
   },
   {
+    "id": "offline-sample-route",
+    "claim": "After one online visit, the sample route and its review controls remain available offline",
+    "where": "landing offline license status, README, .factory/demo.md",
+    "test": "npm run test:e2e -- --project=desktop-chromium --grep @claim:offline-sample-route",
+    "sandbox": "fresh isolated browser context with service workers enabled; visit online once, trigger the offline license state, open and reload the cached demo offline, then operate review notes and Reset demo"
+  },
+  {
     "id": "mobile-first-view",
     "claim": "On a 390 px phone, the first screen shows all three product facts and the demo shows a sample focus-route row after one click",
     "where": "landing first screen, demo workspace",

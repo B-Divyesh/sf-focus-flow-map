@@ -115,7 +115,7 @@ async function loadLicense() {
       await browser.storage.local.set({ [STORAGE.license]: checked });
       await applyLicense(checked);
     } catch {
-      licenseState.textContent = pro ? 'Your last verified Pro license remains active. We’ll check it again when you are online.' : 'Offline. Free tools remain available.';
+      licenseState.textContent = pro ? 'Your last verified Pro license remains active. We’ll check it again when you are online.' : 'Offline. Check your connection before verifying again.';
     }
   }
 }

@@ -28,7 +28,7 @@ describe('plain product language', () => {
   });
 
   it('keeps the sample and license recovery language plain', async () => {
-    const [home, main] = await Promise.all([read('site/index.html'), read('site/main.ts')]);
+    const [home, main, dashboard] = await Promise.all([read('site/index.html'), read('site/main.ts'), read('app/dashboard.ts')]);
 
     for (const label of [
       'Link · page position 0 · Tab',
@@ -39,9 +39,13 @@ describe('plain product language', () => {
     expect(home).not.toContain('ROUTE 014');
     expect(home).not.toContain('viewport +684 px');
     expect(main).toContain('Your last verified license remains active. We’ll check it again when you are online.');
+    expect(main).toContain('Offline. The sample route remains available after your first visit.');
     expect(main).toContain('Copy the token from your purchase email and paste it into the extension.');
     expect(main).not.toContain('License cached.');
+    expect(main).not.toContain('Free tools and downloads remain available.');
     expect(main).not.toContain('site storage');
+    expect(dashboard).toContain('Offline. Check your connection before verifying again.');
+    expect(dashboard).not.toContain('Offline. Free tools remain available.');
   });
 
   it('states that Pro sales are unavailable without rendering a checkout action', async () => {

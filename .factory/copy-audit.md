@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 1 September 2026 for polish round 4. This inventory covers every visitor-facing sentence, status, heading, action, fact, and sample label in `site/index.html` and its runtime states in `site/main.ts`. Counts treat hyphenated terms, product names, and key names as one word. No sentence exceeds 22 words and no banned marketing term appears.
+Audited 2 September 2026 for polish round 5. This inventory covers every visitor-facing sentence, status, heading, action, fact, and sample label in `site/index.html` and its runtime states in `site/main.ts`. Counts treat hyphenated terms, product names, and key names as one word. No sentence exceeds 22 words and no banned marketing term appears.
 
 ## First screen and facts
 
@@ -84,7 +84,7 @@ Audited 1 September 2026 for polish round 4. This inventory covers every visitor
 | License active. Copy it into the extension to unlock local Pro. | 11 | Pass |
 | License no longer active. | 4 | Pass |
 | Your last verified license remains active. We’ll check it again when you are online. | 14 | Plain fallback |
-| Offline. Free tools and downloads remain available. | 7 | Pass |
+| Offline. The sample route remains available after your first visit. | 10 | Declared `offline-sample-route` claim |
 | Could not verify. Check your connection and try again. | 9 | Pass |
 | License copied. Paste it into the extension to use local Pro. | 11 | Pass |
 | Copy was blocked. Copy the token from your purchase email and paste it into the extension. | 16 | Plain fallback |
@@ -104,3 +104,4 @@ Audited 1 September 2026 for polish round 4. This inventory covers every visitor
 - `tests/unit/copy.test.ts` rejects retired sample shorthand, inconsistent terms, technical fallback copy, dead checkout actions, and unexplained README abbreviations.
 - `tests/e2e/site.spec.ts` checks rendered navigation labels, external links, plain sample labels, both license fallback states, and the absent checkout action.
 - `@claim:pro-unavailable` checks the live-shaped site and packaged extension state, proves no checkout or purchase link exists, and confirms free downloads and exports remain.
+- `@claim:offline-sample-route` uses a fresh isolated context to check the offline status, cached six-step route, review-note control, and demo reset.

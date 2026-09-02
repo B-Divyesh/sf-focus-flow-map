@@ -14,6 +14,8 @@ Choose **Try it with sample data** on the first screen, or open the sample link 
 
 The banner identifies demo mode. **Reset demo** restores the sample, and **Start for real** returns to the normal product page.
 
+After one online visit, the sample route and its review controls remain available offline.
+
 Demo state uses only `demo:focus-flow-map:` keys and is removed when you leave. The demo does not read or change real license data. See [.factory/demo.md](.factory/demo.md) for the sample and isolation details.
 
 ## What v1 does

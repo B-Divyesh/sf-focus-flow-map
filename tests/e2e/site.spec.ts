@@ -356,7 +356,7 @@ test('demo is responsive, reduced-motion safe, and free of serious accessibility
   await expectMinimumTargetSize(page);
 });
 
-test('service worker keeps the demo available after an offline reload', async ({ browser }, testInfo) => {
+test('@claim:offline-sample-route service worker keeps the sample route and review controls available after an offline reload', async ({ browser }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-chromium', 'Use one isolated browser context for the offline check.');
   const context = await browser.newContext({ serviceWorkers: 'allow' });
   try {
@@ -372,6 +372,12 @@ test('service worker keeps the demo available after an offline reload', async ({
     await page.reload();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Review a sample focus route.');
     await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+    await expect(page.locator('.route > li')).toHaveCount(6);
+    await page.getByRole('button', { name: 'Hide review notes' }).click();
+    await expect(page.locator('#demo-findings')).toBeHidden();
+    await page.getByRole('button', { name: 'Reset demo' }).click();
+    await expect(page.locator('#demo-findings')).toBeVisible();
+    await expect(page.locator('#demo-status')).toHaveText('Demo reset to the original six-step focus route.');
   } finally {
     await context.close();
   }

@@ -1,1 +1,1 @@
-Map where Tab moves and export a local keyboard focus report.
+Record where Tab moves and export a local focus route report.

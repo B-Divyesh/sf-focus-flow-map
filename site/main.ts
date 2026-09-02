@@ -142,7 +142,7 @@ async function initialiseLicense() {
   showLicense(record);
   if (record?.token && Date.now() - record.checkedAt >= DAY) {
     try { showLicense(await verify(record.token)); }
-    catch { showLicense(record, record.valid ? 'Your last verified license remains active. We’ll check it again when you are online.' : 'Offline. Free tools and downloads remain available.'); }
+    catch { showLicense(record, record.valid ? 'Your last verified license remains active. We’ll check it again when you are online.' : 'Offline. The sample route remains available after your first visit.'); }
   }
 }
 
