@@ -1,0 +1,39 @@
+Focus Flow Map review 6 claim run
+Date: 2026-09-02
+Candidate: 25d590ba95df1ff6be9e7621d25fca4fa27b839d
+Clean clone: /tmp/focus-flow-map-review6.d7CJpp
+
+PASS demo-isolated
+PASS keyboard-demo
+PASS offline-sample-route
+PASS mobile-first-view
+PASS chromium-package
+PASS explicit-recording
+PASS local-session-privacy
+PASS license-request-minimum-data
+PASS sensitive-redaction
+PASS markdown-json-export
+PASS route-checks
+PASS recorded-route-fields
+PASS history-limits
+PASS pro-local-notes
+PASS pro-unavailable
+PASS original-image-provenance
+PASS no-third-party-runtime
+
+Summary: 17/17 listed claim commands passed independently.
+
+Additional clean-clone verification:
+- npm run check: PASS
+- TypeScript: PASS
+- Unit tests: 18 passed
+- Browser tests: 50 passed, 4 intended single-project skips
+- Production build: PASS; dist/ produced
+- npm audit --omit=dev --audit-level=low: 0 vulnerabilities
+- unzip -t dist/site/downloads/focus-flow-map-chrome.zip: PASS
+
+Clean build / production SHA-256 matches:
+- index.html: 857ffa85fc35f3fda9741cafce2b4a4adb97e49b74dd87ac2e969a4e331f664d
+- home-DzOrI-0v.js: e5d7f5404cb799d5d76ecc434b80dc57d24c29ed9899ab6d6b0bfe9c83145c4d
+- home-BDpKYwam.css: e867793487c5f286e06fd240fafbe6cb335004bfe65074483b0e8522202869a8
+- sw.js: d9358dcbd9ad88061ac56ba7713b2c7d13de2e59ef727189c04e4c71cf6fbdf2
