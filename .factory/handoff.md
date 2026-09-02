@@ -1,28 +1,53 @@
-# Review 5 handoff — Focus Flow Map
+# Polish 5 handoff — Focus Flow Map
 
-- **Work order:** `focus-flow-map-review-5`
-- **Reviewer commit:** recorded with this handoff
-- **Production reviewed:** <https://focus-flow-map.sociobot.in>
-- **Verdict:** **FAIL** — one minor documentation/claim-coverage finding.
+- **Work order:** `focus-flow-map-polish-5`
+- **Implementation commit:** `c951aa3c848cba5bdf7777f469873e4402557bb6`
+- **Deployment:** `538bc601-c310-4d8a-9a74-becb10563e8b`
+- **Production:** <https://focus-flow-map.sociobot.in>
+- **Demo:** <https://focus-flow-map.sociobot.in/?demo=1>
+- **Status:** PASS — all findings from reviews 1–5 are resolved.
 
-## What was done
+## What changed
 
-- Performed cold live-browser reviews at 390×844 and 1440×1000, including the one-click demo, storage/privacy request behavior, route focus/Back behavior, metadata, links, designed 404, and axe scans.
-- Read the brief, visual thesis, demo and claim manifests, all prior reviews/polishes, and prior handoff. Confirmed every prior finding on both the current code and live product.
-- Ran all 16 `claims.json` commands separately after `npm ci`; all passed.
-- Ran `npm test` (18 unit tests, 50 browser tests, four intentional skips), `npm run build`, and `npm audit --omit=dev --audit-level=low` (zero production vulnerabilities).
+- Replaced the broad offline download promise with **“Offline. The sample route remains available after your first visit.”**
+- Added the `offline-sample-route` claim and one isolated Playwright test. It visits the demo online, switches only its own context offline, reloads, verifies all six rows, toggles review notes, and resets the sample.
+- Replaced the extension dashboard’s similar unbounded offline promise with a direct reconnection instruction.
+- Updated the README, demo documentation, copy audit, and the 61-character verb-first catalog description.
+- Preserved all earlier repairs: first-screen copy, one-click isolated demo, mobile placement, route metadata/focus/404, legal links, local redaction and exports, unavailable Pro state, and the blueprint drafting-sheet identity.
+- Added `scripts/verify-live.mjs` for repeatable post-deploy checks of the production routes, demo isolation, mobile bounds, focus, links, headers, offline behavior, and 404.
 
-## Remaining finding
+## Verification
 
-`F-5-1` in [review-5.md](review-5.md): the runtime message **“Offline. Free tools and downloads remain available.”** is a visitor-facing offline claim but lacks a `claims.json` entry and a single tagged sandbox test. Narrow/remove the promise, or add an `offline-free-tools` claim that proves the exact promised outcome in a fresh offline demo context.
-
-## How to verify after repair
+From clean clone `/tmp/focus-flow-map-polish5-final.IsQKt2` at `c951aa3`:
 
 ```bash
 npm ci
-npm test
-npm run build
-# Run each command listed in .factory/claims.json separately.
+npm run check
+npm audit --omit=dev --audit-level=low
+unzip -t dist/site/downloads/focus-flow-map-chrome.zip
+# Each of the 17 commands in .factory/claims.json was also run separately.
 ```
 
-Recheck <https://focus-flow-map.sociobot.in/?demo=1> at 390×844 and desktop. The first phone viewport should keep all three facts and the first sample-route row visible.
+Results: 18 unit tests and 50 browser tests passed, with four intentional single-project skips. TypeScript and both builds passed. All 17 claim commands passed. The production dependency audit found zero vulnerabilities. The extension archive passed integrity checking.
+
+Post-deploy checks:
+
+```bash
+/opt/fleet/lib/verify-url.sh <route> <evidence-dir>
+npx @axe-core/cli <five production routes> --exit
+node scripts/verify-live.mjs
+```
+
+- Home, demo, Privacy, Terms, and direct 404 checks returned 200 with no console errors. A cold unknown path returned HTTP 404.
+- Axe reported zero violations on all five production documents.
+- At 390×844, all three first-screen facts end by y=706.36. The first demo row starts at y=596.64.
+- The live demo touched only `demo:focus-flow-map:` storage, kept the real-license sentinel, cleared demo state on exit, and made only same-origin requests.
+- The live demo reloaded offline with six rows; review-note toggle and Reset demo both worked.
+- Mobile Lighthouse scores are 100 Performance, 100 Accessibility, 100 Best Practices, and 100 SEO. LCP is 1.1 s, TBT is 0 ms, and CLS is 0.
+- Live and local home HTML share SHA-256 `857ffa85fc35f3fda9741cafce2b4a4adb97e49b74dd87ac2e969a4e331f664d`.
+
+Detailed mapping and evidence: [polish-5.md](polish-5.md), [live check](evidence/polish-5-live/live-check.json), and [Lighthouse report](evidence/polish-5-lighthouse-live.json).
+
+## Known gaps and next steps
+
+No acceptance gap remains. Pro sales remain intentionally unavailable until the product owner enables checkout; the product offers no purchase action and keeps the complete free recording/export path available.

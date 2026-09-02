@@ -1,0 +1,186 @@
+{
+  "origin": "https://focus-flow-map.sociobot.in",
+  "checkedAt": "2026-09-02T00:57:09.774Z",
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Focus Flow Map — Map the keyboard focus route",
+      "heading": "Map where Tab goes.",
+      "errors": [],
+      "lang": "en",
+      "main": true,
+      "description": "Record where Tab moves through a webpage, review jumps and loops, and export a local issue report.",
+      "canonical": "https://focus-flow-map.sociobot.in/",
+      "ogTitle": "Focus Flow Map — Map the keyboard focus route",
+      "twitterTitle": "Focus Flow Map — Map the keyboard focus route",
+      "missingAlt": 0,
+      "horizontalOverflow": false
+    },
+    "/?demo=1": {
+      "status": 200,
+      "title": "Demo — Focus Flow Map",
+      "heading": "Review a sample focus route.",
+      "errors": [],
+      "lang": "en",
+      "main": true,
+      "description": "Review a six-step sample focus route with a page jump and a missing focus indicator.",
+      "canonical": "https://focus-flow-map.sociobot.in/?demo=1",
+      "ogTitle": "Demo — Focus Flow Map",
+      "twitterTitle": "Demo — Focus Flow Map",
+      "missingAlt": 0,
+      "horizontalOverflow": false
+    },
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Focus Flow Map",
+      "heading": "Read how your focus data stays local.",
+      "errors": [],
+      "lang": "en",
+      "main": true,
+      "description": "Read what Focus Flow Map stores, redacts, and sends when you record a keyboard focus route.",
+      "canonical": "https://focus-flow-map.sociobot.in/privacy/",
+      "ogTitle": "Privacy — Focus Flow Map",
+      "twitterTitle": "Privacy — Focus Flow Map",
+      "missingAlt": 0,
+      "horizontalOverflow": false
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Focus Flow Map",
+      "heading": "Use focus reports with care.",
+      "errors": [],
+      "lang": "en",
+      "main": true,
+      "description": "Read the terms for using Focus Flow Map, its local route reports, and unavailable Pro license sales.",
+      "canonical": "https://focus-flow-map.sociobot.in/terms/",
+      "ogTitle": "Terms — Focus Flow Map",
+      "twitterTitle": "Terms — Focus Flow Map",
+      "missingAlt": 0,
+      "horizontalOverflow": false
+    },
+    "/404.html": {
+      "status": 200,
+      "title": "Page not found — Focus Flow Map",
+      "heading": "Page not found.",
+      "errors": [],
+      "lang": "en",
+      "main": true,
+      "description": "The requested Focus Flow Map page was not found.",
+      "canonical": "https://focus-flow-map.sociobot.in/404.html",
+      "ogTitle": "Page not found — Focus Flow Map",
+      "twitterTitle": "Page not found — Focus Flow Map",
+      "missingAlt": 0,
+      "horizontalOverflow": false
+    },
+    "/missing-polish-5-cold": {
+      "status": 404,
+      "title": "Page not found — Focus Flow Map",
+      "heading": "Page not found.",
+      "errors": [
+        "expected 404 network diagnostic excluded"
+      ],
+      "lang": "en",
+      "main": true,
+      "description": "The requested Focus Flow Map page was not found.",
+      "canonical": "https://focus-flow-map.sociobot.in/404.html",
+      "ogTitle": "Page not found — Focus Flow Map",
+      "twitterTitle": "Page not found — Focus Flow Map",
+      "missingAlt": 0,
+      "horizontalOverflow": false
+    }
+  },
+  "links": [
+    {
+      "href": "https://focus-flow-map.sociobot.in/",
+      "status": 200
+    },
+    {
+      "href": "https://focus-flow-map.sociobot.in/?demo=1",
+      "status": 200
+    },
+    {
+      "href": "https://focus-flow-map.sociobot.in/downloads/focus-flow-map-chrome.zip",
+      "status": 200
+    },
+    {
+      "href": "https://focus-flow-map.sociobot.in/privacy/",
+      "status": 200
+    },
+    {
+      "href": "https://focus-flow-map.sociobot.in/terms/",
+      "status": 200
+    }
+  ],
+  "mobile": {
+    "viewport": "390x844",
+    "factBounds": [
+      {
+        "text": "Recording begins only when you choose.",
+        "y": 633.296875,
+        "bottom": 654.984375
+      },
+      {
+        "text": "Route reports use local extension storage.",
+        "y": 658.984375,
+        "bottom": 680.671875
+      },
+      {
+        "text": "Download Markdown and JSON route reports.",
+        "y": 684.671875,
+        "bottom": 706.359375
+      }
+    ],
+    "firstRouteRowY": 596.640625,
+    "routeRows": 6
+  },
+  "demoIsolation": {
+    "operations": [
+      {
+        "operation": "get",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "set",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "set",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "remove",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "set",
+        "key": "demo:focus-flow-map:state"
+      }
+    ],
+    "storedAfterExit": {
+      "real": "{\"token\":\"live-sentinel\",\"valid\":true,\"checkedAt\":1788310636644}",
+      "demo": null
+    },
+    "requestOrigins": [
+      "https://focus-flow-map.sociobot.in"
+    ]
+  },
+  "routeFocus": {
+    "initial": "Map where Tab goes.",
+    "privacy": "Read how your focus data stays local.",
+    "back": "Map where Tab goes.",
+    "announcement": "Page changed: Map where Tab goes."
+  },
+  "offline": {
+    "fallbackMessage": "Offline. The sample route remains available after your first visit.",
+    "demo": {
+      "rows": 6,
+      "notesToggle": true,
+      "reset": true
+    }
+  },
+  "headers": {
+    "contentSecurityPolicy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.sociobot.in; upgrade-insecure-requests",
+    "referrerPolicy": "no-referrer",
+    "contentTypeOptions": "nosniff"
+  }
+}
