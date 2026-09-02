@@ -1,0 +1,185 @@
+{
+  "checkedAt": "2026-09-01T23:50:18.579Z",
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Focus Flow Map — Map the keyboard focus route",
+      "titleMatches": true,
+      "canonical": "https://focus-flow-map.sociobot.in/",
+      "canonicalMatches": true,
+      "h1": 1,
+      "main": 1,
+      "lang": "en",
+      "horizontalOverflow": false,
+      "errors": [],
+      "seriousAxe": [],
+      "undersized": []
+    },
+    "/?demo=1": {
+      "status": 200,
+      "title": "Demo — Focus Flow Map",
+      "titleMatches": true,
+      "canonical": "https://focus-flow-map.sociobot.in/?demo=1",
+      "canonicalMatches": true,
+      "h1": 1,
+      "main": 1,
+      "lang": "en",
+      "horizontalOverflow": false,
+      "errors": [],
+      "seriousAxe": [],
+      "undersized": []
+    },
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Focus Flow Map",
+      "titleMatches": true,
+      "canonical": "https://focus-flow-map.sociobot.in/privacy/",
+      "canonicalMatches": true,
+      "h1": 1,
+      "main": 1,
+      "lang": "en",
+      "horizontalOverflow": false,
+      "errors": [],
+      "seriousAxe": [],
+      "undersized": []
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Focus Flow Map",
+      "titleMatches": true,
+      "canonical": "https://focus-flow-map.sociobot.in/terms/",
+      "canonicalMatches": true,
+      "h1": 1,
+      "main": 1,
+      "lang": "en",
+      "horizontalOverflow": false,
+      "errors": [],
+      "seriousAxe": [],
+      "undersized": []
+    },
+    "/404.html": {
+      "status": 200,
+      "title": "Page not found — Focus Flow Map",
+      "titleMatches": true,
+      "canonical": "https://focus-flow-map.sociobot.in/404.html",
+      "canonicalMatches": true,
+      "h1": 1,
+      "main": 1,
+      "lang": "en",
+      "horizontalOverflow": false,
+      "errors": [],
+      "seriousAxe": [],
+      "undersized": [],
+      "isolatedColdCheck": true
+    },
+    "unknown": {
+      "status": 404,
+      "title": "Page not found — Focus Flow Map",
+      "h1": "Page not found."
+    }
+  },
+  "firstScreen": {
+    "title": "Focus Flow Map — Map the keyboard focus route",
+    "h1": "Map where Tab goes.",
+    "audience": "For keyboard-only and RSI-affected users, it records a focus route and turns it into a route report.",
+    "facts": [
+      {
+        "text": "Recording begins only when you choose.",
+        "box": {
+          "x": 16,
+          "y": 633.296875,
+          "width": 358,
+          "height": 21.6875
+        }
+      },
+      {
+        "text": "Route reports use local extension storage.",
+        "box": {
+          "x": 16,
+          "y": 658.984375,
+          "width": 358,
+          "height": 21.6875
+        }
+      },
+      {
+        "text": "Download Markdown and JSON route reports.",
+        "box": {
+          "x": 16,
+          "y": 684.671875,
+          "width": 358,
+          "height": 21.6875
+        }
+      }
+    ],
+    "allFactsInViewport": true,
+    "checkoutLinks": 0
+  },
+  "demo": {
+    "rowCount": 6,
+    "rowBox": {
+      "x": 35,
+      "y": 596.640625,
+      "width": 320,
+      "height": 68
+    },
+    "firstRowInViewport": true,
+    "operations": [
+      {
+        "operation": "get",
+        "key": "demo:focus-flow-map:state"
+      },
+      {
+        "operation": "set",
+        "key": "demo:focus-flow-map:state"
+      }
+    ],
+    "onlyDemoStorage": true,
+    "realBefore": "{\"token\":\"live-real-sentinel\",\"valid\":true,\"checkedAt\":1788306619664}",
+    "after": {
+      "real": "{\"token\":\"live-real-sentinel\",\"valid\":true,\"checkedAt\":1788306620406}",
+      "demo": null
+    },
+    "resetStatus": "Demo reset to the original six-step focus route.",
+    "requestsSameOrigin": true,
+    "errors": []
+  },
+  "paid": {
+    "heading": "Pro license sales are unavailable.",
+    "reason": "The product owner has not enabled checkout. You cannot buy a license here.",
+    "purchaseLinks": 0,
+    "checkoutLinks": 0,
+    "freeDownload": true
+  },
+  "focus": {
+    "privacyFocus": "Read how your focus data stays local.",
+    "privacyAnnouncement": "Page changed: Read how your focus data stays local.",
+    "homeFocus": "Map where Tab goes."
+  },
+  "offline": {
+    "title": "Demo — Focus Flow Map",
+    "banner": true,
+    "rows": 6
+  },
+  "headers": {
+    "csp": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.sociobot.in; upgrade-insecure-requests",
+    "referrer": "no-referrer",
+    "nosniff": "nosniff"
+  },
+  "links": {
+    "statuses": {
+      "https://focus-flow-map.sociobot.in/": 200,
+      "https://focus-flow-map.sociobot.in/?demo=1": 200,
+      "https://focus-flow-map.sociobot.in/downloads/focus-flow-map-chrome.zip": 200,
+      "https://focus-flow-map.sociobot.in/privacy/": 200,
+      "https://focus-flow-map.sociobot.in/terms/": 200
+    },
+    "allHealthy": true
+  },
+  "axe": {
+    "/": 0,
+    "/?demo=1": 0,
+    "/privacy/": 0,
+    "/terms/": 0,
+    "/404.html": 0
+  }
+}

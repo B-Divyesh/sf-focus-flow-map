@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-09-02T00:00:10.667Z",
+  "deploymentId": "dfd7d80e-2587-492a-acc7-baecb08d7a10",
+  "home": {
+    "status": 200,
+    "title": "Focus Flow Map — Map the keyboard focus route",
+    "errors": []
+  },
+  "paid": {
+    "heading": true,
+    "reason": true,
+    "checkoutLinks": 0,
+    "purchaseLinks": 0,
+    "freeDownload": true,
+    "reviewNotesElement": "SECTION"
+  },
+  "demo": {
+    "title": "Demo — Focus Flow Map",
+    "banner": true,
+    "rows": 6,
+    "firstRowY": 596.640625,
+    "firstRowInViewport": true
+  },
+  "routes": {
+    "/privacy/": {
+      "status": 200,
+      "title": "Privacy — Focus Flow Map",
+      "h1": "Read how your focus data stays local."
+    },
+    "/terms/": {
+      "status": 200,
+      "title": "Terms — Focus Flow Map",
+      "h1": "Use focus reports with care."
+    },
+    "/404.html": {
+      "status": 200,
+      "title": "Page not found — Focus Flow Map",
+      "h1": "Page not found."
+    },
+    "/missing-polish-4-final": {
+      "status": 404,
+      "title": "Page not found — Focus Flow Map",
+      "h1": "Page not found."
+    }
+  },
+  "axe": [
+    {
+      "url": "https://focus-flow-map.sociobot.in/",
+      "violations": 0
+    },
+    {
+      "url": "https://focus-flow-map.sociobot.in/?demo=1",
+      "violations": 0
+    },
+    {
+      "url": "https://focus-flow-map.sociobot.in/privacy/",
+      "violations": 0
+    },
+    {
+      "url": "https://focus-flow-map.sociobot.in/terms/",
+      "violations": 0
+    },
+    {
+      "url": "https://focus-flow-map.sociobot.in/404.html",
+      "violations": 0
+    }
+  ],
+  "lighthouse": {
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcp": "1.1 s",
+    "tbt": "0 ms",
+    "cls": "0"
+  },
+  "hashes": {
+    "local": "1a404e4a23815e7924bad61a4ba19b04f9dfd0360bb8719e58ac490b011d651d",
+    "live": "1a404e4a23815e7924bad61a4ba19b04f9dfd0360bb8719e58ac490b011d651d",
+    "match": true
+  }
+}

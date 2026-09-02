@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Record where Tab moves through a webpage, review jumps and loops, and export a local issue report." />
+    <meta name="theme-color" content="#071b26" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://focus-flow-map.sociobot.in/" />
+    <meta property="og:title" content="Focus Flow Map — Map the keyboard focus route" />
+    <meta property="og:description" content="Record where Tab moves through a webpage, review jumps and loops, and export a local issue report." />
+    <meta property="og:image" content="https://focus-flow-map.sociobot.in/assets/social-card.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Focus Flow Map — Map the keyboard focus route" />
+    <meta name="twitter:description" content="Record where Tab moves through a webpage, review jumps and loops, and export a local issue report." />
+    <meta name="twitter:image" content="https://focus-flow-map.sociobot.in/assets/social-card.webp" />
+    <link rel="canonical" href="https://focus-flow-map.sociobot.in/" />
+    <title>Focus Flow Map — Map the keyboard focus route</title>
+    <link rel="icon" href="/assets/mark.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/plex-sans.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/hero-blueprint-768.avif" as="image" type="image/avif" media="(max-width: 768px)" />
+    <script src="/demo-boot.js"></script>
+    <script src="/route-focus.js" defer></script>
+    <script type="module" crossorigin src="/assets/home-BFTguWiX.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/home-BDpKYwam.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Focus Flow Map home"><img src="/assets/mark.svg" width="36" height="36" alt=""><span>Focus Flow Map</span></a>
+      <nav aria-label="Primary navigation"><a href="/?demo=1">Demo</a><a href="#how">How it works</a><a href="#privacy">Privacy</a><a class="nav-download" href="/downloads/focus-flow-map-chrome.zip" download>Download extension</a></nav>
+      <button id="menu-button" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">Open menu</button>
+    </header>
+    <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile navigation" hidden><a href="/?demo=1">Demo</a><a href="#how">How it works</a><a href="#privacy">Privacy</a><a href="/downloads/focus-flow-map-chrome.zip" download>Download extension</a></nav>
+
+    <aside id="demo-banner" class="demo-banner" aria-label="Demo controls" hidden>
+      <strong>Demo — sample data, nothing is saved</strong>
+      <div><button id="reset-demo" class="secondary" type="button">Reset demo</button><a id="start-real" class="button" href="/">Start for real</a></div>
+      <p id="demo-status" class="sr-only" role="status" aria-live="polite"></p>
+    </aside>
+
+    <main id="main">
+      <section id="demo-workspace" class="demo-workspace" hidden>
+        <div class="demo-intro">
+          <p class="eyebrow">Sample route report</p>
+          <div id="demo-heading-slot"></div>
+          <p>See a finished focus route through a checkout with a page jump and a missing focus indicator.</p>
+          <p>Use the review notes to understand what a maintainer receives.</p>
+        </div>
+        <div id="demo-route-slot"></div>
+      </section>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Keyboard focus route recorder</p>
+          <h1 tabindex="-1">Map where <kbd>Tab</kbd> goes.</h1>
+          <p class="hero-lede">For keyboard-only and RSI-affected users, it records a focus route and turns it into a route report.</p>
+          <div class="hero-actions"><a class="button" href="/?demo=1">Try it with sample data <span aria-hidden="true">→</span></a><a class="button secondary" href="/downloads/focus-flow-map-chrome.zip" download>Download for Chromium <span aria-hidden="true">↓</span></a></div>
+          <p class="action-note">A finished route report opens now. Download when you are ready to record a site.</p>
+          <p class="compatibility"><span aria-hidden="true">◎</span> Chromium extension package</p>
+          <section class="hero-facts" aria-label="Product facts"><p>Recording begins only when you choose.</p><p>Route reports use local extension storage.</p><p>Download Markdown and JSON route reports.</p></section>
+        </div>
+        <figure class="hero-visual">
+          <picture>
+            <source type="image/avif" srcset="/assets/hero-blueprint-768.avif 768w, /assets/hero-blueprint-1200.avif 1200w" sizes="(max-width: 800px) 100vw, 52vw">
+            <img src="/assets/hero-blueprint-1200.webp" srcset="/assets/hero-blueprint-768.webp 768w, /assets/hero-blueprint-1200.webp 1200w" sizes="(max-width: 800px) 100vw, 52vw" width="1200" height="800" alt="A dark blue drafting sheet with a coral route linking focus stations across two interface frames" fetchpriority="high" decoding="async">
+          </picture>
+          <figcaption><span class="mono">Example focus route</span><span>Original illustration generated for this product</span></figcaption>
+        </figure>
+      </section>
+
+      <section class="proof-strip" aria-label="Product facts"><p><strong>Starts on your command</strong><span>Recording begins only when you choose.</span></p><p><strong>Stays in the extension</strong><span>Route reports use local extension storage.</span></p><p><strong>Exports for free</strong><span>Download Markdown and JSON route reports.</span></p></section>
+
+      <section id="how" class="workflow">
+        <div class="section-intro"><p class="eyebrow">How it works</p><h2>Record one focus route and share its route report.</h2><p>The route report marks steps that need a manual check. Focus Flow Map records the focus route you actually used.</p></div>
+        <ol class="workflow-list">
+          <li><span class="step-number mono">01</span><div><h3>Start recording</h3><p>Choose the extension on the page you want to inspect. A visible recorder confirms that it is running.</p></div></li>
+          <li><span class="step-number mono">02</span><div><h3>Use Tab normally</h3><p>Use Tab and Shift+Tab. The focus route records redacted labels, page position, direction, and visible focus styles.</p><p>It never records what you type.</p></div></li>
+          <li><span class="step-number mono">03</span><div><h3>Export the route report</h3><p>Review numbered steps and checks for jumps, loops, stalls, hidden targets, and missing focus indicators.</p><p>Export the route report as Markdown or JSON.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="map-demo" aria-labelledby="demo-heading">
+        <div class="demo-heading"><div><p class="eyebrow">Sample checkout focus route</p><h2 id="demo-heading">Review a six-step route report</h2></div><button id="toggle-findings" class="secondary" type="button" aria-expanded="true" aria-controls="demo-findings">Hide review notes</button></div>
+        <div class="demo-grid">
+          <ol class="route" aria-label="Example focus route">
+            <li><span class="node mono">1</span><div><strong>Skip to checkout</strong><span class="mono">Link · page position 0 · Tab</span></div></li>
+            <li><span class="node mono">2</span><div><strong>Change basket quantity</strong><span class="mono">Button · page position 0 · Tab</span></div></li>
+            <li><span class="node mono">3</span><div><strong>Apply discount code</strong><span class="mono">Button · page position 0 · Tab</span></div></li>
+            <li class="jump"><span class="jump-label mono">Page moved down 684 pixels</span><span class="node mono">4</span><div><strong>Delivery address</strong><span class="mono">Text field · page position 684 · Tab</span></div></li>
+            <li><span class="node mono">5</span><div><strong>Place order</strong><span class="mono">Button · page position 684 · Tab</span></div></li>
+            <li><span class="node mono">6</span><div><strong>Review basket</strong><span class="mono">Link · page position 0 · Shift + Tab</span></div></li>
+          </ol>
+          <section id="demo-findings" class="demo-findings" aria-labelledby="demo-findings-heading"><p class="eyebrow">Review notes</p><h3 id="demo-findings-heading">Step 4 needs review</h3><p><span aria-hidden="true">↕</span> The page moved down 684 pixels. Confirm that the delivery field remains easy to locate.</p><p><span aria-hidden="true">◇</span> The browser detected no focus outline on Place order. Check the control in the browser.</p><p class="caveat">These review notes support a review. They do not certify accessibility.</p></section>
+        </div>
+      </section>
+
+      <section id="privacy" class="privacy-section">
+        <div class="privacy-stamp" aria-hidden="true"><span>LOCAL</span><span>BY DEFAULT</span></div>
+        <div><p class="eyebrow">Privacy</p><h2>Your focus route stays local.</h2><p>Focus Flow Map removes query strings, hashes, sensitive path values, email addresses, and token-like text.</p><p>It never records input values. Route reports stay in extension storage. No focus route is sent to us.</p><p>License verification sends only the license token to Sociobot.</p><a class="text-link" href="/privacy/">Read the privacy policy <span aria-hidden="true">→</span></a></div>
+      </section>
+
+      <section id="pro" class="pricing">
+        <div><p class="eyebrow">Pro license status</p><h2>Pro license sales are unavailable.</h2><p>The product owner has not enabled checkout. You cannot buy a license here.</p><p>Free keeps your latest route report and both export formats.</p><p>Recording, redaction, and Markdown and JSON exports remain free.</p></div>
+        <div class="price-sheet">
+          <p class="mono sheet-label">SALES NOT ENABLED</p>
+          <h3>No purchase action</h3>
+          <p class="availability-note">Pro stays off unless you already have a valid license.</p>
+          <ul><li>Free: latest local route report</li><li>Free: Markdown and JSON exports</li></ul>
+          <details><summary>Have an existing license?</summary><form id="restore-form"><label for="license">Paste your license token</label><input id="license" type="password" autocomplete="off" required><button class="secondary" type="submit" aria-label="Verify license">Verify license</button></form></details>
+          <div id="license-result" class="license-result" role="status" aria-live="polite"></div>
+          <button id="copy-license" class="ghost copy-license" type="button" hidden>Copy license for the extension</button>
+          <p class="legal-line">No payment can be made on this site. <a href="/terms/">Terms</a></p>
+        </div>
+      </section>
+
+      <section class="install" aria-labelledby="install-heading"><p class="eyebrow">Install the extension</p><h2 id="install-heading">Load the unpacked extension.</h2><ol><li>Download and unzip the package.</li><li>Open <code>chrome://extensions</code> and turn on Developer mode.</li><li>Choose “Load unpacked” and select the unzipped folder.</li><li>Pin Focus Flow Map, open a website, and start recording.</li></ol></section>
+    </main>
+    <footer class="site-footer"><a class="brand" href="/"><img src="/assets/mark.svg" width="30" height="30" alt=""><span>Focus Flow Map</span></a><p>Record a focus route and share its route report.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-focus-flow-map">View source on GitHub (external)</a></nav><p class="generation-note">Built by Param Factory · v1.0.0 · The factory image model generated the original hero image for this product.</p></footer>
+  </body>
+</html>

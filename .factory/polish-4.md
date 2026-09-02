@@ -1,0 +1,51 @@
+# Polish round 4 — Focus Flow Map
+
+- **Work order:** `focus-flow-map-polish-4`
+- **Reviewed candidate:** `63429d4867fd46acbefb8e3374e147a8848c5f1c`
+- **Product repair commits:** `0d1debf`, `9d4dff6`, `c395635`
+- **Final deployment:** `dfd7d80e-2587-492a-acc7-baecb08d7a10`
+- **Live:** <https://focus-flow-map.sociobot.in>
+- **Demo:** <https://focus-flow-map.sociobot.in/?demo=1>
+- **Result:** PASS — every finding from reviews 1–4 and the controller evidence review is closed.
+
+## Finding map
+
+| Finding | Change made | Automated evidence | Screenshot and cold live check |
+| --- | --- | --- | --- |
+| F-1-1 — route focus | Kept focusable route headings, focus transfer, Back restoration, and polite announcements. | `route changes move focus to the new h1 and announce it` | [Privacy route](evidence/polish-4-live-privacy/screenshot-desktop.png); live focus values are in [live-check.json](evidence/polish-4-live/live-check.json) at <https://focus-flow-map.sociobot.in/privacy/>. |
+| F-1-2 — route metadata | Kept route-specific title, description, canonical, Open Graph, Twitter, favicon, and touch-icon data on all routes. Updated the Terms description to match the unavailable sales state. | Five `has complete route-specific metadata` cases pass in both browser projects. | [Demo](evidence/polish-4-live-demo/screenshot-desktop.png), [Terms](evidence/polish-4-live-terms/screenshot-desktop.png), and [404](evidence/polish-4-live-404/screenshot-desktop.png); the cold route matrix is in [live-check.json](evidence/polish-4-live/live-check.json). |
+| F-1-3 — minimum license request | Preserved token-only existing-license verification. | `@claim:license-request-minimum-data verification sends only the license token` | [Home](evidence/polish-4-live-home/screenshot-desktop.png); the claim uses an intercepted request, while the cold live home check sends no verification request. |
+| F-1-4 — provenance and runtime claims | Preserved local provenance and same-origin runtime coverage. Removed the dead checkout link from the permitted external destinations. | `@claim:original-image-provenance`; `@claim:no-third-party-runtime` | [Home](evidence/polish-4-live-home/screenshot-desktop.png); the live demo request capture is same-origin in [live-check.json](evidence/polish-4-live/live-check.json). |
+| F-1-5 — recorded route fields | Preserved the controlled extension capture for order, direction, labels, locator, page position, movement, visibility, and focus indicator. | `@claim:recorded-route-fields extension records and exports a private local map` | [Demo first viewport](evidence/polish-4-live/demo-first-viewport.png); the shipped sample remains visible at <https://focus-flow-map.sociobot.in/?demo=1>. |
+| F-1-6 — unexplained terms | Retained the plain manual-check wording and removed payment language that no longer applies. | `plain product language > uses focus route, route report, and review notes for the same concepts` | [Home](evidence/polish-4-live-home/screenshot-desktop.png); retired wording is absent from the live page. |
+| F-2-1 — phone demo data | Retained the compact phone demo with route data in its first viewport. | `@claim:mobile-first-view one-click sample and product facts are visible in the first phone viewport` | [Demo at 390×844](evidence/polish-4-live/demo-first-viewport.png); live first row y=596.64 at <https://focus-flow-map.sociobot.in/?demo=1>. |
+| F-2-2 — phone facts | Retained all three facts before the illustration on phones. | `@claim:mobile-first-view one-click sample and product facts are visible in the first phone viewport` | [Home at 390×844](evidence/polish-4-live/home-first-viewport.png); live facts end at y=706.36. |
+| F-2-3 — undeclared license and distribution statements | Retired the stale price, purchase, payment-handler, device, refund, and store-listing statements. Added the current `pro-unavailable` claim. | `customer claims manifest > lists executable claims with exactly one matching test tag`; `@claim:pro-unavailable` | [Unavailable Pro state](evidence/polish-4-live/pro-unavailable-desktop.png); live home has no purchase link. |
+| F-2-4 — unsupported replay | Retained the literal **Review a six-step route report** heading. | `site uses the same download label, plain sample labels, and route-report terms` | [Demo at 390×844](evidence/polish-4-live/demo-first-viewport.png); the live demo contains review controls, not a replay promise. |
+| F-2-5 — vague or technical copy | Retained the plain recorded-field, free-feature, and focus-outline language; refreshed the round-4 copy audit. | `plain product language` unit suite; `.factory/copy-audit.md` | [Home](evidence/polish-4-live-home/screenshot-mobile.png); current copy is live at <https://focus-flow-map.sociobot.in/>. |
+| F-2-6 — metaphorical 404 | Retained **Page not found.** and the return action. | `/404.html has a semantic, serious-issue-free document` | [404](evidence/polish-4-live-404/screenshot-desktop.png); `/missing-polish-4-final` returned HTTP 404 in [final-live-summary.json](evidence/polish-4-live/final-live-summary.json). |
+| F-2-7 — menu result label | Retained **Open menu** and **Close menu**, Escape close, state, and focus return. | `390px navigation opens and closes by keyboard` | [Home at 390×844](evidence/polish-4-live/home-first-viewport.png); the live control is present and at least 44×44 px. |
+| F-3-1 — external destinations | Retained named GitHub and Focus Flow Map destinations. Removing checkout also removed the broken Sociobot destination. | `external site links name their destination and say they leave the product` | [Home](evidence/polish-4-live-home/screenshot-desktop.png); every live internal link returned 200 and no checkout link exists. |
+| F-3-2 — desktop Download | Retained **Download extension** in desktop and mobile navigation. | `site uses the same download label, plain sample labels, and route-report terms` | [Home](evidence/polish-4-live-home/screenshot-desktop.png); live ZIP returned 200. |
+| F-3-3 — decorative route number | Retained **Example focus route** and kept `ROUTE 014` absent. | `plain product language > keeps the sample and license recovery language plain` | [Home](evidence/polish-4-live-home/screenshot-desktop.png); the plain label remains live. |
+| F-3-4 — browser shorthand | Retained Link, Button, Text field, page position, Tab, Shift+Tab, and page-movement wording. | `site uses the same download label, plain sample labels, and route-report terms` | [Demo](evidence/polish-4-live-demo/screenshot-mobile.png); the six rows are live at the demo URL. |
+| F-3-5 — inconsistent terms | Retained **focus route**, **route report**, and **review notes** across site, legal pages, README, and extension. | `plain product language > uses focus route, route report, and review notes for the same concepts` | [Demo](evidence/polish-4-live-demo/screenshot-desktop.png); the live copy uses the same terms. |
+| F-3-6 — unclear license fallback | Retained plain online, offline, and clipboard recovery messages for existing licenses. | `license fallback messages give a familiar next step` | [Unavailable Pro state](evidence/polish-4-live/pro-unavailable-desktop.png); the live default state makes no verification request. |
+| F-3-7 — README abbreviations | Retained **Manifest V3 (MV3)** and **automated accessibility checks**. | `plain product language > expands development abbreviations in reader-facing README copy` | [Home](evidence/polish-4-live-home/screenshot-desktop.png); the matching product terminology remains live. |
+| F-4-1 — dead Pro checkout | Removed the checkout constant and every checkout link from the landing site and packaged extension. Replaced the price and purchase promise with a clear owner-gated unavailable state. Existing-token verification remains. | `@claim:pro-unavailable free and licensed local storage work without an unavailable checkout`; `plain product language > states that Pro sales are unavailable without rendering a checkout action` | [Unavailable Pro state](evidence/polish-4-live/pro-unavailable-desktop.png); [final-live-summary.json](evidence/polish-4-live/final-live-summary.json) records zero purchase links and zero checkout links at <https://focus-flow-map.sociobot.in/>. |
+| Controller paid-action regression | Made the new outcome-level claim test open both the packaged extension and site, assert the unavailable wording, assert no checkout or Buy-license link, and confirm free exports/download remain. | `@claim:pro-unavailable` | [Unavailable Pro state](evidence/polish-4-live/pro-unavailable-desktop.png); the deployed ZIP and HTML contain no checkout URL. |
+| Round-4 accessibility follow-up | Changed the nested review-notes `aside` into a named `section`, eliminating the only moderate axe CLI result, and strengthened site tests to require zero axe violations. | Route semantic tests now assert `results.violations` is empty; axe CLI reports zero on five routes. | [Demo](evidence/polish-4-live-demo/screenshot-desktop.png); [axe-cli.json](evidence/polish-4-live/axe-cli.json) records zero violations on home, demo, Privacy, Terms, and 404. |
+
+## Verification
+
+- Final clean clone: `/tmp/focus-flow-map-polish4-final.kwILYX` at `c395635`; `npm ci` succeeded.
+- Every command in `.factory/claims.json` ran separately: 16 of 16 passed.
+- Final clean-clone `npm run check`: TypeScript passed; 18 unit tests passed; 50 browser tests passed; four intentional single-project cases skipped; production build passed.
+- `npm audit --omit=dev --audit-level=low`: zero production vulnerabilities.
+- `unzip -t dist/site/downloads/focus-flow-map-chrome.zip`: no archive errors. Extension output is 92.05 kB; site JS is 5.33 kB raw and site CSS is 13.77 kB raw.
+- `/opt/fleet/lib/verify-url.sh` passed cold production home, demo, Privacy, Terms, and 404 loads with no console errors.
+- `npx @axe-core/cli` reports zero violations on all five production routes.
+- Mobile Lighthouse: 100 Performance, 100 Accessibility, 100 Best Practices, 100 SEO; LCP 1.1 s, TBT 0 ms, CLS 0. Report: [polish-4-lighthouse-live.json](evidence/polish-4-lighthouse-live.json).
+- The deployed home HTML matches the local build SHA-256: `1a404e4a23815e7924bad61a4ba19b04f9dfd0360bb8719e58ac490b011d651d`.
+
+No finding of any severity remains open.
