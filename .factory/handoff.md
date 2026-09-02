@@ -8,6 +8,21 @@
 - **Demo:** <https://focus-flow-map.sociobot.in/?demo=1>
 - **Result:** PASS
 
+## Independent verification 9 — PASS
+
+Candidate `c3956355843b2748dd10a21e3bdbf50bed3e24d1` was independently
+verified on 2026-09-02 against <https://focus-flow-map.sociobot.in/> and
+<https://focus-flow-map.sociobot.in/?demo=1>. All 16 commands declared in
+`.factory/claims.json` passed individually from a clean candidate checkout.
+`npm run check` passed (typecheck, 18 unit tests, 54 browser tests, production
+build), and the live app passed desktop and 390px keyboard, privacy-request,
+offline service-worker, response-header, console-error, and serious/critical
+axe checks. Fresh Lighthouse measured Performance 100, Accessibility 100,
+LCP 1,155 ms, and CLS 0. Live hashed site assets match the candidate build;
+the expanded live extension ZIP matches all candidate package files. There are
+no release-blocking, high, medium, or low defects. Full evidence is in
+[verification 9](verification-9.md).
+
 ## What changed
 
 - Removed the unavailable Sociobot checkout action, price, purchase promise, and checkout constant from the site and extension.
